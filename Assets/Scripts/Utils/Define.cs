@@ -35,4 +35,13 @@ public class Define
     {
         QuaterView
     }
+
+    /// <summary>
+    /// 모든 데이터 ID 리스트
+    /// 김민섭_231014
+    /// </summary>
+    public enum Data_ID_List
+    {
+        Meteor = 2004
+    }
 }
