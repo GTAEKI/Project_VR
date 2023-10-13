@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/01.BKT/Scenes_BKT/BKT_TestScene.unity
+    guid: b5cd0c0e7714547ae8ce5365cb78bd5a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 77b1d83bc23da3546b2d03a2b707bc9c, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: dfc1819e5c6d47a47b51a8df2dcbd6e6, type: 2}
