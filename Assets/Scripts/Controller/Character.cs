@@ -49,6 +49,18 @@ public class Character : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 현재 체력 Get 프로퍼티
+    /// 김민섭_231013
+    /// </summary>
+    public int CurrHp => currHp;
+
+    /// <summary>
+    /// 최대 체력 Get 프로퍼티
+    /// 김민섭_231013
+    /// </summary>
+    public int MaxHp => maxHp;
+
     private void Start()
     {
         Init();

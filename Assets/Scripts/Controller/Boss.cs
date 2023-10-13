@@ -25,6 +25,9 @@ public class Boss : Character
     [SerializeField] private float meteor_currTime;          // 메테오 현재 남은 쿨타임, 김민섭_231013
     [SerializeField] private float meteor_coolTime;          // 메테오 쿨타임, 김민섭_231013
 
+    // UI
+    private UI_BossHUD hud;         // 보스 체력바
+
     /// <summary>
     /// 보스 현재 상태 프로퍼티
     /// 김민섭_231013
@@ -59,6 +62,11 @@ public class Boss : Character
         meteor_coolTime = 5f;       // 5초다마 메테오 발동
 
         Debug.Log("보스 스탯 세팅 완료");
+
+        // UI
+        hud = Managers.UI.ShowSceneUI<UI_BossHUD>();
+        hud.Init();
+        hud.SetTargetCharacter(this);
 
         // TODO: 스킬 쿨타임 로직 실행
         StartCoroutine(Spell_Meteor());
@@ -117,6 +125,11 @@ public class Boss : Character
         {
             State = CharacterState.DIE;
             return;
+        }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            currHp -= 30;
         }
     }
 

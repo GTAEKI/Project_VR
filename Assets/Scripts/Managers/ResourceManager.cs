@@ -20,7 +20,7 @@ public class ResourceManager
 
     public GameObject Instantiate(string _filePath, Transform _parent = null)
     {
-        GameObject original = Load<GameObject>($"Prefab/{_filePath}");
+        GameObject original = Load<GameObject>($"Prefabs/{_filePath}");
         if(original == null)
         {
             Debug.Log($"Failed to load prefab : {_filePath}");
