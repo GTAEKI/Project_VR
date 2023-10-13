@@ -82,6 +82,7 @@ public class Aim : MonoBehaviour
     }
     void Shoot()
     {
-        Instantiate(bulletPrefab, firePos.position, firePos.rotation);
+        GameObject bullet = Instantiate(bulletPrefab);
+        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
     }
 }
