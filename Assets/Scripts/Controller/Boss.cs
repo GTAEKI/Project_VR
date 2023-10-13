@@ -26,7 +26,8 @@ public class Boss : Character
     [SerializeField] private float meteor_coolTime;          // 메테오 쿨타임, 김민섭_231013
 
     // UI
-    private UI_BossHUD hud;         // 보스 체력바
+    private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013
+    private UI_BossDistance ui_distance;        // 보스 거리, 김민섭_231013
 
     /// <summary>
     /// 보스 현재 상태 프로퍼티
@@ -64,9 +65,11 @@ public class Boss : Character
         Debug.Log("보스 스탯 세팅 완료");
 
         // UI
-        hud = Managers.UI.ShowSceneUI<UI_BossHUD>();
-        hud.Init();
-        hud.SetTargetCharacter(this);
+        ui_hud = Managers.UI.ShowSceneUI<UI_BossHUD>();
+        ui_hud.Init();
+        ui_hud.SetTargetCharacter(this);
+        ui_distance = Managers.UI.ShowSceneUI<UI_BossDistance>();
+        ui_distance.Init();
 
         // TODO: 스킬 쿨타임 로직 실행
         StartCoroutine(Spell_Meteor());
@@ -194,7 +197,11 @@ public class Boss : Character
             currentTime = lerpTime;
         }
 
+        // 움직임 함수
         transform.position = Vector3.Lerp(startPosition, endPosition, currentTime / lerpTime);
+        
+        // UI
+        ui_distance.SetDistanceText(Vector3.Distance(transform.position, endPosition));
     }
 
     /// <summary>
