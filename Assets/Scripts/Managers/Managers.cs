@@ -14,6 +14,7 @@ public class Managers : MonoBehaviour
     private SceneManagerEX _scene = new SceneManagerEX();
     private SoundManager _sound = new SoundManager();
     private UIManager _ui = new UIManager();
+    private MoneyManager _money = new MoneyManager(); // 배경택_231013
 
     public static DataManager Data => Instance._data;
     public static InputManager Input => Instance._input;
@@ -22,6 +23,7 @@ public class Managers : MonoBehaviour
     public static SceneManagerEX Scene => Instance._scene;
     public static SoundManager Sound => Instance._sound;
     public static UIManager UI => Instance._ui;
+    public static MoneyManager MONEY => Instance._money; // 배경택_231013
 
     private void Start()
     {
@@ -50,6 +52,7 @@ public class Managers : MonoBehaviour
             //s_instance._data.Init();
             //s_instance._pool.Init();
             //s_instance._sound.Init();
+            s_instance._money.Init(); // 배경택_231013
         }
     }
 
