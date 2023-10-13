@@ -427,6 +427,7 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletLifetime: 2
   bulletPrefab: {fileID: 2129097917329307713, guid: ce741ec3ca8add94db940b2b8c6495d2, type: 3}
+  firePos: {fileID: 663168367}
   isLeftHand: 0
   lrMaxDistance: 200
 --- !u!120 &663168369
@@ -469,7 +470,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}

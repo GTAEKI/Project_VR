@@ -9,6 +9,7 @@ public class Aim : MonoBehaviour
     public float bulletSpeed = 10f;
     public float bulletLifetime = 2f;
     public GameObject bulletPrefab;
+    public Transform firePos;
     // 어떤 손인지 판단
     public bool isLeftHand = default;
 
@@ -33,11 +34,6 @@ public class Aim : MonoBehaviour
             ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
 
             Shoot();
-            // Ray를 카메라의 위치로부터 나가도록 만든다.
-            Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
-            // Ray의 충돌 정보를 저장하기 위한 변수 지정
-            RaycastHit hitInfo;
-
         }
         if (isLeftHand)
         {
@@ -85,18 +81,7 @@ public class Aim : MonoBehaviour
 
     }
     void Shoot()
-    {// Ray를 카메라의 위치로부터 나가도록 만든다.
-        Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
-        // Ray의 충돌 정보를 저장하기 위한 변수 지정
-        RaycastHit hitInfo;
-        // 총알 프리팹 인스턴스화 후 총구 위치에서 발사
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-
-        // 총알의 초기 속도와 방향 설정
-        bulletRb.velocity = ray.direction * bulletSpeed; // bulletSpeed는 총알의 원하는 속도
-
-        // 총알 발사 후 일정 시간이 지나면 파괴
-        Destroy(bullet, bulletLifetime); // bulletLifetime은 총알이 파괴될 시간 (초 단위)
+    {
+        Instantiate(bulletPrefab, firePos.position, firePos.rotation);
     }
 }
