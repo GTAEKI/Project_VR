@@ -15,6 +15,7 @@ public class Boss : Character
     [Header("스킬_메테오")]
     [SerializeField] private float meteor_currTime;          // 메테오 현재 남은 쿨타임, 김민섭_231013
     [SerializeField] private float meteor_coolTime;          // 메테오 쿨타임, 김민섭_231013
+    private bool isSummon = false;
 
     // UI
     private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013
@@ -119,6 +120,19 @@ public class Boss : Character
         }
     }
 
+    private void Summon()
+    {
+        // 졸개 개수 결정
+        int spawnCount = Random.Range(5, 10);
+
+        for(int i = 0; i < spawnCount; i++)
+        {
+            float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
+            Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
+            Managers.Resource.Instantiate("Minion", spawnPos, Quaternion.identity);
+        }
+    }
+
     /// <summary>
     /// 쫄몹 소환 코루틴 함수
     /// 김민섭_231013
@@ -126,14 +140,39 @@ public class Boss : Character
     /// <returns></returns>
     private IEnumerator Spell_Summon()
     {
-        yield break;        // 임시, 김민섭_231013
-
         while(true)
         {
+            yield return new WaitUntil(() => !isSummon);
+
             if (State == CharacterState.DIE) yield break;       // 죽으면 정지
 
+            Debug.Log("악");
+
             // TODO: 몬스터 배열이 가득 차면 코루틴 임시 정지
-            yield return new WaitUntil(() => true);
+            float distance = Vector3.Distance(transform.position, playerTarget.transform.position);
+            if((int)distance % 5 == 0)
+            {
+                Debug.Log("졸개 소환!");
+
+                isSummon = true;
+                Summon();
+
+                // 메테오 모두 발동 후 상태 변환
+                if (weaknessPoint.activeSelf)
+                {
+                    State = CharacterState.GROGGY;
+                }
+                else
+                {
+                    State = CharacterState.IDLE;
+                }
+
+                yield return new WaitForSeconds(1f);
+
+                isSummon = false;
+            }
+
+            yield return null;
         }
     }
 
