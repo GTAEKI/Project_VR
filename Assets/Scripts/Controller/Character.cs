@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     /// </summary>
     public enum CharacterState
     {
-        IDLE, MOVE, SKILL, DIE
+        IDLE, MOVE, SKILL, GROGGY, DIE
     }
 
     [Header("캐릭터 상태")]
@@ -44,9 +44,15 @@ public class Character : MonoBehaviour
             {
                 case CharacterState.IDLE: break;
                 case CharacterState.MOVE: break;
+                case CharacterState.GROGGY:StartCoroutine(Test_Delay()); break;
                 case CharacterState.DIE: break;
             }
         }
+    }
+
+    protected virtual IEnumerator Test_Delay()
+    {
+        yield return null;
     }
 
     /// <summary>
@@ -79,6 +85,7 @@ public class Character : MonoBehaviour
             case CharacterState.IDLE: UpdateIdle(); break;
             case CharacterState.MOVE: UpdateMove(); break;
             case CharacterState.SKILL: UpdateSkill(); break;
+            case CharacterState.GROGGY: UpdateGroggy(); break;
             case CharacterState.DIE: UpdateDie(); break;
         }
     }
@@ -100,6 +107,12 @@ public class Character : MonoBehaviour
     /// 김민섭_231013
     /// </summary>
     protected virtual void UpdateSkill() { }
+
+    /// <summary>
+    /// GROGGY 상태일 때 실행되는 업데이트 함수
+    /// 김민섭_231013
+    /// </summary>
+    protected virtual void UpdateGroggy() { Debug.Log("으앙 그로기"); }
 
     /// <summary>
     /// Die 상태일 때 실행되는 업데이트 함수

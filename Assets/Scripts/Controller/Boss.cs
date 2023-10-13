@@ -5,20 +5,11 @@ using UnityEngine;
 
 public class Boss : Character
 {
-    /// <summary>
-    /// 보스 상태 new enum
-    /// 김민섭_231013
-    /// </summary>
-    public enum  CurrentPattern
-    {
-       METEOR, SUMMON, NONE
-    }
-
-    [Header("패턴 상태")]
-    [SerializeField] private CurrentPattern currPattern = CurrentPattern.NONE;     // 보스의 현재 상태, 김민섭_231013
-
     // 타겟
     private GameObject playerTarget;        // 공격 목표 캐릭터 , 김민섭_231013
+
+    // 약점
+    private GameObject weaknessPoint;       // 약점 위치, 김민섭_231013
 
     // 스킬
     [Header("스킬_메테오")]
@@ -29,24 +20,18 @@ public class Boss : Character
     private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013
     private UI_BossDistance ui_distance;        // 보스 거리, 김민섭_231013
 
-    /// <summary>
-    /// 보스 현재 상태 프로퍼티
-    /// 김민섭_231013
-    /// </summary>
-    public CurrentPattern CurrPattern
+    protected override IEnumerator Test_Delay()
     {
-        get => currPattern;
-        set
-        {
-            currPattern = value;
+        if (weaknessPoint.activeSelf) yield break;
 
-            // TODO: state마다 애니메이션 실행
-            switch(currPattern)
-            {
-                case CurrentPattern.METEOR: break;
-                case CurrentPattern.SUMMON: break;
-            }
-        }
+        Debug.Log("약점 노출!");
+        weaknessPoint.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        Debug.Log("약점 회복!");
+        weaknessPoint.SetActive(false);
+        State = CharacterState.IDLE;
     }
 
     /// <summary>
@@ -60,7 +45,10 @@ public class Boss : Character
         maxHp = 1000;
         currHp = maxHp;
 
-        meteor_coolTime = 5f;       // 5초다마 메테오 발동
+        weaknessPoint = transform.Find("WeaknessPoint").gameObject;
+        weaknessPoint.SetActive(false);
+
+        meteor_coolTime = 2f;       // 5초다마 메테오 발동
 
         Debug.Log("보스 스탯 세팅 완료");
 
@@ -91,14 +79,43 @@ public class Boss : Character
             if(meteor_currTime >= meteor_coolTime)
             {   // 쿨타임에 도달하면 공격
                 Debug.Log("메테오 발동!");
+                Meteor();
 
                 meteor_currTime = 0f;
 
                 // 메테오 모두 발동 후 상태 변환
-                State = CharacterState.IDLE;
+                if(weaknessPoint.activeSelf)
+                {
+                    State = CharacterState.GROGGY;
+                }
+                else
+                {
+                    State = CharacterState.IDLE;
+                }
             }
 
             yield return null;
+        }
+    }
+
+    /// <summary>
+    /// 메테오 발동 함수
+    /// 김민섭_231013
+    /// </summary>
+    private void Meteor()
+    {
+        // 운석 개수 결정
+        int spawnCount = Random.Range(5, 10);
+
+        for(int i = 0; i < spawnCount; i++)
+        {
+            // 스폰 위치 결정
+            // TODO: 현재 보스의 위치에서 약간 후방에 생성
+            float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
+            float randY = Random.Range(transform.position.y + 10f, transform.position.y + 30f);
+
+            Vector3 spawnPos = new Vector3(randX, randY, transform.position.z + 30f);
+            Managers.Resource.Instantiate("Meteor", spawnPos, Quaternion.identity);
         }
     }
 
@@ -133,6 +150,12 @@ public class Boss : Character
         if(Input.GetMouseButtonDown(0))
         {
             currHp -= 30;
+
+            if(currHp % 10 == 0)
+            {
+                State = CharacterState.GROGGY;
+                return;
+            }
         }
     }
 
@@ -171,7 +194,7 @@ public class Boss : Character
         playerTarget = findTarget.First().gameObject;
         startPosition = transform.position;
         endPosition = playerTarget.transform.position;
-        endPosition.y = 2.5f;       // 임시 코드 , 김민섭_231013
+        endPosition.y = 7.5f;       // 임시 코드 , 김민섭_231013
         State = CharacterState.MOVE;
         return;
     }
