@@ -21,5 +21,7 @@ public class GolemBullet : BulletController
             );
 
         currentBulletStatus = new CurrentBulletStatus(baseBulletStatus);
+
+        rb.velocity = transform.forward * float.Parse(bulletDataManager.bulletDatas[1]["Speed"].ToString());
     }
 }

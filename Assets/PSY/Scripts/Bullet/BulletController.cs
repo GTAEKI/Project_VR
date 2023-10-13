@@ -9,6 +9,7 @@ public class BulletController : MonoBehaviour
     protected BaseBulletStatus baseBulletStatus;           // 원본 스텟
 
     protected BulletDataManager bulletDataManager; // 총알 데이터 csv
+    protected Rigidbody rb;  // 총알의 rigidbody
 
     public Vector3 dir; // 방향 변수
 
@@ -24,13 +25,12 @@ public class BulletController : MonoBehaviour
     protected virtual void Init()
     {
         bulletDataManager = GameObject.Find("@Managers").GetComponent<BulletDataManager>();
+        rb = GetComponent<Rigidbody>();
 
         StartCoroutine(DelayDestory(0));
-    }
 
-    private void Update()
-    {
-        transform.position += dir.normalized * Time.deltaTime;
+        transform.LookAt(dir);
+        
     }
 
     /// <summary>

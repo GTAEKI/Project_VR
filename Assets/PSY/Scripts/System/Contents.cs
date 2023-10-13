@@ -91,6 +91,15 @@ public class CurrentBulletStatus : BulletStatus
 
     public CurrentBulletStatus(BaseBulletStatus status) : base(status.ID, status.Info,status.Delay ,status.Damage, status.CriChance, status.CriDamage,status.Speed,status.LifeTime)
     { }
+
+    /// <summary>
+    /// 타겟에게 데미지를 주는 함수
+    /// 231014_박시연
+    /// </summary>
+    public void OnDamaged()
+    {
+        // TODO : 
+    }
 }
 
 

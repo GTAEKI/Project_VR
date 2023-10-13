@@ -41,37 +41,7 @@ public class Golem : UnitController
 
     private void Update()
     {
-        SearchTarget();
-    }
-
-    /// <summary>
-    /// 가장 가까운 적을 찾는 함수
-    /// 231013_박시연
-    /// </summary>
-    public void SearchTarget()
-    {
-        Collider[] colliders = Physics.OverlapSphere(this.transform.position, radius, LayerMask.GetMask("Enemy"));
-
-        if (colliders.Length > 0)
-        {
-            float firstDistance = Vector3.Distance(transform.position, colliders[0].transform.position);
-            targetCollider = colliders[0];
-
-            foreach (Collider col in colliders)
-            {
-                if (col.name == "Unit") continue;
-                float distance = Vector3.Distance(transform.position, col.transform.position);
-
-                if (firstDistance > distance)
-                {
-                    firstDistance = distance;
-                    targetCollider = col;
-                }
-            }
-
-            dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
-            transform.LookAt(dir);  // 타겟을 바라본다.
-        }
+        
     }
 
     /// <summary>
@@ -81,6 +51,7 @@ public class Golem : UnitController
     public void StartBulletAttack()
     {
         golemBullet = Resources.Load<GameObject>("Prefabs/GolemBullet");
+        Debug.Log("Golem 총알 발사 ( Index : 1 )");
 
         StartCoroutine(SpawnBullet(golemBullet));
     }
