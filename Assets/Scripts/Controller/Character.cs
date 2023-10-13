@@ -17,11 +17,16 @@ public class Character : MonoBehaviour
     [SerializeField] protected CharacterState state;     // 캐릭터의 현재 상태 , 김민섭_231013
 
     // 졸개, 보스 전용 변수 (나중에 수정 예정) , 김민섭_231013
-    protected float movementSpeed = 1f;       // 캐릭터 이동속도 스탯(임시), 김민섭_231013
+    protected float movementSpeed;       // 캐릭터 이동속도 스탯(임시), 김민섭_231013
     protected float currentTime = 0f;         // 시작 시간 (임시), 김민섭_231013
     protected float lerpTime = 600f;          // 도착 시간 (600초) (임시), 김민섭_231013
     protected Vector3 startPosition;          // 움직임 시작 지점 , 김민섭_231013
     protected Vector3 endPosition;            // 움직임 도착 지점, 김민섭_231013
+
+    // 임시 스탯 변수, 김민섭_231013
+    [Header("임시 체력 스탯")]
+    [SerializeField] protected int currHp;       // 현재 체력
+    [SerializeField] protected int maxHp;        // 최대 체력
 
     /// <summary>
     /// 캐릭터의 현재 상태 프로퍼티
@@ -35,7 +40,7 @@ public class Character : MonoBehaviour
             state = value;
 
             // TODO: state마다 애니메이션 실행
-            switch(state)
+            switch (state)
             {
                 case CharacterState.IDLE: break;
                 case CharacterState.MOVE: break;
@@ -44,12 +49,24 @@ public class Character : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Init();
+    }
+
+    /// <summary>
+    /// 캐릭터 초기화 함수
+    /// 김민섭_231013
+    /// </summary>
+    protected virtual void Init() { }
+
     protected virtual void Update()
     {
         switch(State)
         {
             case CharacterState.IDLE: UpdateIdle(); break;
             case CharacterState.MOVE: UpdateMove(); break;
+            case CharacterState.SKILL: UpdateSkill(); break;
             case CharacterState.DIE: UpdateDie(); break;
         }
     }
@@ -65,6 +82,12 @@ public class Character : MonoBehaviour
     /// 김민섭_231013
     /// </summary>
     protected virtual void UpdateMove() { }
+
+    /// <summary>
+    /// SKILL 상태일 때 실행되는 업데이트 함수
+    /// 김민섭_231013
+    /// </summary>
+    protected virtual void UpdateSkill() { }
 
     /// <summary>
     /// Die 상태일 때 실행되는 업데이트 함수
