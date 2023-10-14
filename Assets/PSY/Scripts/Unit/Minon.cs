@@ -69,7 +69,7 @@ public class Minon : UnitController
     /// </summary>
     public void StartBulletAttack()
     {
-        minionBullet = Resources.Load<GameObject>("Prefabs/MinionBullet");
+        minionBullet = Resources.Load<GameObject>("Prefabs/Unit/MinionBullet");
         Debug.Log("Minion 총알 발사 ( Index : 0 )");
         StartCoroutine(SpawnBullet(minionBullet));
     }
