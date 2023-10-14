@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7988673743471252133}
   - component: {fileID: 8464335352598452851}
   m_Layer: 0
-  m_Name: MinonBullet
+  m_Name: MinionBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

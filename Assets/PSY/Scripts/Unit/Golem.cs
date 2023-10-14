@@ -26,9 +26,33 @@ public class Golem : UnitController
         StartBulletAttack();
     }
 
+    private void Update()
+    {
+        SearchTarget();
+    }
+
+    /// <summary>
+    /// 보스를 찾는 함수
+    /// 231014_박시연
+    /// </summary>
+    public void SearchTarget()
+    {
+        Collider[] colliders = Physics.OverlapSphere(this.transform.position, radius, LayerMask.GetMask("WeaknessPoint"));
+
+        if (colliders.Length > 0)
+        {
+            targetCollider = colliders[0];
+
+            dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
+
+            currentState = State.Attack;
+            transform.LookAt(dir);  // 타겟을 바라본다.
+        }
+    }
+
     /// <summary>
     /// 총알 발사 함수
-    /// 231013_박시연
+    /// 231014_박시연
     /// </summary>
     public void StartBulletAttack()
     {
@@ -41,7 +65,7 @@ public class Golem : UnitController
     #region 코루틴 함수
     /// <summary>
     /// 총알 생성 코루틴 함수
-    /// /// 231013_박시연
+    /// 231014_박시연
     /// </summary>
     /// <param name="createObj">생성할 총알</param>
     public IEnumerator SpawnBullet(GameObject createObj)
@@ -71,7 +95,7 @@ public class Golem : UnitController
 
     /// <summary>
     /// 총알 삭제 코루틴 함수
-    /// /// 231013_박시연
+    /// 231014_박시연
     /// </summary>
     /// <param name="instance">생성한 총알</param>
     public IEnumerator DestoryBullet(GameObject instance)
