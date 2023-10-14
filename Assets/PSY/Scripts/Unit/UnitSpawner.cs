@@ -32,11 +32,11 @@ public class UnitSpawner : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            SpawnUnit(unitType1, 0); // 1번 유닛 생성
+            SpawnUnit(unitType1, (int)Define.Data_ID_List.Unit_Minion); // 1번 유닛 생성
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            SpawnUnit(unitType2, 1);  // 2번 유닛 생성
+            SpawnUnit(unitType2, (int)Define.Data_ID_List.Unit_Golem);  // 2번 유닛 생성
         }
     }
 

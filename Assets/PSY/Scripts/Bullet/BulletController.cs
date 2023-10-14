@@ -23,10 +23,7 @@ public class BulletController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        StartCoroutine(DelayDestory(0));
-
         transform.LookAt(dir);
-        
     }
 
     /// <summary>

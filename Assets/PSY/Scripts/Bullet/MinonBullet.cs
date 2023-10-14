@@ -12,6 +12,8 @@ public class MinonBullet : BulletController
         currentBulletStatus = new BulletStatus(Define.Data_ID_List.Bullet_Minion);      // 졸개 특화 총알 데이터 초기화, 김민섭_231014
 
         rb.velocity = transform.forward * float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Minion]["Speed"].ToString());
+
+        StartCoroutine(DelayDestory((int)Define.Data_ID_List.Bullet_Minion));            // 데이터에 맞춰서 파괴 설정, 김민섭_231014
     }
 
     private void OnTriggerEnter(Collider other)

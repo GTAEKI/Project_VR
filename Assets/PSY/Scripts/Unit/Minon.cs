@@ -6,7 +6,7 @@ using UnityEngine;
 public class Minon : UnitController
 {
     #region 총알 관련 변수
-    private GameObject minonBullet;   // 골렘 공격 총알
+    private GameObject minionBullet;   // 골렘 공격 총알
     private Transform spawnPoint;     // 총알 생성 위치
     private List<GameObject> bullets = new List<GameObject>(); // 생성한 총알을 관리할 List
     #endregion

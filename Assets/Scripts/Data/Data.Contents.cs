@@ -159,10 +159,28 @@ public class BulletStatus : Status
     public BulletStatus(Define.Data_ID_List id)
     {
         ID = int.Parse(Managers.Data.ProjectileTable[(int)id]["ID"].ToString());
-        Delay = float.Parse(Managers.Data.ProjectileTable[(int)id]["DurationTime"].ToString());
+        Delay = float.Parse(Managers.Data.ProjectileTable[(int)id]["Delay"].ToString());
         Damage = float.Parse(Managers.Data.ProjectileTable[(int)id]["Damage"].ToString());
         Speed = float.Parse(Managers.Data.ProjectileTable[(int)id]["Speed"].ToString());
         LifeTime = float.Parse(Managers.Data.ProjectileTable[(int)id]["LifeTime"].ToString());
+    }
+
+    /// <summary>
+    /// 타겟에게 데미지를 주는 함수
+    /// 231014_박시연
+    /// </summary>
+    public void OnDamaged(Collider target)
+    {
+        // TODO : 
+        if (target.tag == "WeaknessPoint")
+        {
+            target.GetComponentInParent<Boss>().CurrStatus.OnDamaged(int.Parse(Damage.ToString()));
+        }
+        else if (target.tag == "Minion")
+        {
+            // 졸개 수정할 수도
+            //target.GetComponent<Character>().SetHP(int.Parse(Damage.ToString()));
+        }
     }
 }
 
