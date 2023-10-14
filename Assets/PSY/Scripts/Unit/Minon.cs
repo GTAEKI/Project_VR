@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 
+// 졸개 공격 유닛
 public class Minon : UnitController
 {
     #region 총알 관련 변수
-    private BulletDataManager bulletDataManager;  // 총알 데이터 매니저
-    private GameObject minonBullet;   // 골렘 공격 총알
+    private GameObject minionBullet;   // 골렘 공격 총알
     private Transform spawnPoint;     // 총알 생성 위치
     private List<GameObject> bullets = new List<GameObject>(); // 생성한 총알을 관리할 List
     #endregion
@@ -20,19 +19,7 @@ public class Minon : UnitController
 
     protected override void Init()
     {
-        base.Init();
-
-        baseUnitStatus = new BaseUnitStatus(
-            int.Parse(unitDataManager.unitDatas[0]["ID"].ToString()),
-            unitDataManager.unitDatas[0]["Type"].ToString(),
-            float.Parse(unitDataManager.unitDatas[0]["DurationTime"].ToString()),
-            int.Parse(unitDataManager.unitDatas[0]["MaxCount"].ToString()),
-            int.Parse(unitDataManager.unitDatas[0]["Price"].ToString())
-            );
-
-        currentUnitStatus = new CurrentUnitStatus(baseUnitStatus);
-
-        bulletDataManager = GameObject.Find("@Managers").GetComponent<BulletDataManager>();
+        currentUnitStatus = new UnitStatus(Define.Data_ID_List.Unit_Minion);        // 졸개 특화 유닛 데이터 초기화, 김민섭_231014
 
         spawnPoint = transform.Find("BulletSpawnPoint");
 
@@ -70,6 +57,8 @@ public class Minon : UnitController
             }
 
             dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
+
+            currentState = State.Attack;
             transform.LookAt(dir);  // 타겟을 바라본다.
         }
     }
@@ -80,9 +69,9 @@ public class Minon : UnitController
     /// </summary>
     public void StartBulletAttack()
     {
-        minonBullet = Resources.Load<GameObject>("Prefabs/MinonBullet");
-        Debug.Log("Minon 총알 발사 ( Index : 0 )");
-        StartCoroutine(SpawnBullet(minonBullet));
+        minionBullet = Resources.Load<GameObject>("Prefabs/MinionBullet");
+        Debug.Log("Minion 총알 발사 ( Index : 0 )");
+        StartCoroutine(SpawnBullet(minionBullet));
     }
 
     #region 코루틴 함수
@@ -93,7 +82,7 @@ public class Minon : UnitController
     /// <param name="createObj">생성할 총알</param>
     public IEnumerator SpawnBullet(GameObject createObj)
     {
-        float Maxdelay = float.Parse(bulletDataManager.bulletDatas[0]["Delay"].ToString());  // 최대 딜레이 시간
+        float Maxdelay = float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Minion]["Delay"].ToString());  // 최대 딜레이 시간
 
         float delay = 0f;  // 현재 딜레이 시간
 
@@ -123,7 +112,7 @@ public class Minon : UnitController
     /// <param name="instance">생성한 총알</param>
     public IEnumerator DestoryBullet(GameObject instance)
     {
-        float lifeTime = float.Parse(bulletDataManager.bulletDatas[0]["LifeTime"].ToString());  // 총알의 유지 시간
+        float lifeTime = float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Minion]["LifeTime"].ToString());  // 총알의 유지 시간
 
         while (true)
         {

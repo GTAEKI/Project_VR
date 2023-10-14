@@ -27,7 +27,7 @@ public class Managers : MonoBehaviour
 
     private void Start()
     {
-        Init();
+        //Init();
     }
 
     private void Update()
@@ -39,10 +39,11 @@ public class Managers : MonoBehaviour
     {
         if (s_instance == null)
         {
-            GameObject obj = GameObject.Find("@Managers");
+            /////////////////// s빼야돼 ///////////
+            GameObject obj = GameObject.Find("@Managerss");
             if (obj == null)
             {
-                obj = new GameObject { name = "@Managers" };
+                obj = new GameObject { name = "@Managerss" };
                 obj.AddComponent<Managers>();
             }
 
@@ -52,7 +53,9 @@ public class Managers : MonoBehaviour
             //s_instance._data.Init();
             //s_instance._pool.Init();
             //s_instance._sound.Init();
-            s_instance._money.Init(); // 배경택_231013
+
+            // 잠깐 주석할게여
+            //s_instance._money.Init(); // 배경택_231013
         }
     }
 

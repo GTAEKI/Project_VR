@@ -17,16 +17,14 @@ public class Character : MonoBehaviour
     [SerializeField] protected CharacterState state;     // 캐릭터의 현재 상태 , 김민섭_231013
 
     // 졸개, 보스 전용 변수 (나중에 수정 예정) , 김민섭_231013
-    protected float movementSpeed;       // 캐릭터 이동속도 스탯(임시), 김민섭_231013
+    //protected float movementSpeed;       // 캐릭터 이동속도 스탯(임시), 김민섭_231013
     protected float currentTime = 0f;         // 시작 시간 (임시), 김민섭_231013
     protected float lerpTime = 600f;          // 도착 시간 (600초) (임시), 김민섭_231013
     protected Vector3 startPosition;          // 움직임 시작 지점 , 김민섭_231013
     protected Vector3 endPosition;            // 움직임 도착 지점, 김민섭_231013
 
     // 임시 스탯 변수, 김민섭_231013
-    [Header("임시 체력 스탯")]
-    [SerializeField] protected int currHp;       // 현재 체력
-    [SerializeField] protected int maxHp;        // 최대 체력
+    protected int maxHp;                        // 캐릭터 최대 체력
 
     /// <summary>
     /// 캐릭터의 현재 상태 프로퍼티
@@ -54,12 +52,6 @@ public class Character : MonoBehaviour
     {
         yield return null;
     }
-
-    /// <summary>
-    /// 현재 체력 Get 프로퍼티
-    /// 김민섭_231013
-    /// </summary>
-    public int CurrHp => currHp;
 
     /// <summary>
     /// 최대 체력 Get 프로퍼티

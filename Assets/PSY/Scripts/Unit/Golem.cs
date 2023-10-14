@@ -6,7 +6,6 @@ using UnityEngine;
 public class Golem : UnitController
 {
     #region 총알 관련 변수
-    private BulletDataManager bulletDataManager;  // 총알 데이터 매니저
     private GameObject golemBullet;   // 골렘 공격 총알
     private Transform spawnPoint;     // 총알 생성 위치
     private List<GameObject> bullets = new List<GameObject>(); // 생성한 총알을 관리할 List
@@ -20,19 +19,7 @@ public class Golem : UnitController
 
     protected override void Init()
     {
-        base.Init();
-
-        baseUnitStatus = new BaseUnitStatus(
-            int.Parse(unitDataManager.unitDatas[1]["ID"].ToString()),
-            unitDataManager.unitDatas[1]["Type"].ToString(),
-            float.Parse(unitDataManager.unitDatas[1]["DurationTime"].ToString()),
-            int.Parse(unitDataManager.unitDatas[1]["MaxCount"].ToString()),
-            int.Parse(unitDataManager.unitDatas[1]["Price"].ToString())
-            );
-
-        currentUnitStatus = new CurrentUnitStatus(baseUnitStatus);
-
-        bulletDataManager = GameObject.Find("@Managers").GetComponent<BulletDataManager>();
+        currentUnitStatus = new UnitStatus(Define.Data_ID_List.Unit_Golem);     // 골렘 특화 유닛 데이터 초기화, 김민섭_231014
 
         spawnPoint = transform.Find("BulletSpawnPoint");
 
@@ -41,12 +28,31 @@ public class Golem : UnitController
 
     private void Update()
     {
-        
+        SearchTarget();
+    }
+
+    /// <summary>
+    /// 보스를 찾는 함수
+    /// 231014_박시연
+    /// </summary>
+    public void SearchTarget()
+    {
+        Collider[] colliders = Physics.OverlapSphere(this.transform.position, radius, LayerMask.GetMask("WeaknessPoint"));
+
+        if (colliders.Length > 0)
+        {
+            targetCollider = colliders[0];
+
+            dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
+
+            currentState = State.Attack;
+            transform.LookAt(dir);  // 타겟을 바라본다.
+        }
     }
 
     /// <summary>
     /// 총알 발사 함수
-    /// 231013_박시연
+    /// 231014_박시연
     /// </summary>
     public void StartBulletAttack()
     {
@@ -59,12 +65,12 @@ public class Golem : UnitController
     #region 코루틴 함수
     /// <summary>
     /// 총알 생성 코루틴 함수
-    /// /// 231013_박시연
+    /// 231014_박시연
     /// </summary>
     /// <param name="createObj">생성할 총알</param>
     public IEnumerator SpawnBullet(GameObject createObj)
     {
-        float Maxdelay = float.Parse(bulletDataManager.bulletDatas[1]["Delay"].ToString());  // 최대 딜레이 시간
+        float Maxdelay = float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Golem]["Delay"].ToString());  // 최대 딜레이 시간
 
         float delay = 0f;  // 현재 딜레이 시간
 
@@ -89,12 +95,12 @@ public class Golem : UnitController
 
     /// <summary>
     /// 총알 삭제 코루틴 함수
-    /// /// 231013_박시연
+    /// 231014_박시연
     /// </summary>
     /// <param name="instance">생성한 총알</param>
     public IEnumerator DestoryBullet(GameObject instance)
     {
-        float lifeTime = float.Parse(bulletDataManager.bulletDatas[1]["LifeTime"].ToString());  // 총알의 유지 시간
+        float lifeTime = float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Golem]["LifeTime"].ToString());  // 총알의 유지 시간
 
         while (true)
         {
