@@ -1,4 +1,5 @@
 #region 유닛 스텟
+using UnityEngine;
 /// <summary>
 /// 유닛 스탯 클래스
 /// 231013_박시연
@@ -32,7 +33,7 @@ public class UnitStatus
 /// </summary>
 public class CurrentUnitStatus : UnitStatus
 {
-    public CurrentUnitStatus(int id, string type ,float durationTime, int maxCount, int price) : base( id,  type,  durationTime,  maxCount,  price)
+    public CurrentUnitStatus(int id, string type, float durationTime, int maxCount, int price) : base(id, type, durationTime, maxCount, price)
     { }
 
     public CurrentUnitStatus(BaseUnitStatus status) : base(status.ID, status.Type, status.DurationTime, status.MaxCount, status.Price)
@@ -67,14 +68,12 @@ public class BulletStatus
 
     #endregion
 
-    public BulletStatus(int id, string info, float delay, float damage ,float criChance, float criDamage, float speed , float lifeTime)
+    public BulletStatus(int id, string info, float delay, float damage, float speed, float lifeTime)
     {
         ID = id;
         Info = info;
-        Delay = delay; 
+        Delay = delay;
         Damage = damage;
-        CriChance = criChance;
-        CriDamage = criDamage;
         Speed = speed;
         LifeTime = lifeTime;
     }
@@ -86,19 +85,28 @@ public class BulletStatus
 /// </summary>
 public class CurrentBulletStatus : BulletStatus
 {
-    public CurrentBulletStatus(int id, string info, float delay, float damage, float criChance, float criDamage, float speed, float lifeTime) : base( id,  info, delay , damage,  criChance,  criDamage,  speed,  lifeTime)
+    public CurrentBulletStatus(int id, string info, float delay, float damage, float speed, float lifeTime) : base(id, info, delay, damage, speed, lifeTime)
     { }
 
-    public CurrentBulletStatus(BaseBulletStatus status) : base(status.ID, status.Info,status.Delay ,status.Damage, status.CriChance, status.CriDamage,status.Speed,status.LifeTime)
+    public CurrentBulletStatus(BaseBulletStatus status) : base(status.ID, status.Info, status.Delay, status.Damage, status.Speed, status.LifeTime)
     { }
 
     /// <summary>
     /// 타겟에게 데미지를 주는 함수
     /// 231014_박시연
     /// </summary>
-    public void OnDamaged()
+    public void OnDamaged(Collider target)
     {
-        // TODO : 
+        if (target.tag == "WeaknessPoint")
+        {
+            // 보스도 수정한대;..증말..
+            target.GetComponentInParent<Character>().SetHP(int.Parse(Damage.ToString()));
+        }
+        else if(target.tag == "Minion")
+        {
+            // 졸개 수정할 수도
+            //target.GetComponent<Character>().SetHP(int.Parse(Damage.ToString()));
+        }
     }
 }
 
@@ -109,7 +117,7 @@ public class CurrentBulletStatus : BulletStatus
 /// </summary>
 public class BaseBulletStatus : BulletStatus
 {
-    public BaseBulletStatus(int id, string info,float delay, float damage, float criChance, float criDamage, float speed, float lifeTime) : base(id, info, delay, damage, criChance, criDamage, speed, lifeTime)
+    public BaseBulletStatus(int id, string info, float delay, float damage, float speed, float lifeTime) : base(id, info, delay, damage, speed, lifeTime)
     { }
 }
 #endregion

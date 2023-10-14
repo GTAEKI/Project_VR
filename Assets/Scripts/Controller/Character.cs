@@ -29,6 +29,16 @@ public class Character : MonoBehaviour
     [SerializeField] protected int maxHp;        // 최대 체력
 
     /// <summary>
+    /// 체력 세팅 함수
+    /// 231014_박시연
+    /// </summary>
+    /// <param name="damage">줄 데미지</param>
+    public void SetHP(int damage)
+    {
+        currHp-=damage;
+    }
+
+    /// <summary>
     /// 캐릭터의 현재 상태 프로퍼티
     /// 김민섭_231013
     /// </summary>
