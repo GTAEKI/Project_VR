@@ -1,55 +1,28 @@
-#region 유닛 스텟
-/// <summary>
-/// 유닛 스탯 클래스
-/// 231013_박시연
-/// </summary>
-public class UnitStatus
-{
-    #region 프로퍼티 
+//#region 유닛 스텟
+///// <summary>
+///// 유닛의 현재 스탯 클래스
+///// 231013_박시연
+///// </summary>
+//public class CurrentUnitStatus : UnitStatus
+//{
+//    public CurrentUnitStatus(int id, string type ,float durationTime, int maxCount, int price) : base( id,  type,  durationTime,  maxCount,  price)
+//    { }
 
-    public int ID { protected set; get; }
-    public string Type { protected set; get; }
-    public float Damage { protected set; get; }
-    public float DurationTime { protected set; get; }
-    public int MaxCount { protected set; get; }
-    public int Price { protected set; get; }
-
-    #endregion
-
-    public UnitStatus(int id, string type, float durationTime, int maxCount, int price)
-    {
-        ID = id;
-        Type = type;
-        DurationTime = durationTime;
-        MaxCount = maxCount;
-        Price = price;
-    }
-}
-
-/// <summary>
-/// 유닛의 현재 스탯 클래스
-/// 231013_박시연
-/// </summary>
-public class CurrentUnitStatus : UnitStatus
-{
-    public CurrentUnitStatus(int id, string type ,float durationTime, int maxCount, int price) : base( id,  type,  durationTime,  maxCount,  price)
-    { }
-
-    public CurrentUnitStatus(BaseUnitStatus status) : base(status.ID, status.Type, status.DurationTime, status.MaxCount, status.Price)
-    { }
-}
+//    public CurrentUnitStatus(BaseUnitStatus status) : base(status.ID, status.Type, status.DurationTime, status.MaxCount, status.Price)
+//    { }
+//}
 
 
-/// <summary>
-/// 유닛의 원본 스탯 클래스
-/// 231013_박시연
-/// </summary>
-public class BaseUnitStatus : UnitStatus
-{
-    public BaseUnitStatus(int id, string type, float durationTime, int maxCount, int price) : base(id, type, durationTime, maxCount, price)
-    { }
-}
-#endregion
+///// <summary>
+///// 유닛의 원본 스탯 클래스
+///// 231013_박시연
+///// </summary>
+//public class BaseUnitStatus : UnitStatus
+//{
+//    public BaseUnitStatus(int id, string type, float durationTime, int maxCount, int price) : base(id, type, durationTime, maxCount, price)
+//    { }
+//}
+//#endregion
 
 #region 총알 스텟
 public class BulletStatus

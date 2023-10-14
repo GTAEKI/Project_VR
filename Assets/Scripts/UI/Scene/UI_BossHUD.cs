@@ -16,7 +16,7 @@ public class UI_BossHUD : UI_Scene
     }
 
     private Camera uiCamera;
-    private Character character;
+    private Boss boss;
 
     private static readonly int floatSteps = Shader.PropertyToID(STEP);
     private static readonly int floatRatio = Shader.PropertyToID(RATIO);
@@ -71,10 +71,10 @@ public class UI_BossHUD : UI_Scene
     /// UI의 타겟을 지정하는 함수
     /// 김민섭_231013
     /// </summary>
-    /// <param name="character"></param>
-    public void SetTargetCharacter(Character character)
+    /// <param name="golem"></param>
+    public void SetTargetCharacter(Boss golem)
     {
-        this.character = character;
+        this.boss = golem;
 
         StartCoroutine(RefreshHUDValue());
     }
@@ -91,26 +91,26 @@ public class UI_BossHUD : UI_Scene
 
             if(sp > 0)
             {   // 쉴드가 있을 경우
-                if(character.CurrHp + sp > character.MaxHp)
+                if(boss.CurrStatus.Hp + sp > boss.MaxHp)
                 {   // 현재 체력 + 쉴드량이 최대 체력보다 높다면
-                    float value = (float)(character.CurrHp / (character.CurrHp + sp));
+                    float value = (float)(boss.CurrStatus.Hp / (boss.CurrStatus.Hp + sp));
                     hpShieldRatio = value;
-                    step = character.CurrHp / HP_RATIO;
+                    step = boss.CurrStatus.Hp / HP_RATIO;
                     GetImage((int)Images.Img_Hp).fillAmount = value;
                 }
                 else
                 {   // 현재 체력 + 쉴드량이 최대 체력보다 낮다면
-                    float value = (float)character.CurrHp / character.MaxHp;
+                    float value = (float)boss.CurrStatus.Hp / boss.MaxHp;
                     hpShieldRatio = value;
-                    step = character.CurrHp / hpShieldRatio;
+                    step = boss.CurrStatus.Hp / hpShieldRatio;
                     GetImage((int)Images.Img_Hp).fillAmount = value;
                 }
             }
             else
             {   // 쉴드가 없다면
-                step = character.MaxHp / HP_RATIO;
+                step = boss.MaxHp / HP_RATIO;
                 hpShieldRatio = 1f;
-                GetImage((int)Images.Img_Hp).fillAmount = (float)character.CurrHp / character.MaxHp;
+                GetImage((int)Images.Img_Hp).fillAmount = (float)boss.CurrStatus.Hp / boss.MaxHp;
             }
 
             GetImage((int)Images.Img_Damaged).fillAmount = Mathf.Lerp(GetImage((int)Images.Img_Damaged).fillAmount, GetImage((int)Images.Img_Hp).fillAmount, Time.deltaTime * speed);

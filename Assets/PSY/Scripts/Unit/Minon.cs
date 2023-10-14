@@ -20,17 +20,7 @@ public class Minon : UnitController
 
     protected override void Init()
     {
-        base.Init();
-
-        baseUnitStatus = new BaseUnitStatus(
-            int.Parse(unitDataManager.unitDatas[0]["ID"].ToString()),
-            unitDataManager.unitDatas[0]["Type"].ToString(),
-            float.Parse(unitDataManager.unitDatas[0]["DurationTime"].ToString()),
-            int.Parse(unitDataManager.unitDatas[0]["MaxCount"].ToString()),
-            int.Parse(unitDataManager.unitDatas[0]["Price"].ToString())
-            );
-
-        currentUnitStatus = new CurrentUnitStatus(baseUnitStatus);
+        currentUnitStatus = new UnitStatus(Define.Data_ID_List.Unit_Minion);        // 졸개 특화 유닛 데이터 초기화, 김민섭_231014
 
         bulletDataManager = GameObject.Find("@Managers").GetComponent<BulletDataManager>();
 

@@ -7,6 +7,12 @@ public class MeteorController : MonoBehaviour
     private MeteorStatus status;         // 메테오 스탯, 김민섭_231014
     private Vector3 targetPosition;      // 날라가려는 위치
 
+    /// <summary>
+    /// 메테오 스탯 Get 프로퍼티
+    /// 김민섭_231014
+    /// </summary>
+    public MeteorStatus Status => status;
+
     private void Start()
     {
         Init();
@@ -54,6 +60,10 @@ public class MeteorController : MonoBehaviour
         StartCoroutine(TargetingMove());
     }
 
+    /// <summary>
+    /// 목표 위치로 가속도 이동 코루틴 함수
+    /// 김민섭_231013
+    /// </summary>
     private IEnumerator TargetingMove()
     {
         float currentTime = 0f;

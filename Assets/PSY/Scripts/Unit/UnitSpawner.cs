@@ -6,7 +6,7 @@ using UnityEngine;
 
 // TODO : 플레이어 양쪽에 순서대로 왼쪽먼저 유닛 생성
 // 모든 유닛의 스폰 관리 클래스
-public class UnitSpawner : UnitDataManager
+public class UnitSpawner : MonoBehaviour
 {
     private GameObject unitType1;  // 유닛 1
     private GameObject unitType2;  // 유닛 2
@@ -49,12 +49,10 @@ public class UnitSpawner : UnitDataManager
     /// <param name="spawnPos">생성 좌표</param>
     public void SpawnUnit(GameObject createObj, int index)
     {
-        if (int.Parse(unitDatas[index]["MaxCount"].ToString()) == count)
+        if (int.Parse(Managers.Data.UnitTableData[index]["MaxCount"].ToString()) == count)
         {
             return;
         }
-
-        
 
         for (int i = 0; i < units.Length; i++)
         {
@@ -81,7 +79,7 @@ public class UnitSpawner : UnitDataManager
     /// <returns></returns>
     public IEnumerator DelayDestory(int index, GameObject instance)
     {
-        float durationTime = float.Parse(unitDatas[index]["DurationTime"].ToString());
+        float durationTime = float.Parse(Managers.Data.UnitTableData[index]["DurationTime"].ToString());
 
         while (true)
         {

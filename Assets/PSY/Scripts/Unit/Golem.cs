@@ -20,28 +20,13 @@ public class Golem : UnitController
 
     protected override void Init()
     {
-        base.Init();
-
-        baseUnitStatus = new BaseUnitStatus(
-            int.Parse(unitDataManager.unitDatas[1]["ID"].ToString()),
-            unitDataManager.unitDatas[1]["Type"].ToString(),
-            float.Parse(unitDataManager.unitDatas[1]["DurationTime"].ToString()),
-            int.Parse(unitDataManager.unitDatas[1]["MaxCount"].ToString()),
-            int.Parse(unitDataManager.unitDatas[1]["Price"].ToString())
-            );
-
-        currentUnitStatus = new CurrentUnitStatus(baseUnitStatus);
+        currentUnitStatus = new UnitStatus(Define.Data_ID_List.Unit_Golem);     // 골렘 특화 유닛 데이터 초기화, 김민섭_231014
 
         bulletDataManager = GameObject.Find("@Managers").GetComponent<BulletDataManager>();
 
         spawnPoint = transform.Find("BulletSpawnPoint");
 
         StartBulletAttack();
-    }
-
-    private void Update()
-    {
-        
     }
 
     /// <summary>
