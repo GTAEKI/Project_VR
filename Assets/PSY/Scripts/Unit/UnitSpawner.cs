@@ -19,8 +19,8 @@ public class UnitSpawner : MonoBehaviour
 
     private void Start()
     {
-        unitType1 = Resources.Load<GameObject>("Prefabs/UnitType1");
-        unitType2 = Resources.Load<GameObject>("Prefabs/UnitType2");
+        unitType1 = Resources.Load<GameObject>("Prefabs/Unit/UnitType1");
+        unitType2 = Resources.Load<GameObject>("Prefabs/Unit/UnitType2");
 
         player = GameObject.Find("Player");
 
