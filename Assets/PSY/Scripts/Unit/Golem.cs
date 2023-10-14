@@ -6,7 +6,6 @@ using UnityEngine;
 public class Golem : UnitController
 {
     #region 총알 관련 변수
-    private BulletDataManager bulletDataManager;  // 총알 데이터 매니저
     private GameObject golemBullet;   // 골렘 공격 총알
     private Transform spawnPoint;     // 총알 생성 위치
     private List<GameObject> bullets = new List<GameObject>(); // 생성한 총알을 관리할 List
@@ -21,8 +20,6 @@ public class Golem : UnitController
     protected override void Init()
     {
         currentUnitStatus = new UnitStatus(Define.Data_ID_List.Unit_Golem);     // 골렘 특화 유닛 데이터 초기화, 김민섭_231014
-
-        bulletDataManager = GameObject.Find("@Managers").GetComponent<BulletDataManager>();
 
         spawnPoint = transform.Find("BulletSpawnPoint");
 
@@ -49,7 +46,7 @@ public class Golem : UnitController
     /// <param name="createObj">생성할 총알</param>
     public IEnumerator SpawnBullet(GameObject createObj)
     {
-        float Maxdelay = float.Parse(bulletDataManager.bulletDatas[1]["Delay"].ToString());  // 최대 딜레이 시간
+        float Maxdelay = float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Golem]["Delay"].ToString());  // 최대 딜레이 시간
 
         float delay = 0f;  // 현재 딜레이 시간
 
@@ -79,7 +76,7 @@ public class Golem : UnitController
     /// <param name="instance">생성한 총알</param>
     public IEnumerator DestoryBullet(GameObject instance)
     {
-        float lifeTime = float.Parse(bulletDataManager.bulletDatas[1]["LifeTime"].ToString());  // 총알의 유지 시간
+        float lifeTime = float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Golem]["LifeTime"].ToString());  // 총알의 유지 시간
 
         while (true)
         {

@@ -5,10 +5,7 @@ using UnityEngine;
 // 모든 총알 관리 클래스
 public class BulletController : MonoBehaviour
 {
-    protected CurrentBulletStatus currentBulletStatus;     // 현재 스텟
-    protected BaseBulletStatus baseBulletStatus;           // 원본 스텟
-
-    protected BulletDataManager bulletDataManager; // 총알 데이터 csv
+    protected BulletStatus currentBulletStatus;         // 현재 스텟, 김민섭_231014
     protected Rigidbody rb;  // 총알의 rigidbody
 
     public Vector3 dir; // 방향 변수
@@ -24,7 +21,6 @@ public class BulletController : MonoBehaviour
     /// </summary>
     protected virtual void Init()
     {
-        bulletDataManager = GameObject.Find("@Managers").GetComponent<BulletDataManager>();
         rb = GetComponent<Rigidbody>();
 
         StartCoroutine(DelayDestory(0));
@@ -40,7 +36,7 @@ public class BulletController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator DelayDestory(int index)
     {
-        float lifeTime = float.Parse(bulletDataManager.bulletDatas[index]["LifeTime"].ToString());
+        float lifeTime = float.Parse(Managers.Data.ProjectileTable[index]["LifeTime"].ToString());
 
         while (true)
         {

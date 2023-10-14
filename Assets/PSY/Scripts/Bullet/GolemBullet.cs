@@ -9,19 +9,8 @@ public class GolemBullet : BulletController
     {
         base.Init();
 
-        baseBulletStatus = new BaseBulletStatus(
-            int.Parse(bulletDataManager.bulletDatas[1]["ID"].ToString()),
-            bulletDataManager.bulletDatas[1]["Info"].ToString(),
-            float.Parse(bulletDataManager.bulletDatas[1]["Delay"].ToString()),
-            float.Parse(bulletDataManager.bulletDatas[1]["Damage"].ToString()),
-            float.Parse(bulletDataManager.bulletDatas[1]["CriChance"].ToString()),
-            float.Parse(bulletDataManager.bulletDatas[1]["CriDamage"].ToString()),
-            float.Parse(bulletDataManager.bulletDatas[1]["Speed"].ToString()),
-            float.Parse(bulletDataManager.bulletDatas[1]["LifeTime"].ToString())
-            );
+        currentBulletStatus = new BulletStatus(Define.Data_ID_List.Bullet_Golem);       // 골렘 특화 총알 데이터 초기화, 김민섭_231014
 
-        currentBulletStatus = new CurrentBulletStatus(baseBulletStatus);
-
-        rb.velocity = transform.forward * float.Parse(bulletDataManager.bulletDatas[1]["Speed"].ToString());
+        rb.velocity = transform.forward * float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Golem]["Speed"].ToString());
     }
 }

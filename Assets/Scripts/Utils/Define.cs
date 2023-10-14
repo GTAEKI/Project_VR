@@ -44,6 +44,8 @@ public class Define
     {
         Unit_Minion = 10,       // 졸개 전용 유닛 ID
         Unit_Golem = 11,        // 골렘 전용 유닛 ID
+        Bullet_Minion = 1003,   // 졸개 전용 총알 ID
+        Bullet_Golem = 1004,    // 골렘 전용 총알 ID
         Meteor = 2004,          // 스킬 메테오 ID
         Golem = 10000           // 골렘 ID
     }

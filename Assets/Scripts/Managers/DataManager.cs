@@ -13,6 +13,9 @@ public class DataManager
     // 유닛 스탯 데이터 테이블
     public Dictionary<int, Dictionary<string, object>> UnitTableData { private set; get; } = new Dictionary<int, Dictionary<string, object>>();
 
+    // 총알 스탯 데이터 테이블
+    public Dictionary<int, Dictionary<string, object>> ProjectileTable { private set; get; } = new Dictionary<int, Dictionary<string, object>>();
+
     /// <summary>
     /// 모든 데이터 초기화 함수
     /// 김민섭_231014
@@ -22,5 +25,6 @@ public class DataManager
         Boss_MeteorStatusData = CSVReader.ReadForDict("Data/Boss_MeteorStatus");
         GolemTableData = CSVReader.ReadForDict("Data/Golem_Table");
         UnitTableData = CSVReader.ReadForDict("Data/Unit_Table");
+        ProjectileTable = CSVReader.ReadForDict("Data/Projectile_Table");  
     }
 }

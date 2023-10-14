@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 
 /// <summary>
@@ -136,6 +137,32 @@ public class UnitStatus : Status
         DurationTime = float.Parse(Managers.Data.UnitTableData[(int)id]["DurationTime"].ToString());
         MaxCount = int.Parse(Managers.Data.UnitTableData[(int)id]["MaxCount"].ToString());
         Price = int.Parse(Managers.Data.UnitTableData[(int)id]["Price"].ToString());
+    }
+}
+
+public class BulletStatus : Status
+{
+    #region 프로퍼티 
+
+    public float Delay { private set; get; }          // 공격 간격
+    public float Damage { private set; get; }         // 총알 공격력
+    public float Speed { private set; get; }          // 총알 속도
+    public float LifeTime { private set; get; }       // 총알 라이프 타임
+
+    #endregion
+
+    /// <summary>
+    /// 데이터 아이디로 세팅하는 생성자
+    /// 김민섭_231014
+    /// </summary>
+    /// <param name="id">데이터 아이디</param>
+    public BulletStatus(Define.Data_ID_List id)
+    {
+        ID = int.Parse(Managers.Data.ProjectileTable[(int)id]["ID"].ToString());
+        Delay = float.Parse(Managers.Data.ProjectileTable[(int)id]["DurationTime"].ToString());
+        Damage = float.Parse(Managers.Data.ProjectileTable[(int)id]["Damage"].ToString());
+        Speed = float.Parse(Managers.Data.ProjectileTable[(int)id]["Speed"].ToString());
+        LifeTime = float.Parse(Managers.Data.ProjectileTable[(int)id]["LifeTime"].ToString());
     }
 }
 
