@@ -69,7 +69,7 @@ public class Golem : UnitController
     /// </summary>
     public void StartBulletAttack()
     {
-        golemBullet = Resources.Load<GameObject>("Prefabs/GolemBullet");
+        golemBullet = Resources.Load<GameObject>("Prefabs/Unit/GolemBullet");
         Debug.Log("Golem 총알 발사 ( Index : 1 )");
 
         StartCoroutine(SpawnBullet(golemBullet));
