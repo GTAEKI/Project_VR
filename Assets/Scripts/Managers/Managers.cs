@@ -27,7 +27,7 @@ public class Managers : MonoBehaviour
 
     private void Start()
     {
-        Init();
+        //Init();
     }
 
     private void Update()
