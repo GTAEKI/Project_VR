@@ -17,9 +17,18 @@ public class Boss : Character
     [SerializeField] private float meteor_coolTime;          // 메테오 쿨타임, 김민섭_231013
     private bool isSummon = false;
 
+    // 스탯
+    private GolemStatus currStatus;             // 보스 스탯, 김민섭_231014
+
     // UI
     private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013
     private UI_BossDistance ui_distance;        // 보스 거리, 김민섭_231013
+
+    /// <summary>
+    /// 보스 현재 스탯 Get 프로퍼티
+    /// 김민섭_231014
+    /// </summary>
+    public GolemStatus CurrStatus => currStatus; 
 
     protected override IEnumerator Test_Delay()
     {
@@ -41,17 +50,14 @@ public class Boss : Character
     /// </summary>
     protected override void Init()
     {
-        movementSpeed = 3f;
-
-        maxHp = 1000;
-        currHp = maxHp;
-
         weaknessPoint = transform.Find("WeaknessPoint").gameObject;
         weaknessPoint.SetActive(false);
 
         meteor_coolTime = 2f;       // 5초다마 메테오 발동
 
-        Debug.Log("보스 스탯 세팅 완료");
+        // 보스 스탯 세팅 진행
+        currStatus = new GolemStatus(Define.Data_ID_List.Golem);
+        maxHp = currStatus.Hp;
 
         // UI
         ui_hud = Managers.UI.ShowSceneUI<UI_BossHUD>();
@@ -60,7 +66,7 @@ public class Boss : Character
         ui_distance = Managers.UI.ShowSceneUI<UI_BossDistance>();
         ui_distance.Init();
 
-        // TODO: 스킬 쿨타임 로직 실행
+        // 스킬 로직 실행
         StartCoroutine(Spell_Meteor());
         StartCoroutine(Spell_Summon());
     }
@@ -178,20 +184,21 @@ public class Boss : Character
 
     protected override void Update()
     {
-        base.Update();
-
-        if(State != CharacterState.DIE && currHp <= 0)
-        {
-            State = CharacterState.DIE;
+        if(currStatus != null && currStatus.IsDie)
+        {   // 현재 죽은 상태라면 행동 정지
+            if(State != CharacterState.DIE) State = CharacterState.DIE;
             return;
         }
 
+        base.Update();
+
+        // TEST: 보스 피해 입히기 테스트
         if(Input.GetMouseButtonDown(0))
         {
-            currHp -= 30;
+            currStatus.OnDamaged(5);
 
-            if(currHp % 10 == 0)
-            {
+            if(currStatus.Hp % 15 == 0)
+            {   // 15 배수 일 때마다 그로기
                 State = CharacterState.GROGGY;
                 return;
             }
@@ -252,7 +259,7 @@ public class Boss : Character
         }
 
         // 타겟이 있다면 타겟을 향해 이동
-        currentTime += Time.deltaTime * movementSpeed;
+        currentTime += Time.deltaTime * currStatus.MoveSpeed;
 
         if(currentTime >= lerpTime)
         {
@@ -272,7 +279,7 @@ public class Boss : Character
     /// </summary>
     protected override void UpdateSkill()
     {
-        if(currHp / maxHp <= 0.5f)
+        if(currStatus.Hp / maxHp <= 0.5f)
         {   // 50% 이하가 될 경우, 
             Debug.Log("2페이지 실행 중.");
         }
