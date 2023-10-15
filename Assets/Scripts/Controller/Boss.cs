@@ -173,7 +173,8 @@ public class Boss : Character
                     State = CharacterState.IDLE;
                 }
 
-                yield return new WaitForSeconds(1f);
+                // TODO: 소환된 졸개가 없다면 실행되게 수정
+                yield return new WaitForSeconds(2f);
 
                 isSummon = false;
             }
