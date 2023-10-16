@@ -48,6 +48,20 @@ public class Golem : UnitController
             currentState = State.Attack;
             transform.LookAt(dir);  // 타겟을 바라본다.
         }
+        else
+        {
+            Collider[] centercolliders = Physics.OverlapSphere(this.transform.position, radius, LayerMask.GetMask("CenterPoint"));
+
+            if (centercolliders.Length > 0)
+            {
+                targetCollider = centercolliders[0];
+
+                dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
+
+                currentState = State.Attack;
+                transform.LookAt(dir);  // 타겟을 바라본다.
+            }
+        }
     }
 
     /// <summary>

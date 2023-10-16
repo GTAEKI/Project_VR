@@ -2,23 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitInfo : MonoBehaviour
+public class UnitInfo : StoreObjectInfo
 {
-    private List<Dictionary<string, object>> unitCSV = default;
-
-    public UnitInfo()
-    {
-        
-    }
-
-    void Start()
-    {
-        unitCSV = CSVReader_KT.Read("UnitCSV");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Buff와 다른거 생기면 추가
 }
