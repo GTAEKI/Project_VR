@@ -19,6 +19,7 @@ public class Boss : Character
 
     // 스탯
     private GolemStatus currStatus;             // 보스 스탯, 김민섭_231014
+    private MinionSpawn spawnStatus;            // 졸개 소환 스탯, 김민섭_231015
 
     // UI
     private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013
@@ -58,6 +59,7 @@ public class Boss : Character
         // 보스 스탯 세팅 진행
         currStatus = new GolemStatus(Define.Data_ID_List.Golem);
         maxHp = currStatus.Hp;
+        spawnStatus = new MinionSpawn(Define.Data_ID_List.Spawn_Phase1);
 
         // UI
         ui_hud = Managers.UI.ShowSceneUI<UI_BossHUD>();
@@ -140,6 +142,44 @@ public class Boss : Character
     }
 
     /// <summary>
+    /// 졸개 소환 코루틴 함수
+    /// 김민섭_231015
+    /// </summary>
+    /// <param name="type">졸개 타입</param>
+    /// <param name="amount">생성되는 수량</param>
+    private IEnumerator SpawnMinion(int type, int amount)
+    {
+        for(int i = 0; i <  amount; i++)
+        {
+            float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
+            Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
+
+            GameObject spawnMinion = Managers.Resource.Instantiate("Minion", spawnPos, Quaternion.identity);
+
+            if (type == (int)Define.Data_ID_List.Minion_Fast)
+            {
+                spawnMinion.AddComponent<FastMinionController>();
+            }
+            else
+            {
+                spawnMinion.AddComponent<PowerMinionController>();
+            }
+            
+            yield return new WaitForSeconds(spawnStatus.Spawn_Time);
+        }
+    }
+
+    /// <summary>
+    /// 졸개 소환 함수
+    /// 김민섭_231015
+    /// </summary>
+    private void Summon()
+    {
+        StartCoroutine(SpawnMinion((int)Define.Data_ID_List.Minion_Fast, spawnStatus.Type1_Amount));
+        StartCoroutine(SpawnMinion((int)Define.Data_ID_List.Minion_Power, spawnStatus.Type2_Amount));
+    }
+
+    /// <summary>
     /// 쫄몹 소환 코루틴 함수
     /// 김민섭_231013
     /// </summary>
@@ -173,7 +213,8 @@ public class Boss : Character
                     State = CharacterState.IDLE;
                 }
 
-                yield return new WaitForSeconds(1f);
+                // TODO: 소환된 졸개가 없다면 실행되게 수정
+                yield return new WaitForSeconds(spawnStatus.Spawn_Time);
 
                 isSummon = false;
             }
