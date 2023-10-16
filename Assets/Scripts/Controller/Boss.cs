@@ -128,19 +128,6 @@ public class Boss : Character
         }
     }
 
-    private void Summon()
-    {
-        // 졸개 개수 결정
-        int spawnCount = Random.Range(5, 10);
-
-        for(int i = 0; i < spawnCount; i++)
-        {
-            float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
-            Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
-            Managers.Resource.Instantiate("Minion", spawnPos, Quaternion.identity);
-        }
-    }
-
     /// <summary>
     /// 졸개 소환 코루틴 함수
     /// 김민섭_231015
