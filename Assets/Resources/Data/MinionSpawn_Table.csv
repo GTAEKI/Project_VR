@@ -1,0 +1,3 @@
+ID,Description,Spawn_Condition,Spawn_Location,Spawn_Time,Minion_Type1,Type1_amount,Minion_Type2,Type2_amount,Minion_amount
+3000,스폰 조건1,1,10,2,2000,5,2001,0,100
+3001,스폰 조건2,2,10,2,2000,0,2001,8,100

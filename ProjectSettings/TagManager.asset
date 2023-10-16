@@ -6,6 +6,11 @@ TagManager:
   tags:
   - StoreObject
   - BackgroundUI
+  - RoomLight
+  - SamplesInfoPanel
+  - WeaknessPoint
+  - Boss
+  - Minion
   layers:
   - Default
   - TransparentFX
@@ -13,10 +18,10 @@ TagManager:
   - 
   - Water
   - UI
+  - Enemy
+  - WeaknessPoint
   - 
-  - 
-  - 
-  - 
+  - Player
   - 
   - 
   - 
@@ -42,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 2940912183
     locked: 0
