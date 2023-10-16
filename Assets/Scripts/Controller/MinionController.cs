@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MinionController : MonoBehaviour, ISearchTarget
 {
-    protected MinionStatus status;       // 졸개 스텟, 김민섭_231015
+    [Header("TEST: 졸개 스탯")]
+    [SerializeField] protected MinionStatus status;       // 졸개 스텟, 김민섭_231015
     private Vector3 targetPosition;      // 날라가려는 위치, 김민섭_231015
 
     private void Start()
@@ -63,6 +64,12 @@ public class MinionController : MonoBehaviour, ISearchTarget
 
         while (true)
         {
+            if (status.IsDie)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+
             float distance = Vector3.Distance(transform.position, targetPosition);
             if (distance <= status.Range_Att)
             {   // TODO: 공격 사거리에 들어오면 폭발
