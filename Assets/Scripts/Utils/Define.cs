@@ -44,7 +44,10 @@ public class Define
     {
         Unit_Minion = 10,       // 졸개 전용 유닛 ID
         Unit_Golem,             // 골렘 전용 유닛 ID
-        Bullet_Minion = 1003,   // 졸개 전용 총알 ID
+        PC = 100,               // PC ID
+        Bullet_Normal = 1001,   // 기본 총알
+        Bullet_Small,           // 강화 총알
+        Bullet_Minion,          // 졸개 전용 총알 ID
         Bullet_Golem,           // 골렘 전용 총알 ID
         Minion_Fast = 2000,     // 빠른 졸개 ID
         Minion_Power,           // 강한 졸개 ID

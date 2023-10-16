@@ -388,3 +388,39 @@ public class MinionSpawn : Status
 }
 
 #endregion
+
+
+#region PC 관련 스테이터스
+
+[Serializable]
+/// <summary>
+/// PC 스탯 클래스
+/// 231016_김재현
+/// </summary>
+public class PCStatus : Status
+{
+    [SerializeField]
+    [Tooltip(" 최대 체력 ")] private int maxHp;
+    [SerializeField]
+    [Tooltip("타입")] private int type;
+
+    #region 프로퍼티 
+
+    public int MaxHp { private set => maxHp = value; get => maxHp; }       // 최대 체력
+    public int Type { private set => type = value; get => type; }             // 타입
+
+    #endregion
+
+    /// <summary>
+    /// 데이터 아이디로 세팅하는 생성자
+    /// 김재현_231016
+    /// </summary>
+    /// <param name="id">데이터 아이디</param>
+    public PCStatus(Define.Data_ID_List id)
+    {
+        ID = int.Parse(Managers.Data.PCTableData[(int)id]["ID"].ToString());
+        maxHp = int.Parse(Managers.Data.PCTableData[(int)id]["MaxHp"].ToString());
+        type = int.Parse(Managers.Data.PCTableData[(int)id]["Type"].ToString());
+    }
+}
+#endregion
