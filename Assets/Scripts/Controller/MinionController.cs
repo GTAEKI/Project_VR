@@ -5,8 +5,14 @@ using UnityEngine;
 public class MinionController : MonoBehaviour, ISearchTarget
 {
     [Header("TEST: 졸개 스탯")]
-    [SerializeField] protected MinionStatus status;       // 졸개 스텟, 김민섭_231015
+    [SerializeField] protected MinionStatus currStatus;       // 졸개 스텟, 김민섭_231015
     private Vector3 targetPosition;      // 날라가려는 위치, 김민섭_231015
+
+    /// <summary>
+    /// 졸개 현재 스탯 Get 프로퍼티
+    /// 김민섭_231016
+    /// </summary>
+    public MinionStatus CurrStatus => currStatus;
 
     private void Start()
     {
@@ -64,21 +70,23 @@ public class MinionController : MonoBehaviour, ISearchTarget
 
         while (true)
         {
-            if (status.IsDie)
+            if (currStatus.IsDie)
             {
+                Managers.MONEY.NormalMonsterDie();
+                Managers.MONEY.ReflectMoney();
                 Managers.Resource.Destroy(gameObject);
                 yield break;
             }
 
             float distance = Vector3.Distance(transform.position, targetPosition);
-            if (distance <= status.Range_Att)
+            if (distance <= currStatus.Range_Att)
             {   // 공격 사거리에 들어오면 폭발
                 Managers.Resource.Destroy(gameObject);
                 yield break;
             }
 
             // 타겟이 있다면 타겟을 향해 이동
-            currentTime += Time.deltaTime * status.Speed;
+            currentTime += Time.deltaTime * currStatus.Speed;
 
             if (currentTime >= lerpTime)
             {

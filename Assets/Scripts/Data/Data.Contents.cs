@@ -226,9 +226,12 @@ public class BulletStatus : Status
         if (target.tag == "WeaknessPoint")
         {
             Boss boss = target.GetComponentInParent<Boss>();
-            
-            boss.CurrStatus.OnDamaged((int)(Damage*(1f+boss.CurrStatus.WeakpointRate)));
-            UnityEngine.Debug.Log($"약점 최종 데미지 : {(int)(Damage*(1f + boss.CurrStatus.WeakpointRate))}");
+
+            boss.CurrStatus.OnDamaged((int)(Damage * (1f + boss.CurrStatus.WeakpointRate)));
+
+            // 데미지에 비례하여 금액 추가, 김민섭_231016
+            Managers.MONEY.BossHitMoney((int)(Damage * (1f + boss.CurrStatus.WeakpointRate)));
+            Managers.MONEY.ReflectMoney();
 
             #region 데미지 출력
             Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
@@ -247,7 +250,10 @@ public class BulletStatus : Status
             Boss boss = target.GetComponentInParent<Boss>();
 
             boss.CurrStatus.OnDamaged((int)Damage);
-            UnityEngine.Debug.Log($"약점 비활성화 데미지 : {(int)(Damage)}");
+
+            // 데미지에 비례하여 금액 추가, 김민섭_231016
+            Managers.MONEY.BossHitMoney((int)Damage);
+            Managers.MONEY.ReflectMoney();
 
             #region 데미지 출력
             Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
@@ -262,9 +268,22 @@ public class BulletStatus : Status
             #endregion
         }
         else if (target.tag == "Minion")
-        {
-            // 졸개 수정할 수도
-            //target.GetComponent<Character>().SetHP(int.Parse(Damage.ToString()));
+        {   // 졸개 공격 데미지 부여 추가, 김민섭_231016
+            MinionController minion = target.GetComponent<MinionController>();
+
+            minion.CurrStatus.OnDamaged((int)(Damage));
+
+            #region 데미지 출력
+            Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
+            TextMeshProUGUI textDamage;  // 데미지 출력 Text
+            textDamage = canvasDamage.transform.GetComponentInChildren<TextMeshProUGUI>();
+
+            Vector3 currentPos = target.transform.position + new Vector3(0f, 10f, -5f);        // 현재 위치
+            GameObject.Instantiate(canvasDamage, currentPos, Quaternion.identity);  // 현재 위치에 Canvas 생성
+            canvasDamage.worldCamera = Camera.main;                    // Canvas Camera Setting
+
+            textDamage.text = $"{(int)Damage}";  // Text에 데미지가 보여지게 한다.
+            #endregion
         }
     }
 }
@@ -388,7 +407,6 @@ public class MinionSpawn : Status
 }
 
 #endregion
-
 
 #region PC 관련 스테이터스
 
