@@ -11,15 +11,19 @@ public class Boss : Character
     // 약점
     private GameObject weaknessPoint;       // 약점 위치, 김민섭_231013
 
-    // 스킬
-    [Header("스킬_메테오")]
-    [SerializeField] private float meteor_currTime;          // 메테오 현재 남은 쿨타임, 김민섭_231013
-    [SerializeField] private float meteor_coolTime;          // 메테오 쿨타임, 김민섭_231013
+    // 스킬, 김민섭_231013
+    [Header("TEST: 스킬_메테오")]
+    [SerializeField]
+    [Tooltip("메테오 현재 남은 쿨타임")] private float meteor_currTime;
+    [SerializeField] 
+    [Tooltip("메테오 쿨타임")] private float meteor_coolTime;            
     private bool isSummon = false;
 
     // 스탯
-    private GolemStatus currStatus;             // 보스 스탯, 김민섭_231014
-    private MinionSpawn spawnStatus;            // 졸개 소환 스탯, 김민섭_231015
+    [Header("TEST: 골렘 스탯")]
+    [SerializeField] private GolemStatus currStatus;             // 보스 스탯, 김민섭_231014
+    [Header("TEST: 스폰 데이터 스탯")]
+    [SerializeField] private MinionSpawn spawnStatus;            // 졸개 소환 스탯, 김민섭_231015
 
     // UI
     private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013

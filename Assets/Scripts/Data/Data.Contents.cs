@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using UnityEngine;
 
@@ -5,23 +6,37 @@ using UnityEngine;
 /// 모든 기본 스탯 클래스
 /// 김민섭_231014
 /// </summary>
+[Serializable]
 public class Status
 {
-    public int ID { protected set; get; }         // 고유 번호
+    [SerializeField]
+    [Tooltip("고유 번호")] private int id;
+
+    public int ID { protected set => id = value; get => id; }         // 고유 번호
 }
 
 #region 보스 관련 스테이터스
 
+[Serializable]
 /// <summary>
 /// 메테오 스탯 클래스
 /// 김민섭_231014
 /// </summary>
 public class MeteorStatus: Status
 {
-    public int Hp { private set; get; }                 // 투사체 체력
-    public float DurationTime { private set; get; }     // 투사체 활성화 시간
-    public int Damage { private set; get; }             // 투사체 피해량
-    public float Speed { private set; get; }            // 투사체 이동속도
+    [SerializeField]
+    [Tooltip("투사체 체력")] private int hp;
+    [SerializeField]
+    [Tooltip("투사체 활성화 시간")] private float durationTime;
+    [SerializeField]
+    [Tooltip("투사체 피해량")] private int damage;
+    [SerializeField]
+    [Tooltip("투사체 이동속도")] private float speed;
+
+    public int Hp { private set => hp = value; get => hp; }                                     // 투사체 체력
+    public float DurationTime { private set => durationTime = value; get => durationTime; }     // 투사체 활성화 시간
+    public int Damage { private set => damage = value; get => damage; }                         // 투사체 피해량
+    public float Speed { private set => speed = value; get => speed; }                          // 투사체 이동속도
 
     /// <summary>
     /// 데이터 아이디로 세팅하는 생성자
@@ -55,21 +70,36 @@ public class MeteorStatus: Status
     }
 }
 
+[Serializable]
 /// <summary>
 /// 골렘 스탯 클래스
 /// 김민섭_231014
 /// </summary>
 public class GolemStatus : Status
 {
-    // 테이블 데이터
-    public float WeakpointRate { private set; get; }    // 약점 피격 시 받는 데미지 증가율
-    public float ActTime { private set; get; }          // 비활성화된 약점이 다시 활성화될 때까지 소요되는 시간
-    public int Hp { private set; get; }                 // 골렘 체력
-    public float MoveSpeed { private set; get; }        // 골렘 이동속도
-    public int Phase { private set; get; }              // 페이지
-    
+    [SerializeField]
+    [Tooltip("사망 체크")] private bool isDie;
+    [Space]
+    [SerializeField]
+    [Tooltip("약점 피격 시 받는 데미지 증가율")] private float weakpointRate;
+    [SerializeField]
+    [Tooltip("비활성화된 약점이 다시 활성화될 때까지 소요되는 시간")] private float actTime;
+    [SerializeField]
+    [Tooltip("골렘 체력")] private int hp;
+    [SerializeField]
+    [Tooltip("골렘 이동속도")] private float moveSpeed;
+    [SerializeField]
+    [Tooltip("페이지")] private int phase;
+
     // 일반 데이터
-    public bool IsDie { private set; get; }             // 사망 체크
+    public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
+
+    // 테이블 데이터
+    public float WeakpointRate { private set => weakpointRate = value; get => weakpointRate; }    // 약점 피격 시 받는 데미지 증가율
+    public float ActTime { private set => actTime = value; get => actTime; }                      // 비활성화된 약점이 다시 활성화될 때까지 소요되는 시간
+    public int Hp { private set => hp = value; get => hp; }                                       // 골렘 체력
+    public float MoveSpeed { private set => moveSpeed = value; get => moveSpeed; }                // 골렘 이동속도
+    public int Phase { private set => phase = value; get => phase; }                              // 페이지
 
     /// <summary>
     /// 데이터 아이디로 세팅하는 생성자
@@ -112,17 +142,25 @@ public class GolemStatus : Status
 
 #region 유닛 관련 스테이터스
 
+[Serializable]
 /// <summary>
 /// 유닛 스탯 클래스
 /// 231013_박시연
 /// </summary>
 public class UnitStatus : Status
 {
+    [SerializeField]
+    [Tooltip("배치 시간")] private float durationTime;
+    [SerializeField]
+    [Tooltip("최대 배치 개수")] private int maxCount;
+    [SerializeField]
+    [Tooltip("구매 가격")] private int price;
+
     #region 프로퍼티 
 
-    public float DurationTime { private set; get; }       // 배치 시간
-    public int MaxCount { private set; get; }             // 최대 배치 개수
-    public int Price { private set; get; }                // 구매 가격
+    public float DurationTime { private set => durationTime = value; get => durationTime; }       // 배치 시간
+    public int MaxCount { private set => maxCount = value; get => maxCount; }             // 최대 배치 개수
+    public int Price { private set => price = value; get => price; }                // 구매 가격
 
     #endregion
 
@@ -140,14 +178,24 @@ public class UnitStatus : Status
     }
 }
 
+[Serializable]
 public class BulletStatus : Status
 {
+    [SerializeField]
+    [Tooltip("공격 간격")] private float delay;
+    [SerializeField]
+    [Tooltip("총알 공격력")] private float damage;
+    [SerializeField]
+    [Tooltip("총알 속도")] private float speed;
+    [SerializeField]
+    [Tooltip("총알 라이프 타임")] private float lifeTime;
+
     #region 프로퍼티 
 
-    public float Delay { private set; get; }          // 공격 간격
-    public float Damage { private set; get; }         // 총알 공격력
-    public float Speed { private set; get; }          // 총알 속도
-    public float LifeTime { private set; get; }       // 총알 라이프 타임
+    public float Delay { private set => delay = value; get => delay; }                // 공격 간격
+    public float Damage { private set => damage = value; get => damage; }             // 총알 공격력
+    public float Speed { private set => speed = value; get => speed; }                // 총알 속도
+    public float LifeTime { private set => lifeTime = value; get => lifeTime; }       // 총알 라이프 타임
 
     #endregion
 
@@ -188,14 +236,28 @@ public class BulletStatus : Status
 
 #region 졸개 관련 스테이터스
 
+[Serializable]
 public class MinionStatus : Status
 {
-    public int Type { private set; get; }           // 졸개의 종류 (1: Fast, 2: Power)
-    public int Hp { private set; get; }             // 졸개의 체력
-    public int Damage { private set; get; }         // 졸개의 데미지
-    public float Speed { private set; get; }        // 졸개의 이동속도
-    public float Range_Att { private set; get; }    // 졸개의 공격 사거리
-    public float Range_Ex { private set; get; }     // 졸개의 폭발 범위
+    [SerializeField]
+    [Tooltip("졸개의 종류 (1: Fast, 2: Power)")] private int type;
+    [SerializeField]
+    [Tooltip("졸개의 체력")] private int hp;
+    [SerializeField]
+    [Tooltip("졸개의 데미지")] private int damage;
+    [SerializeField]
+    [Tooltip("졸개의 이동속도")] private float speed;
+    [SerializeField]
+    [Tooltip("졸개의 공격 사거리")] private float range_Att;
+    [SerializeField]
+    [Tooltip("졸개의 폭발 범위")] private float range_Ex; 
+
+    public int Type { private set => type = value; get => type; }                   // 졸개의 종류 (1: Fast, 2: Power)
+    public int Hp { private set => hp = value; get => hp; }                         // 졸개의 체력
+    public int Damage { private set => damage = value; get => damage; }             // 졸개의 데미지
+    public float Speed { private set => speed = value; get => speed; }              // 졸개의 이동속도
+    public float Range_Att { private set => range_Att = value; get => range_Att; }  // 졸개의 공격 사거리
+    public float Range_Ex { private set => range_Ex = value; get => range_Ex; }     // 졸개의 폭발 범위
 
     /// <summary>
     /// 데이터 아이디로 세팅하는 생성자
@@ -218,16 +280,34 @@ public class MinionStatus : Status
 
 #region 졸개 스폰 관련 데이터
 
+[Serializable]
 public class MinionSpawn : Status
 {
-    public int Spawn_Condition { private set; get; }        // 졸개가 스폰되는 조건
-    public float Spawn_Location { private set; get; }       // 졸개가 랜덤하게 스폰되는 위치
-    public float Spawn_Time { private set; get; }           // 졸개가 스폰되는 간격
-    public int Minion_Type1 { private set; get; }           // 스폰되는 졸개 타입1
-    public int Type1_Amount { private set; get; }           // 스폰되는 타입1의 수량
-    public int Minion_Type2 { private set; get; }           // 스폰되는 졸개 타입2
-    public int Type2_Amount { private set; get; }           // 스폰되는 타입2의 수량
-    public int Minion_Amount { private set; get; }          // 존재 가능한 졸개의 수량
+    [SerializeField]
+    [Tooltip("졸개가 스폰되는 조건")] private int spawn_condition;
+    [SerializeField]
+    [Tooltip("졸개가 랜덤하게 스폰되는 위치")] private float spawn_Location;
+    [SerializeField]
+    [Tooltip("졸개가 스폰되는 간격")] private float spawn_Time;
+    [SerializeField]
+    [Tooltip("스폰되는 졸개 타입1")] private int minion_Type1;
+    [SerializeField]
+    [Tooltip("스폰되는 타입1의 수량")] private int type1_Amount;
+    [SerializeField]
+    [Tooltip("스폰되는 졸개 타입2")] private int minion_Type2;
+    [SerializeField]
+    [Tooltip("스폰되는 타입2의 수량")] private int type2_Amount;
+    [SerializeField]
+    [Tooltip("존재 가능한 졸개의 수량")] private int minion_Amount;
+
+    public int Spawn_Condition { private set => spawn_condition = value; get => spawn_condition; }      // 졸개가 스폰되는 조건
+    public float Spawn_Location { private set => spawn_Location = value; get => spawn_Location; }       // 졸개가 랜덤하게 스폰되는 위치
+    public float Spawn_Time { private set => spawn_Time = value; get => spawn_Time; }                   // 졸개가 스폰되는 간격
+    public int Minion_Type1 { private set => minion_Type1 = value; get => minion_Type1; }               // 스폰되는 졸개 타입1
+    public int Type1_Amount { private set => type1_Amount = value; get => type1_Amount; }               // 스폰되는 타입1의 수량
+    public int Minion_Type2 { private set => minion_Type2 = value; get => minion_Type2; }               // 스폰되는 졸개 타입2
+    public int Type2_Amount { private set => type2_Amount = value; get => type2_Amount; }               // 스폰되는 타입2의 수량
+    public int Minion_Amount { private set => minion_Amount = value; get => minion_Amount; }            // 존재 가능한 졸개의 수량
 
     /// <summary>
     /// 데이터 아이디로 세팅하는 생성자

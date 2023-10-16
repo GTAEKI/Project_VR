@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MinionController : MonoBehaviour, ISearchTarget
 {
-    protected MinionStatus status;       // 졸개 스텟, 김민섭_231015
+    [Header("TEST: 졸개 스탯")]
+    [SerializeField] protected MinionStatus status;       // 졸개 스텟, 김민섭_231015
     private Vector3 targetPosition;      // 날라가려는 위치, 김민섭_231015
 
     private void Start()
