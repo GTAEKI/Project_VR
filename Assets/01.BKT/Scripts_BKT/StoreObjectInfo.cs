@@ -84,7 +84,7 @@ public class StoreObjectInfo : MonoBehaviour
     /// </summary>
     public void DontBuyUnit()
     {
-        StopCoroutine(buyStartCoroutine);
+        if(buyStartCoroutine != null) StopCoroutine(buyStartCoroutine);
         fillAmountImage.fillAmount = 0;
         CanBuy();
     }

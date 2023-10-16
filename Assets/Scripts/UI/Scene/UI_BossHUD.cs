@@ -52,7 +52,7 @@ public class UI_BossHUD : UI_Scene
     {
         Bind<Image>(typeof(Images));
 
-        uiCamera = GameObject.Find("UI Camera").GetComponent<Camera>();
+        uiCamera = GameObject.Find("CenterEyeAnchor").GetComponent<Camera>();
         GetComponent<Canvas>().worldCamera = uiCamera;
 
         CreateMaterial();

@@ -21,8 +21,8 @@ public class SelectObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
         RaycastHit hitInfo;
 
         Debug.DrawRay(ray.origin, ray.direction * 100000f, Color.red);
@@ -38,15 +38,24 @@ public class SelectObject : MonoBehaviour
                 remainStoreInfo = storeInfo;
                 storeInfo.OnCursorPoint();
 
-                if (Input.GetMouseButtonDown(0))
+                //if (Input.GetMouseButtonDown(0))
+                //{
+                //    storeInfo.BuyUnit();
+                //}
+                //else if (Input.GetMouseButton(0))
+                //{
+                    
+                //}
+                //else if (Input.GetMouseButtonUp(0))
+                //{
+                //    storeInfo.DontBuyUnit();
+                //}
+
+                if(ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.RTouch))
                 {
                     storeInfo.BuyUnit();
                 }
-                else if (Input.GetMouseButton(0))
-                {
-                    
-                }
-                else if (Input.GetMouseButtonUp(0))
+                else if(ARAVRInput.GetUp(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.RTouch))
                 {
                     storeInfo.DontBuyUnit();
                 }
