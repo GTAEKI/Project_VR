@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 졸개 공격 유닛의 총알
@@ -21,6 +23,19 @@ public class MinonBullet : BulletController
         if (other.tag == "Minion" || other.tag == "Boss")
         {
             //currentBulletStatus.OnDamaged(other);
+
+            #region 데미지 출력
+            Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
+            TextMeshProUGUI textDamage;  // 데미지 출력 Text
+            textDamage = canvasDamage.transform.GetComponentInChildren<TextMeshProUGUI>();
+
+            Vector3 currentPos = transform.position + new Vector3(0f, 10f, -5f);        // 현재 위치
+            Instantiate(canvasDamage, currentPos, Quaternion.identity);  // 현재 위치에 Canvas 생성
+            canvasDamage.worldCamera = Camera.main;                    // Canvas Camera Setting
+
+            textDamage.text = $"{currentBulletStatus.Damage}";  // Text에 데미지가 보여지게 한다.
+            #endregion
+
             Destroy(transform.gameObject);
         }
     }

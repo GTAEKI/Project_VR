@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7621966506555800649}
   - component: {fileID: 7621966506555800648}
   - component: {fileID: 7621966506555800651}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Minion
-  m_TagString: Untagged
+  m_TagString: Minion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
