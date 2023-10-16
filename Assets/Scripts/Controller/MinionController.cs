@@ -66,14 +66,14 @@ public class MinionController : MonoBehaviour, ISearchTarget
         {
             if (status.IsDie)
             {
-                Destroy(gameObject);
+                Managers.Resource.Destroy(gameObject);
                 yield break;
             }
 
             float distance = Vector3.Distance(transform.position, targetPosition);
             if (distance <= status.Range_Att)
-            {   // TODO: 공격 사거리에 들어오면 폭발
-                Debug.Log("졸개 폭발!");
+            {   // 공격 사거리에 들어오면 폭발
+                Managers.Resource.Destroy(gameObject);
                 yield break;
             }
 
@@ -96,13 +96,4 @@ public class MinionController : MonoBehaviour, ISearchTarget
     }
 
     #endregion
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            Debug.Log($"{transform.tag} -> {other.tag} 맞춤");
-            Managers.Resource.Destroy(gameObject);
-        }
-    }
 }

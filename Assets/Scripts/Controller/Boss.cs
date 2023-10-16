@@ -143,53 +143,114 @@ public class Boss : Character
     {
         for (int i = 0; i < amount; i++)
         {
+            if (State == CharacterState.GROGGY)
+            {
+                isSummon = false;
+                yield break;
+            }
+
             float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
             Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
 
             GameObject spawnMinion = Managers.Resource.Instantiate("Minion", transform.position, Quaternion.identity);
 
             float currentTime = 0f;
-            float lerpTime = 0.1f;
+            float totalTime = 1f; // 총 소환 시간 (조절 가능)
             Vector3 startPos = transform.position;
+            Vector3 initialVelocity = CalculateInitialVelocity(spawnPos, startPos, totalTime);
 
-            while (true)
+            while (currentTime < totalTime)
             {
-                float distance = Vector3.Distance(spawnMinion.transform.position, spawnPos);
-                if (distance <= 1f)
-                {
-                    Debug.Log("소환 완료");
+                float t = currentTime / totalTime;
+                Vector3 position = CalculateParabolicTrajectory(startPos, initialVelocity, t);
+                spawnMinion.transform.position = position;
 
-                    if (type == (int)Define.Data_ID_List.Minion_Fast)
-                    {
-                        spawnMinion.AddComponent<FastMinionController>();
-                    }
-                    else
-                    {
-                        spawnMinion.AddComponent<PowerMinionController>();
-                    }
-                    break;
-                }
-
-                // 타겟이 있다면 타겟을 향해 이동
                 currentTime += Time.deltaTime;
-
-                if (currentTime >= lerpTime)
-                {
-                    currentTime = lerpTime;
-                }
-
-                float t = currentTime / lerpTime;
-                t = Mathf.Sin(t * Mathf.PI * 0.5f);
-
-                // 움직임 함수
-                spawnMinion.transform.position = Vector3.Slerp(startPos, spawnPos, t);
-
                 yield return null;
+            }
+
+            Debug.Log("소환 완료");
+
+            if (type == (int)Define.Data_ID_List.Minion_Fast)
+            {
+                spawnMinion.AddComponent<FastMinionController>();
+            }
+            else
+            {
+                spawnMinion.AddComponent<PowerMinionController>();
             }
         }
 
         if (amount > 0) isSummon = false;
     }
+
+    // 초기 속도 계산 함수
+    private Vector3 CalculateInitialVelocity(Vector3 target, Vector3 start, float time)
+    {
+        Vector3 displacement = target - start;
+        Vector3 velocity = displacement / time - 0.5f * Physics.gravity * time;
+        return velocity;
+    }
+
+    // 포물선 운동 계산 함수
+    private Vector3 CalculateParabolicTrajectory(Vector3 start, Vector3 initialVelocity, float time)
+    {
+        Vector3 position = start + initialVelocity * time + 0.5f * Physics.gravity * time * time;
+        return position;
+    }
+
+
+    //private IEnumerator SpawnMinion(int type, int amount)
+    //{
+    //    for (int i = 0; i < amount; i++)
+    //    {
+    //        float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
+    //        Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
+
+    //        GameObject spawnMinion = Managers.Resource.Instantiate("Minion", transform.position, Quaternion.identity);
+
+    //        float currentTime = 0f;
+    //        float lerpTime = 0.1f;
+    //        Vector3 startPos = transform.position;
+
+    //        while (true)
+    //        {
+    //            float distance = Vector3.Distance(spawnMinion.transform.position, spawnPos);
+    //            if (distance <= 1f)
+    //            {
+    //                Debug.Log("소환 완료");
+
+    //                if (type == (int)Define.Data_ID_List.Minion_Fast)
+    //                {
+    //                    spawnMinion.AddComponent<FastMinionController>();
+    //                }
+    //                else
+    //                {
+    //                    spawnMinion.AddComponent<PowerMinionController>();
+    //                }
+    //                break;
+    //            }
+
+    //            // 타겟이 있다면 타겟을 향해 이동
+    //            currentTime += Time.deltaTime;
+
+    //            if (currentTime >= lerpTime)
+    //            {
+    //                currentTime = lerpTime;
+    //            }
+
+    //            float t = currentTime / lerpTime;
+    //            t = Mathf.Sin(t * Mathf.PI * 0.5f);
+
+    //            // 움직임 함수
+    //            spawnMinion.transform.position = Vector3.Slerp(startPos, spawnPos, t);
+
+    //            yield return null;
+    //        }
+    //    }
+
+    //    if (amount > 0) isSummon = false;
+    //}
 
     /// <summary>
     /// 졸개 소환 함수
