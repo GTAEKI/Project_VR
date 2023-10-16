@@ -806,7 +806,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: UNITY_POST_PROCESSING_STACK_V2;Oculus
+    Standalone: UNITY_POST_PROCESSING_STACK_V2;PC
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
