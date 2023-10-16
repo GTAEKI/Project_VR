@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+
+/// <summary>
+/// 마우스 선택을 위해 만든 클래스, 오큘러스 연동시 변경이 필요함
+/// 배경택
+/// </summary>
 public class SelectObject : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         
     }
@@ -29,28 +35,28 @@ public class SelectObject : MonoBehaviour
                 StoreObjectInfo storeInfo = hitInfo.collider.GetComponent<StoreObjectInfo>();
                 remainStoreInfo = storeInfo;
                 storeInfo.OnCursorPoint();
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    storeInfo.BuyUnit();
+                }
+                else if (Input.GetMouseButton(0))
+                {
+                    
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    storeInfo.DontBuyUnit();
+                }
+
             }
-            //else if(hitInfo.collider.CompareTag("BackgroundUI")) // 오류가 있음
-            //{
-            //    Debug.Log("else에 값 들어오는중");
-            //    if(remainStoreInfo != null)
-            //    {
-            //        Debug.Log("remain에도 들어오는중");
-            //        remainStoreInfo.OnCursorPointUp();
-            //        remainStoreInfo = null;
-            //    }
-            //}
+            else if (hitInfo.collider.CompareTag("BackgroundUI")) // 오류가 있음
+            {
+                StoreObjectInfo.OtherOutLineOff(); // 백그라운드 UI를 건드리면 다른 아웃라인은 전부 끔
+            }
         }
 
         
         
-        if (Input.GetMouseButtonDown(0))
-        {
-
-        }
-        else if (Input.GetMouseButton(0))
-        {
-
-        }
     }
 }
