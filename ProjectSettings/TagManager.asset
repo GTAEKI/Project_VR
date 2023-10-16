@@ -9,6 +9,7 @@ TagManager:
   - WeaknessPoint
   - Boss
   - Minion
+  - CenterPoint
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - Enemy
   - WeaknessPoint
-  - 
+  - CenterPoint
   - Player
   - 
   - 
