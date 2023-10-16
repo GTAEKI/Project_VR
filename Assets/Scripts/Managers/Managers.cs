@@ -55,7 +55,7 @@ public class Managers : MonoBehaviour
             //s_instance._sound.Init();
 
             // 잠깐 주석할게여
-            s_instance._money.Init(); // 배경택_231013
+            //s_instance._money.Init(); // 배경택_231013
         }
     }
 
