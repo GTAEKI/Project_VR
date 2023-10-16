@@ -4,11 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - StoreObject
+  - BackgroundUI
   - RoomLight
   - SamplesInfoPanel
   - WeaknessPoint
   - Boss
   - Minion
+  - CenterPoint
   layers:
   - Default
   - TransparentFX
@@ -18,7 +21,7 @@ TagManager:
   - UI
   - Enemy
   - WeaknessPoint
-  - 
+  - CenterPoint
   - Player
   - Post-Processing Layer
   - 

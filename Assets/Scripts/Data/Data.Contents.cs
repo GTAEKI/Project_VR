@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -174,13 +176,111 @@ public class BulletStatus : Status
         // TODO : 
         if (target.tag == "WeaknessPoint")
         {
-            target.GetComponentInParent<Boss>().CurrStatus.OnDamaged(int.Parse(Damage.ToString()));
+            Boss boss = target.GetComponentInParent<Boss>();
+            
+            boss.CurrStatus.OnDamaged((int)(Damage*(1f+boss.CurrStatus.WeakpointRate)));
+            UnityEngine.Debug.Log($"약점 최종 데미지 : {(int)(Damage*(1f + boss.CurrStatus.WeakpointRate))}");
+
+            #region 데미지 출력
+            Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
+            TextMeshProUGUI textDamage;  // 데미지 출력 Text
+            textDamage = canvasDamage.transform.GetComponentInChildren<TextMeshProUGUI>();
+
+            Vector3 currentPos = target.transform.position + new Vector3(0f, 10f, -5f);        // 현재 위치
+            GameObject.Instantiate(canvasDamage, currentPos, Quaternion.identity);  // 현재 위치에 Canvas 생성
+            canvasDamage.worldCamera = Camera.main;                    // Canvas Camera Setting
+
+            textDamage.text = $"{(int)(Damage * (1f + boss.CurrStatus.WeakpointRate))}";  // Text에 데미지가 보여지게 한다.
+            #endregion
+        }
+        else if (target.tag == "CenterPoint")
+        {
+            Boss boss = target.GetComponentInParent<Boss>();
+
+            boss.CurrStatus.OnDamaged((int)Damage);
+            UnityEngine.Debug.Log($"약점 비활성화 데미지 : {(int)(Damage)}");
+
+            #region 데미지 출력
+            Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
+            TextMeshProUGUI textDamage;  // 데미지 출력 Text
+            textDamage = canvasDamage.transform.GetComponentInChildren<TextMeshProUGUI>();
+
+            Vector3 currentPos = target.transform.position + new Vector3(0f, 10f, -5f);        // 현재 위치
+            GameObject.Instantiate(canvasDamage, currentPos, Quaternion.identity);  // 현재 위치에 Canvas 생성
+            canvasDamage.worldCamera = Camera.main;                    // Canvas Camera Setting
+
+            textDamage.text = $"{(int)(Damage)}";  // Text에 데미지가 보여지게 한다.
+            #endregion
         }
         else if (target.tag == "Minion")
         {
             // 졸개 수정할 수도
             //target.GetComponent<Character>().SetHP(int.Parse(Damage.ToString()));
         }
+    }
+}
+
+#endregion
+
+#region 졸개 관련 스테이터스
+
+public class MinionStatus : Status
+{
+    public int Type { private set; get; }           // 졸개의 종류 (1: Fast, 2: Power)
+    public int Hp { private set; get; }             // 졸개의 체력
+    public int Damage { private set; get; }         // 졸개의 데미지
+    public float Speed { private set; get; }        // 졸개의 이동속도
+    public float Range_Att { private set; get; }    // 졸개의 공격 사거리
+    public float Range_Ex { private set; get; }     // 졸개의 폭발 범위
+
+    /// <summary>
+    /// 데이터 아이디로 세팅하는 생성자
+    /// 김민섭_231015
+    /// </summary>
+    /// <param name="id">데이터 아이디</param>
+    public MinionStatus(Define.Data_ID_List id)
+    {
+        ID = int.Parse(Managers.Data.MinionTableData[(int)id]["ID"].ToString());
+        Type = int.Parse(Managers.Data.MinionTableData[(int)id]["Type"].ToString());
+        Hp = int.Parse(Managers.Data.MinionTableData[(int)id]["Hp"].ToString());
+        Damage = int.Parse(Managers.Data.MinionTableData[(int)id]["Damage"].ToString());
+        Speed = float.Parse(Managers.Data.MinionTableData[(int)id]["Speed"].ToString());
+        Range_Att = float.Parse(Managers.Data.MinionTableData[(int)id]["Range_Att"].ToString());
+        Range_Ex = float.Parse(Managers.Data.MinionTableData[(int)id]["Range_Ex"].ToString());
+    }
+}
+
+#endregion
+
+#region 졸개 스폰 관련 데이터
+
+public class MinionSpawn : Status
+{
+    public int Spawn_Condition { private set; get; }        // 졸개가 스폰되는 조건
+    public float Spawn_Location { private set; get; }       // 졸개가 랜덤하게 스폰되는 위치
+    public float Spawn_Time { private set; get; }           // 졸개가 스폰되는 간격
+    public int Minion_Type1 { private set; get; }           // 스폰되는 졸개 타입1
+    public int Type1_Amount { private set; get; }           // 스폰되는 타입1의 수량
+    public int Minion_Type2 { private set; get; }           // 스폰되는 졸개 타입2
+    public int Type2_Amount { private set; get; }           // 스폰되는 타입2의 수량
+    public int Minion_Amount { private set; get; }          // 존재 가능한 졸개의 수량
+
+    /// <summary>
+    /// 데이터 아이디로 세팅하는 생성자
+    /// 김민섭_231015
+    /// </summary>
+    /// <param name="id">데이터 아이디</param>
+    public MinionSpawn(Define.Data_ID_List id)
+    {
+        ID = int.Parse(Managers.Data.MinionSpawnTableData[(int)id]["ID"].ToString());
+        Spawn_Condition = int.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Spawn_Condition"].ToString());
+        Spawn_Location = float.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Spawn_Location"].ToString());
+        Spawn_Time = float.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Spawn_Time"].ToString());
+        Minion_Type1 = int.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Minion_Type1"].ToString());
+        Type1_Amount = int.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Type1_amount"].ToString());
+        Minion_Type2 = int.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Minion_Type2"].ToString());
+        Type2_Amount = int.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Type2_amount"].ToString());
+        Minion_Amount = int.Parse(Managers.Data.MinionSpawnTableData[(int)id]["Minion_amount"].ToString());
     }
 }
 

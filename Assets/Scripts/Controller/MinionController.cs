@@ -2,16 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeteorController : MonoBehaviour, ISearchTarget
+public class MinionController : MonoBehaviour, ISearchTarget
 {
-    private MeteorStatus status;         // 메테오 스탯, 김민섭_231014
-    private Vector3 targetPosition;      // 날라가려는 위치
-
-    /// <summary>
-    /// 메테오 스탯 Get 프로퍼티
-    /// 김민섭_231014
-    /// </summary>
-    public MeteorStatus Status => status;
+    protected MinionStatus status;       // 졸개 스텟, 김민섭_231015
+    private Vector3 targetPosition;      // 날라가려는 위치, 김민섭_231015
 
     private void Start()
     {
@@ -23,48 +17,40 @@ public class MeteorController : MonoBehaviour, ISearchTarget
     /// 초기화 함수
     /// 김민섭_231014
     /// </summary>
-    private void Init()
-    {
-        status = new MeteorStatus(Define.Data_ID_List.Meteor);          // 스탯 세팅
-        Managers.Resource.Destroy(gameObject, status.DurationTime);     // 파괴 예약
-    }
+    protected virtual void Init() { }
 
     #region ISearchTarget 함수
 
     /// <summary>
-    /// 플레이어를 탐색하는 인터페이스 함수
-    /// 김민섭_231013
+    /// 플레이어를 탐색하는 함수
+    /// 김민섭_231015
     /// </summary>
     public void SearchTarget()
     {
-        // 지면을 기준점으로 정함
-        Vector3 groundPos = transform.position;
-        groundPos.y = 1.25f;
-
-        // 기준점에서 레이를 쏨
-        Ray ray = new Ray(groundPos, -transform.forward);
+        Ray ray = new Ray(transform.position, -transform.forward);
         RaycastHit hitInfo;
 
-        if(Physics.Raycast(ray, out hitInfo, LayerMask.GetMask("Player")))
-        {   // 플레이어가 감지되었다면
-            Util.DrawTouchRay(transform.position, hitInfo.point, Color.blue);
+        if (Physics.Raycast(ray, out hitInfo, LayerMask.GetMask("Player")))
+        {
+            Util.DrawTouchRay(transform.position, hitInfo.point, Color.red);
             Fire(hitInfo.point);
         }
     }
 
     /// <summary>
-    /// 메테오 목표 위치로 발사 인터페이스 함수
+    /// 공격 위치로 발사 함수
     /// 김민섭_231013
     /// </summary>
     /// <param name="targetPosition">목표 위치</param>
     public void Fire(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
+
         StartCoroutine(TargetingMove());
     }
 
     /// <summary>
-    /// 목표 위치로 가속도 이동 인터페이스 코루틴 함수
+    /// 목표 위치로 가속도 이동 코루틴 함수
     /// 김민섭_231013
     /// </summary>
     public IEnumerator TargetingMove()
@@ -75,12 +61,12 @@ public class MeteorController : MonoBehaviour, ISearchTarget
 
         yield return new WaitForSeconds(Random.Range(1f, 2f));
 
-        while(true)
+        while (true)
         {
             float distance = Vector3.Distance(transform.position, targetPosition);
-            if(distance <= 0.1f)
-            {
-                Debug.Log("메테오 폭발!");
+            if (distance <= status.Range_Att)
+            {   // TODO: 공격 사거리에 들어오면 폭발
+                Debug.Log("졸개 폭발!");
                 yield break;
             }
 
@@ -106,7 +92,7 @@ public class MeteorController : MonoBehaviour, ISearchTarget
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             Debug.Log($"{transform.tag} -> {other.tag} 맞춤");
             Managers.Resource.Destroy(gameObject);

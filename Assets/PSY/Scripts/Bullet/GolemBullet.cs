@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 보스 공격 유닛의 총알 클래스
@@ -22,9 +24,10 @@ public class GolemBullet : BulletController
     /// <param name="other">적</param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "WeaknessPoint" || other.tag=="Boss")
+        if (other.tag == "WeaknessPoint" || other.tag=="CenterPoint")
         {
             currentBulletStatus.OnDamaged(other);
+
             Destroy(transform.gameObject);
         }
     }
