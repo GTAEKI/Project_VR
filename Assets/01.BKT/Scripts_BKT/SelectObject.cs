@@ -27,8 +27,10 @@ public class SelectObject : MonoBehaviour
 
         Debug.DrawRay(ray.origin, ray.direction * 100000f, Color.red);
 
-        if(Physics.Raycast(ray, out hitInfo,10000f))
+        if(Physics.Raycast(ray, out hitInfo,10000f,LayerMask.GetMask("Store")))
         {
+            Debug.Log(hitInfo.transform.name);
+
             if (hitInfo.collider.CompareTag("StoreObject"))
             {
                 Debug.Log("일단 레이는 들어오는중");
