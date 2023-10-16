@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using UnityEngine;
 
@@ -240,6 +241,9 @@ public class BulletStatus : Status
 public class MinionStatus : Status
 {
     [SerializeField]
+    [Tooltip("사망 체크")] private bool isDie;
+    [Space]
+    [SerializeField]
     [Tooltip("졸개의 종류 (1: Fast, 2: Power)")] private int type;
     [SerializeField]
     [Tooltip("졸개의 체력")] private int hp;
@@ -250,7 +254,10 @@ public class MinionStatus : Status
     [SerializeField]
     [Tooltip("졸개의 공격 사거리")] private float range_Att;
     [SerializeField]
-    [Tooltip("졸개의 폭발 범위")] private float range_Ex; 
+    [Tooltip("졸개의 폭발 범위")] private float range_Ex;
+
+    // 일반 데이터
+    public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
 
     public int Type { private set => type = value; get => type; }                   // 졸개의 종류 (1: Fast, 2: Power)
     public int Hp { private set => hp = value; get => hp; }                         // 졸개의 체력
@@ -273,6 +280,22 @@ public class MinionStatus : Status
         Speed = float.Parse(Managers.Data.MinionTableData[(int)id]["Speed"].ToString());
         Range_Att = float.Parse(Managers.Data.MinionTableData[(int)id]["Range_Att"].ToString());
         Range_Ex = float.Parse(Managers.Data.MinionTableData[(int)id]["Range_Ex"].ToString());
+    }
+
+    /// <summary>
+    /// 데미지 부여 함수
+    /// 김민섭_231016
+    /// </summary>
+    /// <param name="dmg">받은 데미지</param>
+    public void OnDamaged(int dmg)
+    {
+        Hp -= dmg;
+
+        if (Hp <= 0)
+        {   // 체력이 0 이하면 사망 처리
+            Hp = 0;
+            IsDie = true;
+        }
     }
 }
 

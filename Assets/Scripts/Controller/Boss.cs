@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Boss : Character
@@ -42,7 +43,7 @@ public class Boss : Character
         Debug.Log("약점 노출!");
         weaknessPoint.SetActive(true);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(currStatus.ActTime);
 
         Debug.Log("약점 회복!");
         weaknessPoint.SetActive(false);
@@ -140,24 +141,54 @@ public class Boss : Character
     /// <param name="amount">생성되는 수량</param>
     private IEnumerator SpawnMinion(int type, int amount)
     {
-        for(int i = 0; i <  amount; i++)
+        for (int i = 0; i < amount; i++)
         {
             float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
             Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
 
-            GameObject spawnMinion = Managers.Resource.Instantiate("Minion", spawnPos, Quaternion.identity);
+            GameObject spawnMinion = Managers.Resource.Instantiate("Minion", transform.position, Quaternion.identity);
 
-            if (type == (int)Define.Data_ID_List.Minion_Fast)
+            float currentTime = 0f;
+            float lerpTime = 0.1f;
+            Vector3 startPos = transform.position;
+
+            while (true)
             {
-                spawnMinion.AddComponent<FastMinionController>();
+                float distance = Vector3.Distance(spawnMinion.transform.position, spawnPos);
+                if (distance <= 1f)
+                {
+                    Debug.Log("소환 완료");
+
+                    if (type == (int)Define.Data_ID_List.Minion_Fast)
+                    {
+                        spawnMinion.AddComponent<FastMinionController>();
+                    }
+                    else
+                    {
+                        spawnMinion.AddComponent<PowerMinionController>();
+                    }
+                    break;
+                }
+
+                // 타겟이 있다면 타겟을 향해 이동
+                currentTime += Time.deltaTime;
+
+                if (currentTime >= lerpTime)
+                {
+                    currentTime = lerpTime;
+                }
+
+                float t = currentTime / lerpTime;
+                t = Mathf.Sin(t * Mathf.PI * 0.5f);
+
+                // 움직임 함수
+                spawnMinion.transform.position = Vector3.Slerp(startPos, spawnPos, t);
+
+                yield return null;
             }
-            else
-            {
-                spawnMinion.AddComponent<PowerMinionController>();
-            }
-            
-            yield return new WaitForSeconds(spawnStatus.Spawn_Time);
         }
+
+        if (amount > 0) isSummon = false;
     }
 
     /// <summary>
@@ -205,9 +236,9 @@ public class Boss : Character
                 }
 
                 // TODO: 소환된 졸개가 없다면 실행되게 수정
-                yield return new WaitForSeconds(spawnStatus.Spawn_Time);
+                //yield return new WaitForSeconds(spawnStatus.Spawn_Time);
 
-                isSummon = false;
+                //isSummon = false;
             }
 
             yield return null;

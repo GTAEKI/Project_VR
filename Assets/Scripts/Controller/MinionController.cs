@@ -64,6 +64,12 @@ public class MinionController : MonoBehaviour, ISearchTarget
 
         while (true)
         {
+            if (status.IsDie)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+
             float distance = Vector3.Distance(transform.position, targetPosition);
             if (distance <= status.Range_Att)
             {   // TODO: 공격 사거리에 들어오면 폭발
