@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ public class PlayerHP : MonoBehaviour
         sliderBar = GetComponent<Slider>();
 
         sliderBar.value = 1f;
-        player.currHp = player.maxHp;  // currHp 초기화 231016_박시연
+        player.currHp = player.status.MaxHp ;  // currHp 초기화 231016_박시연
         StartCoroutine(OnDamaged());
     }
 
@@ -26,10 +27,10 @@ public class PlayerHP : MonoBehaviour
         while(true)
         {
             // 플레이어의 현재 체력을 슬라이더의 값에 반영합니다.
-            sliderBar.value = (float)player.currHp / player.maxHp;
+            sliderBar.value = (float)player.currHp / player.status.MaxHp;
 
             // 텍스트UI
-            hpText.text = $"HP : {player.currHp} / {player.maxHp}";
+            hpText.text = $"HP : {player.currHp} / {player.status.MaxHp}";
             if(player.currHp <= 0)
             {
                 sliderBar.value = 0f;

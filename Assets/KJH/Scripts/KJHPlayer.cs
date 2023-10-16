@@ -7,20 +7,19 @@ using UnityEngine.Rendering.PostProcessing;
 public class KJHPlayer : MonoBehaviour
 {
     public int money;
-    public int ad;
-    public int testDamage = 50;
     public int currHp;
-    public int maxHp = 20000;
 
+    public PCStatus status;
     private PostProcessVolume postProcessVolume;
     private ColorGrading colorGradingLayer;
 
     private void Start()
     {
         // Post-Processing Volume을 참조합니다.
-        postProcessVolume = transform.Find("Main Camera").GetComponent<PostProcessVolume>();
+        postProcessVolume = transform.Find("OVRCameraRig").GetComponent<PostProcessVolume>();
         postProcessVolume.profile.TryGetSettings(out colorGradingLayer);
 
+        status = new PCStatus(Define.Data_ID_List.PC);
     }
 
     void Update()
@@ -47,7 +46,7 @@ public class KJHPlayer : MonoBehaviour
 
     private void TakeDamage()
     {
-        currHp -= testDamage;
+        currHp -= 50;
 
         Debug.Log(currHp);
     }
