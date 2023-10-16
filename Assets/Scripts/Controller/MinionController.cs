@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class MinionController : MonoBehaviour, ISearchTarget
 {
+    protected MinionStatus status;       // 졸개 스텟, 김민섭_231015
     private Vector3 targetPosition;      // 날라가려는 위치, 김민섭_231015
 
-    public void Start()
+    private void Start()
     {
         Init();
         SearchTarget();
     }
 
-    private void Init()
-    {
-        Managers.Resource.Destroy(gameObject, 30f);
-    }
+    /// <summary>
+    /// 초기화 함수
+    /// 김민섭_231014
+    /// </summary>
+    protected virtual void Init() { }
 
     #region ISearchTarget 함수
 
@@ -36,7 +38,7 @@ public class MinionController : MonoBehaviour, ISearchTarget
     }
 
     /// <summary>
-    /// 메테오 목표 위치로 발사 함수
+    /// 공격 위치로 발사 함수
     /// 김민섭_231013
     /// </summary>
     /// <param name="targetPosition">목표 위치</param>
@@ -62,14 +64,14 @@ public class MinionController : MonoBehaviour, ISearchTarget
         while (true)
         {
             float distance = Vector3.Distance(transform.position, targetPosition);
-            if (distance <= 0.1f)
-            {
+            if (distance <= status.Range_Att)
+            {   // TODO: 공격 사거리에 들어오면 폭발
                 Debug.Log("졸개 폭발!");
                 yield break;
             }
 
             // 타겟이 있다면 타겟을 향해 이동
-            currentTime += Time.deltaTime * 5f;
+            currentTime += Time.deltaTime * status.Speed;
 
             if (currentTime >= lerpTime)
             {
