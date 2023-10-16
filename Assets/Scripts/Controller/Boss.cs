@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Boss : Character
@@ -11,15 +12,19 @@ public class Boss : Character
     // 약점
     private GameObject weaknessPoint;       // 약점 위치, 김민섭_231013
 
-    // 스킬
-    [Header("스킬_메테오")]
-    [SerializeField] private float meteor_currTime;          // 메테오 현재 남은 쿨타임, 김민섭_231013
-    [SerializeField] private float meteor_coolTime;          // 메테오 쿨타임, 김민섭_231013
+    // 스킬, 김민섭_231013
+    [Header("TEST: 스킬_메테오")]
+    [SerializeField]
+    [Tooltip("메테오 현재 남은 쿨타임")] private float meteor_currTime;
+    [SerializeField] 
+    [Tooltip("메테오 쿨타임")] private float meteor_coolTime;            
     private bool isSummon = false;
 
     // 스탯
-    private GolemStatus currStatus;             // 보스 스탯, 김민섭_231014
-    private MinionSpawn spawnStatus;            // 졸개 소환 스탯, 김민섭_231015
+    [Header("TEST: 골렘 스탯")]
+    [SerializeField] private GolemStatus currStatus;             // 보스 스탯, 김민섭_231014
+    [Header("TEST: 스폰 데이터 스탯")]
+    [SerializeField] private MinionSpawn spawnStatus;            // 졸개 소환 스탯, 김민섭_231015
 
     // UI
     private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013
@@ -38,7 +43,7 @@ public class Boss : Character
         Debug.Log("약점 노출!");
         weaknessPoint.SetActive(true);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(currStatus.ActTime);
 
         Debug.Log("약점 회복!");
         weaknessPoint.SetActive(false);
@@ -136,24 +141,54 @@ public class Boss : Character
     /// <param name="amount">생성되는 수량</param>
     private IEnumerator SpawnMinion(int type, int amount)
     {
-        for(int i = 0; i <  amount; i++)
+        for (int i = 0; i < amount; i++)
         {
             float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
             Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
 
-            GameObject spawnMinion = Managers.Resource.Instantiate("Minion", spawnPos, Quaternion.identity);
+            GameObject spawnMinion = Managers.Resource.Instantiate("Minion", transform.position, Quaternion.identity);
 
-            if (type == (int)Define.Data_ID_List.Minion_Fast)
+            float currentTime = 0f;
+            float lerpTime = 0.1f;
+            Vector3 startPos = transform.position;
+
+            while (true)
             {
-                spawnMinion.AddComponent<FastMinionController>();
+                float distance = Vector3.Distance(spawnMinion.transform.position, spawnPos);
+                if (distance <= 1f)
+                {
+                    Debug.Log("소환 완료");
+
+                    if (type == (int)Define.Data_ID_List.Minion_Fast)
+                    {
+                        spawnMinion.AddComponent<FastMinionController>();
+                    }
+                    else
+                    {
+                        spawnMinion.AddComponent<PowerMinionController>();
+                    }
+                    break;
+                }
+
+                // 타겟이 있다면 타겟을 향해 이동
+                currentTime += Time.deltaTime;
+
+                if (currentTime >= lerpTime)
+                {
+                    currentTime = lerpTime;
+                }
+
+                float t = currentTime / lerpTime;
+                t = Mathf.Sin(t * Mathf.PI * 0.5f);
+
+                // 움직임 함수
+                spawnMinion.transform.position = Vector3.Slerp(startPos, spawnPos, t);
+
+                yield return null;
             }
-            else
-            {
-                spawnMinion.AddComponent<PowerMinionController>();
-            }
-            
-            yield return new WaitForSeconds(spawnStatus.Spawn_Time);
         }
+
+        if (amount > 0) isSummon = false;
     }
 
     /// <summary>
@@ -201,9 +236,9 @@ public class Boss : Character
                 }
 
                 // TODO: 소환된 졸개가 없다면 실행되게 수정
-                yield return new WaitForSeconds(spawnStatus.Spawn_Time);
+                //yield return new WaitForSeconds(spawnStatus.Spawn_Time);
 
-                isSummon = false;
+                //isSummon = false;
             }
 
             yield return null;

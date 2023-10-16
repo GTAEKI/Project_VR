@@ -5,7 +5,8 @@ using UnityEngine;
 // 모든 유닛 관리 클래스
 public class UnitController : MonoBehaviour
 {
-    protected UnitStatus currentUnitStatus;            // 현재 스탯, 김민섭_231014
+    [Header("TEST: 유닛 스탯")]
+    [SerializeField] protected UnitStatus currentUnitStatus;            // 현재 스탯, 김민섭_231014
 
     /// <summary>
     /// 유닛 상태 enum

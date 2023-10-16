@@ -5,7 +5,8 @@ using UnityEngine;
 // 모든 총알 관리 클래스
 public class BulletController : MonoBehaviour
 {
-    protected BulletStatus currentBulletStatus;         // 현재 스텟, 김민섭_231014
+    [Header("TEST: 총알 스탯")]
+    [SerializeField] protected BulletStatus currentBulletStatus;         // 현재 스텟, 김민섭_231014
     protected Rigidbody rb;  // 총알의 rigidbody
 
     public Vector3 dir; // 방향 변수

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MeteorController : MonoBehaviour, ISearchTarget
 {
-    private MeteorStatus status;         // 메테오 스탯, 김민섭_231014
-    private Vector3 targetPosition;      // 날라가려는 위치
+    [Header("TEST: 메테오 스탯")]
+    [SerializeField] private MeteorStatus status;         // 메테오 스탯, 김민섭_231014
+    private Vector3 targetPosition;                       // 날라가려는 위치
 
     /// <summary>
     /// 메테오 스탯 Get 프로퍼티
