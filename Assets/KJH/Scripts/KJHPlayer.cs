@@ -16,8 +16,8 @@ public class KJHPlayer : MonoBehaviour
     private void Start()
     {
         // Post-Processing Volume을 참조합니다.
-       // postProcessVolume = transform.Find("OVRCameraRig").GetComponent<PostProcessVolume>();
-       // postProcessVolume.profile.TryGetSettings(out colorGradingLayer);
+        postProcessVolume = transform.Find("OVRCameraRig").GetComponent<PostProcessVolume>();
+        postProcessVolume.profile.TryGetSettings(out colorGradingLayer);
 
         status = new PCStatus(Define.Data_ID_List.PC);
     }
