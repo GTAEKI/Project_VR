@@ -21,6 +21,7 @@ public class StoreObjectInfo : MonoBehaviour
     private GameObject DescriptionUI;
     private Image baseImage;
     private GameObject outLineImage;
+    private GameObject baseOutLineImage;
     private Image fillAmountImage;
 
     private Coroutine buyStartCoroutine;
@@ -29,9 +30,10 @@ public class StoreObjectInfo : MonoBehaviour
     private void Start()
     {
         DescriptionUI = GameObject.Find("Right_Item Description");
-        outLineImage = transform.GetChild(0).gameObject;
-        baseImage = transform.GetChild(1).GetComponent<Image>();
-        fillAmountImage = transform.GetChild(2).GetComponent<Image>();
+        outLineImage = transform.GetChild(2).gameObject;
+        baseOutLineImage = transform.GetChild(1).gameObject;
+        baseImage = transform.GetChild(0).GetComponent<Image>();
+        fillAmountImage = transform.GetChild(3).GetComponent<Image>();
         baseImage.sprite = Resources.Load<Sprite>(icon);
 
         OtherOutLineOff += OnCursorPointUp; //생성시 커서 포인트 UP 함수를 이벤트에 추가
@@ -46,12 +48,13 @@ public class StoreObjectInfo : MonoBehaviour
 
         DescriptionUI.SetActive(true);
         outLineImage.SetActive(true);
+        baseOutLineImage.SetActive(false);
 
-        DescriptionUI.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(icon); // 아이콘 이름에 맞게 이미지 가져와서 넣음
-        DescriptionUI.transform.GetChild(3).GetComponent<TMP_Text>().text = itemName; //아이템 이름 표시
-        DescriptionUI.transform.GetChild(4).GetComponent<TMP_Text>().text = price.ToString(); // 가격 표시
-        DescriptionUI.transform.GetChild(5).GetComponent<TMP_Text>().text = time.ToString(); //시간 표시
-        DescriptionUI.transform.GetChild(7).GetComponent<TMP_Text>().text = description; // 설명 표시
+        DescriptionUI.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(icon); // 아이콘 이름에 맞게 이미지 가져와서 넣음
+        DescriptionUI.transform.GetChild(4).GetComponent<TMP_Text>().text = itemName; //아이템 이름 표시
+        DescriptionUI.transform.GetChild(5).GetComponent<TMP_Text>().text = price.ToString(); // 가격 표시
+        DescriptionUI.transform.GetChild(6).GetComponent<TMP_Text>().text = time.ToString(); //시간 표시
+        DescriptionUI.transform.GetChild(8).GetComponent<TMP_Text>().text = description; // 설명 표시
     }
 
     public void CursorPointDown()
@@ -66,6 +69,7 @@ public class StoreObjectInfo : MonoBehaviour
     public void OnCursorPointUp()
     {
         outLineImage.SetActive(false);
+        baseOutLineImage.SetActive(true);
     }
 
     /// <summary>
