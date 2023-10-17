@@ -12,10 +12,12 @@ public class PlayerHP : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.Find("Player").GetComponent<KJHPlayer>();
+        player = FindObjectOfType<KJHPlayer>();
         sliderBar = GetComponent<Slider>();
 
         sliderBar.value = 1f;
+
+        player.status = new PCStatus(Define.Data_ID_List.PC);
         player.currHp = player.status.MaxHp ;  // currHp 초기화 231016_박시연
         StartCoroutine(OnDamaged());
     }
@@ -28,13 +30,14 @@ public class PlayerHP : MonoBehaviour
         {
             // 플레이어의 현재 체력을 슬라이더의 값에 반영합니다.
             sliderBar.value = (float)player.currHp / player.status.MaxHp;
+            Debug.Log("체크");
 
             // 텍스트UI
             hpText.text = $"HP : {player.currHp} / {player.status.MaxHp}";
             if(player.currHp <= 0)
             {
                 sliderBar.value = 0f;
-                hpText.text = "HP: 0 / 0";
+                hpText.text = $"HP: 0 / {player.status.MaxHp}";
                 yield break;
             }
 

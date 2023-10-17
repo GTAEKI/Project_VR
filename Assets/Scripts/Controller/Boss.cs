@@ -59,7 +59,7 @@ public class Boss : Character
         weaknessPoint = transform.Find("WeaknessPoint").gameObject;
         weaknessPoint.SetActive(false);
 
-        meteor_coolTime = 2f;       // 5초다마 메테오 발동
+        meteor_coolTime = 8f;       // 5초다마 메테오 발동
 
         // 보스 스탯 세팅 진행
         currStatus = new GolemStatus(Define.Data_ID_List.Golem);
@@ -226,7 +226,7 @@ public class Boss : Character
 
             // TODO: 몬스터 배열이 가득 차면 코루틴 임시 정지
             float distance = Vector3.Distance(transform.position, playerTarget.transform.position);
-            if((int)distance % 5 == 0)
+            if((int)distance % 12 == 0)
             {
                 Debug.Log("졸개 소환!");
 

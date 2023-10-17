@@ -12,6 +12,7 @@ TagManager:
   - Boss
   - Minion
   - CenterPoint
+  - Meteor
   layers:
   - Default
   - TransparentFX

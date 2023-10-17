@@ -28,6 +28,9 @@ public class Status
 public class MeteorStatus: Status
 {
     [SerializeField]
+    [Tooltip("사망 체크")] private bool isDie;
+    [Space]
+    [SerializeField]
     [Tooltip("투사체 체력")] private int hp;
     [SerializeField]
     [Tooltip("투사체 활성화 시간")] private float durationTime;
@@ -36,6 +39,8 @@ public class MeteorStatus: Status
     [SerializeField]
     [Tooltip("투사체 이동속도")] private float speed;
 
+    // 일반 데이터
+    public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
     public int Hp { private set => hp = value; get => hp; }                                     // 투사체 체력
     public float DurationTime { private set => durationTime = value; get => durationTime; }     // 투사체 활성화 시간
     public int Damage { private set => damage = value; get => damage; }                         // 투사체 피해량
@@ -60,15 +65,16 @@ public class MeteorStatus: Status
     /// 김민섭_231014
     /// </summary>
     /// <param name="attacker">자신을 공격한 대상</param>
-    public void OnDamaged(GameObject owner, GameObject attacker)
+    public void OnDamaged(int dmg)
     {
         // TODO: attacker의 스탯 클래스 접근
         // TODO: 데미지 공식에 맞춰서 체력 감소 시킴
+        Hp -= dmg;
 
         if(Hp <= 0)
         {   // 체력이 0 이하이면 사망
             Hp = 0;
-            Managers.Resource.Destroy(owner);
+            IsDie = false;
         }
     }
 }
@@ -285,6 +291,24 @@ public class BulletStatus : Status
             textDamage.text = $"{(int)Damage}";  // Text에 데미지가 보여지게 한다.
             #endregion
         }
+        else if(target.tag == "Meteor")
+        {   // 메테오 공격 데미지 부여 추가, 김민섭_231017
+            MeteorController meteor = target.GetComponent<MeteorController>();
+
+            meteor.Status.OnDamaged((int)Damage);
+
+            #region 데미지 출력
+            Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
+            TextMeshProUGUI textDamage;  // 데미지 출력 Text
+            textDamage = canvasDamage.transform.GetComponentInChildren<TextMeshProUGUI>();
+
+            Vector3 currentPos = target.transform.position + new Vector3(0f, 10f, -5f);        // 현재 위치
+            GameObject.Instantiate(canvasDamage, currentPos, Quaternion.identity);  // 현재 위치에 Canvas 생성
+            canvasDamage.worldCamera = Camera.main;                    // Canvas Camera Setting
+
+            textDamage.text = $"{(int)Damage}";  // Text에 데미지가 보여지게 한다.
+            #endregion
+        }
     }
 }
 
@@ -443,8 +467,8 @@ public class PCStatus : Status
     public PCStatus(Define.Data_ID_List id)
     {
         ID = int.Parse(Managers.Data.PCTableData[(int)id]["ID"].ToString());
-        maxHp = int.Parse(Managers.Data.PCTableData[(int)id]["MaxHp"].ToString());
-        type = int.Parse(Managers.Data.PCTableData[(int)id]["Type"].ToString());
+        MaxHp = int.Parse(Managers.Data.PCTableData[(int)id]["MaxHp"].ToString());
+        Type = int.Parse(Managers.Data.PCTableData[(int)id]["Type"].ToString());
     }
 
     /// <summary>
@@ -455,7 +479,7 @@ public class PCStatus : Status
     /// <param name="dmg">받는 데미지</param>
     public void OnDamaged(ref int currHp, int dmg)
     {
-        KJHPlayer player = GameObject.FindGameObjectWithTag("Player").GetComponent<KJHPlayer>();
+        KJHPlayer player = GameObject.FindObjectOfType<KJHPlayer>();
         player?.PlayDamageEffect();
 
         currHp -= dmg;

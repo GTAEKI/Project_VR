@@ -51,11 +51,11 @@ public class SelectObject : MonoBehaviour
                 //    storeInfo.DontBuyUnit();
                 //}
 
-                if(ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.RTouch))
+                if(ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
                 {
                     storeInfo.BuyUnit();
                 }
-                else if(ARAVRInput.GetUp(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.RTouch))
+                else if(ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
                 {
                     storeInfo.DontBuyUnit();
                 }

@@ -81,7 +81,7 @@ public class MinionController : MonoBehaviour, ISearchTarget
             float distance = Vector3.Distance(transform.position, targetPosition);
             if (distance <= currStatus.Range_Att)
             {   // 공격 사거리에 들어오면 폭발
-                KJHPlayer player = GameObject.FindGameObjectWithTag("Player").GetComponent<KJHPlayer>();
+                KJHPlayer player = FindObjectOfType<KJHPlayer>();
                 player?.status.OnDamaged(ref player.currHp, currStatus.Damage);
 
                 Managers.Resource.Destroy(gameObject);
