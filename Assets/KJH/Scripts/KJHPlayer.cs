@@ -16,22 +16,16 @@ public class KJHPlayer : MonoBehaviour
     private void Start()
     {
         // Post-Processing Volume을 참조합니다.
-        postProcessVolume = transform.Find("OVRCameraRig").GetComponent<PostProcessVolume>();
+        postProcessVolume = transform.Find("OVRCameraRig/TrackingSpace/CenterEyeAnchor").GetComponent<PostProcessVolume>();
         postProcessVolume.profile.TryGetSettings(out colorGradingLayer);
 
-        status = new PCStatus(Define.Data_ID_List.PC);
+        
     }
 
-    void Update()
+    public void PlayDamageEffect()
     {
-        // 마우스 왼쪽 버튼을 누를 때의 입력을 감지합니다.
-        if (Input.GetMouseButtonDown(0))
-        {
-                // 화면을 붉은색으로 번쩍이게 합니다.
-                StartCoroutine(FlashScreen());
-
-                TakeDamage();
-        }
+        // 화면을 붉은색으로 번쩍이게 합니다.
+        StartCoroutine(FlashScreen());
     }
 
     private IEnumerator FlashScreen()
@@ -42,17 +36,5 @@ public class KJHPlayer : MonoBehaviour
 
         // 화면을 원래대로 돌립니다.
         colorGradingLayer.colorFilter.value = Color.white;
-    }
-
-    private void TakeDamage()
-    {
-        currHp -= 50;
-
-        Debug.Log(currHp);
-    }
-
-    private void Die()
-    {
-
     }
 }

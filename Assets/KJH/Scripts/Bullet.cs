@@ -13,6 +13,8 @@ public class Bullet : MonoBehaviour
     {
         status = new BulletStatus(Define.Data_ID_List.Bullet_Normal);
         GetComponent<Rigidbody>().AddForce(transform.forward * status.Speed);
+
+        Managers.Resource.Destroy(gameObject, status.LifeTime);
     }
 
     void Update()

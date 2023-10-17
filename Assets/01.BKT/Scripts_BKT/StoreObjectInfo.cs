@@ -84,7 +84,7 @@ public class StoreObjectInfo : MonoBehaviour
     /// </summary>
     public void DontBuyUnit()
     {
-        StopCoroutine(buyStartCoroutine);
+        if(buyStartCoroutine != null) StopCoroutine(buyStartCoroutine);
         fillAmountImage.fillAmount = 0;
         CanBuy();
     }
@@ -113,8 +113,23 @@ public class StoreObjectInfo : MonoBehaviour
             Managers.MONEY.myMoney -= price;
             Managers.MONEY.ReflectMoney();
             CanBuy();
+
+            // TODO: 유닛 생성
+            if(isCanBuy)
+            {
+                CreateUnit();
+            }
         }
         yield return null;
+    }
+
+    /// <summary>
+    /// 유닛 구매 후 생성 함수
+    /// 김민섭_231016
+    /// </summary>
+    protected virtual void CreateUnit()
+    {
+        Debug.Log("살수있어");
     }
 
 

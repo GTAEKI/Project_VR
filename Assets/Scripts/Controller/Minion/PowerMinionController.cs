@@ -6,6 +6,6 @@ public class PowerMinionController : MinionController
 {
     protected override void Init()
     {
-        status = new MinionStatus(Define.Data_ID_List.Minion_Power);
+        currStatus = new MinionStatus(Define.Data_ID_List.Minion_Power);
     }
 }

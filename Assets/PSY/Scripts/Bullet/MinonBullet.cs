@@ -22,7 +22,7 @@ public class MinonBullet : BulletController
     {
         if (other.tag == "Minion" || other.tag == "Boss")
         {
-            //currentBulletStatus.OnDamaged(other);
+            currentBulletStatus.OnDamaged(other);
 
             #region 데미지 출력
             Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
