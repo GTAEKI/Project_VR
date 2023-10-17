@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class Aim : MonoBehaviour
 {
-    public float bulletSpeed = 10f;
-    public float bulletLifetime = 2f;
     public GameObject bulletPrefab;
     public Transform firePos;
     // 어떤 손인지 판단

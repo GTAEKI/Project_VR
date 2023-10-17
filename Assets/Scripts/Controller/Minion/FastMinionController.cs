@@ -6,6 +6,6 @@ public class FastMinionController : MinionController
 {
     protected override void Init()
     {
-        status = new MinionStatus(Define.Data_ID_List.Minion_Fast);
+        currStatus = new MinionStatus(Define.Data_ID_List.Minion_Fast);
     }
 }

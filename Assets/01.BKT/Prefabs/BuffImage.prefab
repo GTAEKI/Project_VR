@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 241032154466536288}
   - component: {fileID: 241032154466536290}
   - component: {fileID: 241032154466536289}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: OutLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 241032154942480564}
   - component: {fileID: 241032154942480566}
   - component: {fileID: 241032154942480565}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: FillAround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 241032155206916853}
   - component: {fileID: 5590766547159923532}
   - component: {fileID: 8753094619321623860}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: BuffImage
   m_TagString: StoreObject
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 241032155717363434}
   - component: {fileID: 241032155717363436}
   - component: {fileID: 241032155717363435}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: BaseImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

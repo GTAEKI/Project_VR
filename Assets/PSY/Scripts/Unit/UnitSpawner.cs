@@ -17,6 +17,18 @@ public class UnitSpawner : MonoBehaviour
     private Vector3[] spawnPosArr = new Vector3[2];  // 생성 위치 배열 
     private GameObject[] units = new GameObject[2];  // 유닛 배열
 
+    /// <summary>
+    /// 유닛1 get 프로퍼티
+    /// 김민섭_231016
+    /// </summary>
+    public GameObject UnitType1 => unitType1;       
+     
+    /// <summary>
+    /// 유닛2 get 프로퍼티
+    /// 김민섭_231016
+    /// </summary>
+    public GameObject UnitType2 => unitType2;
+
     private void Start()
     {
         unitType1 = Resources.Load<GameObject>("Prefabs/Unit/UnitType1");
@@ -28,17 +40,17 @@ public class UnitSpawner : MonoBehaviour
         spawnPosArr[1] = player.transform.position + new Vector3(-10f, 0f, 5f);
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SpawnUnit(unitType1, (int)Define.Data_ID_List.Unit_Minion); // 1번 유닛 생성
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            SpawnUnit(unitType2, (int)Define.Data_ID_List.Unit_Golem);  // 2번 유닛 생성
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        SpawnUnit(unitType1, (int)Define.Data_ID_List.Unit_Minion); // 1번 유닛 생성
+    //    }
+    //    else if (Input.GetMouseButtonDown(1))
+    //    {
+    //        SpawnUnit(unitType2, (int)Define.Data_ID_List.Unit_Golem);  // 2번 유닛 생성
+    //    }
+    //}
 
     /// <summary>
     /// 유닛 생성 함수

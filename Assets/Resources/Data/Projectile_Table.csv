@@ -1,3 +1,5 @@
-ID,Info,Delay,Damage,Speed,LifeTime
+﻿ID,Info,Delay,Damage,Speed,LifeTime
+1001,기본 총알,0.2,1,50,3
+1002,강화 총알,0.5,0.5,50,3
 1003,졸개 총알,1,2,50,10
-1004,괴수 총알,0,4,50,10
+1004,괴수 총알,0.1,4,50,10

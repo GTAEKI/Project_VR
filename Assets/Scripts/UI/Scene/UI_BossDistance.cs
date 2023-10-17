@@ -1,3 +1,4 @@
+using Oculus.Platform;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,9 +11,14 @@ public class UI_BossDistance : UI_Scene
         TM_Distance
     }
 
+    private Camera uiCamera;
+
     public override void Init()
     {
         Bind<TextMeshProUGUI>(typeof(Texts));
+
+        uiCamera = GameObject.Find("CenterEyeAnchor").GetComponent<Camera>();
+        GetComponent<Canvas>().worldCamera = uiCamera;
     }
 
     /// <summary>

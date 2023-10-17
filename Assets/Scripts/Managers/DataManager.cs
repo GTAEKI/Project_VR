@@ -22,6 +22,9 @@ public class DataManager
     // 졸개 스폰 데이터 테이블, 김민섭_231015
     public Dictionary<int, Dictionary<string, object>> MinionSpawnTableData { private set; get; } = new Dictionary<int, Dictionary<string, object>>();
 
+    // PC 스탯 데이터 테이블, 김재현_231016
+    public Dictionary<int, Dictionary<string, object>> PCTableData { private set; get; } = new Dictionary<int, Dictionary<string, object>>();
+
     /// <summary>
     /// 모든 데이터 초기화 함수
     /// 김민섭_231014
@@ -34,5 +37,6 @@ public class DataManager
         ProjectileTable = CSVReader.ReadForDict("Data/Projectile_Table");
         MinionTableData = CSVReader.ReadForDict("Data/Minion_Table");
         MinionSpawnTableData = CSVReader.ReadForDict("Data/MinionSpawn_Table");
+        PCTableData = CSVReader.ReadForDict("Data/PC_Table");
     }
 }
