@@ -109,7 +109,12 @@ public class MeteorController : MonoBehaviour, ISearchTarget
     {
         if(other.tag == "Player")
         {
-            Debug.Log($"{transform.tag} -> {other.tag} 맞춤");
+            KJHPlayer player = other.GetComponent<KJHPlayer>();
+            if(player != null)
+            {
+                player.status.OnDamaged(ref player.currHp, status.Damage);
+            }
+
             Managers.Resource.Destroy(gameObject);
         }
     }

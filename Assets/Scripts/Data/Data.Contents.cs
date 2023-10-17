@@ -418,11 +418,17 @@ public class MinionSpawn : Status
 public class PCStatus : Status
 {
     [SerializeField]
+    [Tooltip("사망 체크")] private bool isDie;
+    [Space]
+    [SerializeField]
     [Tooltip(" 최대 체력 ")] private int maxHp;
     [SerializeField]
     [Tooltip("타입")] private int type;
 
     #region 프로퍼티 
+
+    // 일반 데이터
+    public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
 
     public int MaxHp { private set => maxHp = value; get => maxHp; }       // 최대 체력
     public int Type { private set => type = value; get => type; }             // 타입
@@ -439,6 +445,26 @@ public class PCStatus : Status
         ID = int.Parse(Managers.Data.PCTableData[(int)id]["ID"].ToString());
         maxHp = int.Parse(Managers.Data.PCTableData[(int)id]["MaxHp"].ToString());
         type = int.Parse(Managers.Data.PCTableData[(int)id]["Type"].ToString());
+    }
+
+    /// <summary>
+    /// 플레이어에게 피해를 입히는 함수
+    /// 김민섭_231017
+    /// </summary>
+    /// <param name="currHp">현재 체력</param>
+    /// <param name="dmg">받는 데미지</param>
+    public void OnDamaged(ref int currHp, int dmg)
+    {
+        KJHPlayer player = GameObject.FindGameObjectWithTag("Player").GetComponent<KJHPlayer>();
+        player?.PlayDamageEffect();
+
+        currHp -= dmg;
+
+        if(currHp <=0)
+        {
+            currHp = 0;
+            IsDie = true;
+        }
     }
 }
 #endregion
