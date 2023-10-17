@@ -8,8 +8,8 @@ using UnityEngine;
 // 모든 유닛의 스폰 관리 클래스
 public class UnitSpawner : MonoBehaviour
 {
-    private GameObject unitType1;  // 유닛 1
-    private GameObject unitType2;  // 유닛 2
+    private GameObject minionUnit;  // 유닛 1
+    private GameObject golemUnit;  // 유닛 2
     private int count = 0;         // 유닛 현재 생성 갯수
 
     private GameObject player;     // 플레이어
@@ -21,18 +21,18 @@ public class UnitSpawner : MonoBehaviour
     /// 유닛1 get 프로퍼티
     /// 김민섭_231016
     /// </summary>
-    public GameObject UnitType1 => unitType1;       
+    public GameObject UnitType1 => minionUnit;       
      
     /// <summary>
     /// 유닛2 get 프로퍼티
     /// 김민섭_231016
     /// </summary>
-    public GameObject UnitType2 => unitType2;
+    public GameObject UnitType2 => golemUnit;
 
     private void Start()
     {
-        unitType1 = Resources.Load<GameObject>("Prefabs/Unit/UnitType1");
-        unitType2 = Resources.Load<GameObject>("Prefabs/Unit/UnitType2");
+        minionUnit = Resources.Load<GameObject>("Prefabs/Unit/MinionUnit");
+        golemUnit = Resources.Load<GameObject>("Prefabs/Unit/GolemUnit");
 
         player = GameObject.Find("Player");
 
