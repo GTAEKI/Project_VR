@@ -7,11 +7,15 @@ using UnityEngine;
 // 졸개 공격 유닛의 총알
 public class MinonBullet : BulletController
 {
+    public GameObject ExplosionPrefab;
+    public float DestroyExplosion = 4.0f;
+    public float DestroyChildren = 2.0f;
     protected override void Init()
     {
         base.Init();
 
         currentBulletStatus = new BulletStatus(Define.Data_ID_List.Bullet_Minion);      // 졸개 특화 총알 데이터 초기화, 김민섭_231014
+
 
         rb.velocity = transform.forward * float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Minion]["Speed"].ToString());
 
@@ -36,7 +40,14 @@ public class MinonBullet : BulletController
             textDamage.text = $"{currentBulletStatus.Damage}";  // Text에 데미지가 보여지게 한다.
             #endregion
 
-            Destroy(transform.gameObject);
+
+            if (ExplosionPrefab)
+            {
+                var exp = Instantiate(ExplosionPrefab, other.transform.position, ExplosionPrefab.transform.rotation);
+                Destroy(exp, DestroyExplosion);
+
+                Destroy(gameObject);
+            }
         }
     }
 }

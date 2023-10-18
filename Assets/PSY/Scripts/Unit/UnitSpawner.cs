@@ -8,8 +8,8 @@ using UnityEngine;
 // 모든 유닛의 스폰 관리 클래스
 public class UnitSpawner : MonoBehaviour
 {
-    private GameObject unitType1;  // 유닛 1
-    private GameObject unitType2;  // 유닛 2
+    private GameObject minionUnit;  // 유닛 1
+    private GameObject golemUnit;  // 유닛 2
     private int count = 0;         // 유닛 현재 생성 갯수
 
     private GameObject player;     // 플레이어
@@ -21,18 +21,18 @@ public class UnitSpawner : MonoBehaviour
     /// 유닛1 get 프로퍼티
     /// 김민섭_231016
     /// </summary>
-    public GameObject UnitType1 => unitType1;       
+    public GameObject MinionUnit => minionUnit;       
      
     /// <summary>
     /// 유닛2 get 프로퍼티
     /// 김민섭_231016
     /// </summary>
-    public GameObject UnitType2 => unitType2;
+    public GameObject GolemUnit => golemUnit;
 
     private void Start()
     {
-        unitType1 = Resources.Load<GameObject>("Prefabs/Unit/UnitType1");
-        unitType2 = Resources.Load<GameObject>("Prefabs/Unit/UnitType2");
+        minionUnit = Resources.Load<GameObject>("Prefabs/Unit/MinionUnit");
+        golemUnit = Resources.Load<GameObject>("Prefabs/Unit/GolemUnit");
 
         player = GameObject.Find("Player");
 
@@ -40,17 +40,18 @@ public class UnitSpawner : MonoBehaviour
         spawnPosArr[1] = player.transform.position + new Vector3(-10f, 0f, 5f);
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        SpawnUnit(unitType1, (int)Define.Data_ID_List.Unit_Minion); // 1번 유닛 생성
-    //    }
-    //    else if (Input.GetMouseButtonDown(1))
-    //    {
-    //        SpawnUnit(unitType2, (int)Define.Data_ID_List.Unit_Golem);  // 2번 유닛 생성
-    //    }
-    //}
+    // 마우스로 생성
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            SpawnUnit(minionUnit, (int)Define.Data_ID_List.Unit_Minion); // 1번 유닛 생성
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            SpawnUnit(golemUnit, (int)Define.Data_ID_List.Unit_Golem);  // 2번 유닛 생성
+        }
+    }
 
     /// <summary>
     /// 유닛 생성 함수
