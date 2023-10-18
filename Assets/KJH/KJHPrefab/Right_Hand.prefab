@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffc9f469c7782944bb0f5765364b4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 2129097917329307713, guid: ce741ec3ca8add94db940b2b8c6495d2, type: 3}
+  bulletPrefab: {fileID: 6095394011861071021, guid: da51840e872da0e4582c6fb0bbc1b05f, type: 3}
   firePos: {fileID: 5020255805914309505}
   isLeftHand: 0
   lrMaxDistance: 200
