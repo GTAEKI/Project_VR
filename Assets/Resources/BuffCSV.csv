@@ -1,4 +1,2 @@
 BuffID,BuffIcon,BuffName,BuffPrice,BuffTime,BuffDescription
-0,Daum,AttackSpeed,100,10,first
-1,Naver,abc,233,11,second
-2,Google,aldkjf,3444,12,Third
+0,DamageUP,AttackSpeed,100,10,first

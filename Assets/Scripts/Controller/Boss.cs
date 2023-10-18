@@ -17,7 +17,8 @@ public class Boss : Character
     [SerializeField]
     [Tooltip("메테오 현재 남은 쿨타임")] private float meteor_currTime;
     [SerializeField] 
-    [Tooltip("메테오 쿨타임")] private float meteor_coolTime;            
+    [Tooltip("메테오 쿨타임")] private float meteor_coolTime;
+    private bool isMeteor = false;
     private bool isSummon = false;
 
     // 스탯
@@ -46,6 +47,7 @@ public class Boss : Character
         yield return new WaitForSeconds(currStatus.ActTime);
 
         Debug.Log("약점 회복!");
+        currStatus.IsGroggy = false;
         weaknessPoint.SetActive(false);
         State = CharacterState.IDLE;
     }
@@ -56,7 +58,7 @@ public class Boss : Character
     /// </summary>
     protected override void Init()
     {
-        weaknessPoint = transform.Find("WeaknessPoint").gameObject;
+        weaknessPoint = transform.Find("RockCreatureMesh_LP/WeaknessPoint").gameObject;
         weaknessPoint.SetActive(false);
 
         meteor_coolTime = 8f;       // 5초다마 메테오 발동
@@ -76,6 +78,16 @@ public class Boss : Character
         // 스킬 로직 실행
         StartCoroutine(Spell_Meteor());
         StartCoroutine(Spell_Summon());
+
+        StartCoroutine(DelayIDLE());
+    }
+
+    /// TODO: 나중에 버튼 누르면 재생 되도록 제어 할 것, 김민섭_231017
+    private IEnumerator DelayIDLE()
+    {
+        yield return new WaitForSeconds(1f);
+
+        State = CharacterState.RUBBLE_TO_IDLE;
     }
 
     /// <summary>
@@ -86,6 +98,7 @@ public class Boss : Character
     {
         while(true)
         {
+            yield return new WaitUntil(() => State != CharacterState.RUBBLE && State != CharacterState.RUBBLE_TO_IDLE);
             if (State == CharacterState.DIE) yield break;       // 죽으면 정지
 
             meteor_currTime += Time.deltaTime;
@@ -120,16 +133,32 @@ public class Boss : Character
     {
         // 운석 개수 결정
         int spawnCount = Random.Range(5, 10);
+        StartCoroutine(SpawnMeteor(spawnCount));
+    }
 
-        for(int i = 0; i < spawnCount; i++)
+    /// <summary>
+    /// 메테오 생성 딜레이 코루틴 함수
+    /// 김민섭_231018
+    /// </summary>
+    /// <param name="spawnPos">생성 위치</param>
+    private IEnumerator SpawnMeteor(int amount)
+    {
+        DrawSpawnRange spawnPoint = transform.Find("SpawnMeteor").GetComponent<DrawSpawnRange>();
+
+        for(int i = 0; i < amount; i++)
         {
-            // 스폰 위치 결정
-            // TODO: 현재 보스의 위치에서 약간 후방에 생성
-            float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
-            float randY = Random.Range(transform.position.y + 10f, transform.position.y + 30f);
+            if(State == CharacterState.GROGGY)
+            {
+                isMeteor = false;
+                yield break;
+            }
 
-            Vector3 spawnPos = new Vector3(randX, randY, transform.position.z + 30f);
+            // 스폰 위치 결정
+            Vector3 randSpawnVec = Random.insideUnitSphere * spawnPoint.agentDensity;
+            Vector3 spawnPos = spawnPoint.transform.position + randSpawnVec;
             Managers.Resource.Instantiate("Meteor", spawnPos, Quaternion.identity);
+
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
@@ -148,15 +177,26 @@ public class Boss : Character
                 isSummon = false;
                 yield break;
             }
-
+            
             float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
-            Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
 
-            GameObject spawnMinion = Managers.Resource.Instantiate("Minion", transform.position, Quaternion.identity);
+            GameObject spawnMinion = null;
+
+            if (type == (int)Define.Data_ID_List.Minion_Fast)
+            {
+                spawnMinion = Managers.Resource.Instantiate("FastMinion", transform.position, Quaternion.identity);
+            }
+            else
+            {
+                spawnMinion = Managers.Resource.Instantiate("PowerMinion", transform.position, Quaternion.identity);
+            }
+
+            float spawnPosY = spawnMinion.transform.localScale.y / 2;
+            Vector3 spawnPos = new Vector3(randX, spawnPosY, transform.position.z - 30f);
 
             float currentTime = 0f;
             float totalTime = 1f; // 총 소환 시간 (조절 가능)
-            Vector3 startPos = transform.position;
+            Vector3 startPos = weaknessPoint.transform.position;
             Vector3 initialVelocity = CalculateInitialVelocity(spawnPos, startPos, totalTime);
 
             while (currentTime < totalTime)
@@ -169,8 +209,6 @@ public class Boss : Character
                 yield return null;
             }
 
-            Debug.Log("소환 완료");
-
             if (type == (int)Define.Data_ID_List.Minion_Fast)
             {
                 spawnMinion.AddComponent<FastMinionController>();
@@ -181,7 +219,10 @@ public class Boss : Character
             }
         }
 
-        if (amount > 0) isSummon = false;
+        if (amount > 0)
+        {
+            isSummon = false;
+        }
     }
 
     // 초기 속도 계산 함수
@@ -205,6 +246,11 @@ public class Boss : Character
     /// </summary>
     private void Summon()
     {
+        if(currStatus.IsPhase && spawnStatus.ID == (int)Define.Data_ID_List.Spawn_Phase1)
+        {
+            spawnStatus = new MinionSpawn(Define.Data_ID_List.Spawn_Phase2);
+        }
+
         StartCoroutine(SpawnMinion((int)Define.Data_ID_List.Minion_Fast, spawnStatus.Type1_Amount));
         StartCoroutine(SpawnMinion((int)Define.Data_ID_List.Minion_Power, spawnStatus.Type2_Amount));
     }
@@ -218,37 +264,38 @@ public class Boss : Character
     {
         while(true)
         {
+            yield return new WaitUntil(() => State != CharacterState.RUBBLE && State != CharacterState.RUBBLE_TO_IDLE);
             yield return new WaitUntil(() => !isSummon);
 
             if (State == CharacterState.DIE) yield break;       // 죽으면 정지
 
-            Debug.Log("악");
-
             // TODO: 몬스터 배열이 가득 차면 코루틴 임시 정지
-            float distance = Vector3.Distance(transform.position, playerTarget.transform.position);
-            if((int)distance % 12 == 0)
+            if (playerTarget != null)
             {
-                Debug.Log("졸개 소환!");
-
-                isSummon = true;
-                Summon();
-
-                // 메테오 모두 발동 후 상태 변환
-                if (weaknessPoint.activeSelf)
+                float distance = Vector3.Distance(transform.position, playerTarget.transform.position);
+                if ((int)distance % 12 == 0)
                 {
-                    State = CharacterState.GROGGY;
-                }
-                else
-                {
-                    State = CharacterState.IDLE;
-                }
+                    Debug.Log("졸개 소환!");
 
-                // TODO: 소환된 졸개가 없다면 실행되게 수정
-                //yield return new WaitForSeconds(spawnStatus.Spawn_Time);
+                    isSummon = true;
+                    Summon();
 
-                //isSummon = false;
+                    // 메테오 모두 발동 후 상태 변환
+                    if (weaknessPoint.activeSelf)
+                    {
+                        State = CharacterState.GROGGY;
+                    }
+                    else
+                    {
+                        State = CharacterState.IDLE;
+                    }
+
+                    // TODO: 소환된 졸개가 없다면 실행되게 수정
+                    //yield return new WaitForSeconds(spawnStatus.Spawn_Time);
+
+                    //isSummon = false;
+                }
             }
-
             yield return null;
         }
     }
@@ -261,7 +308,18 @@ public class Boss : Character
             return;
         }
 
+        if(State != CharacterState.GROGGY && currStatus.IsGroggy)
+        {
+            State = CharacterState.GROGGY;
+            return;
+        }
+
         base.Update();
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            currStatus.OnDamaged(10);
+        }
     }
 
     /// <summary>
@@ -299,7 +357,7 @@ public class Boss : Character
         playerTarget = findTarget.First().gameObject;
         startPosition = transform.position;
         endPosition = playerTarget.transform.position;
-        endPosition.y = 7.5f;       // 임시 코드 , 김민섭_231013
+        endPosition.y = 0f; 
         State = CharacterState.MOVE;
         return;
     }
@@ -330,30 +388,5 @@ public class Boss : Character
         
         // UI
         ui_distance.SetDistanceText(Vector3.Distance(transform.position, endPosition));
-    }
-
-    /// <summary>
-    /// 보스가 SKILL 상태일 때 실행되는 업데이트 함수
-    /// 김민섭_231013
-    /// </summary>
-    protected override void UpdateSkill()
-    {
-        if(currStatus.Hp / maxHp <= 0.5f)
-        {   // 50% 이하가 될 경우, 
-            Debug.Log("2페이지 실행 중.");
-        }
-        else
-        {   // 50%가 되지 않았을 경우,
-            Debug.Log("1페이지 실행 중.");
-        }
-    }
-
-    /// <summary>
-    /// 보스가 DIE 상태일 때 실행되는 업데이트 함수
-    /// 김민섭_231013
-    /// </summary>
-    protected override void UpdateDie()
-    {
-        Debug.Log("죽음");
     }
 }

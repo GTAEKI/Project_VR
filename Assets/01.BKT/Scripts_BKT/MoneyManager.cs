@@ -14,7 +14,7 @@ public class MoneyManager
 
     private TextMeshProUGUI moneyText2;
 
-    // Managers에서 Init()실행
+    // GameManager에서 Init()실행
     public void Init()
     {
         myMoney = STARTMONEY; //게임 시작시 초기 재화 설정

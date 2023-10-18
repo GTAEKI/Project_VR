@@ -1,3 +1,3 @@
 ﻿UnitID,UnitIcon,UnitName,UnitPrice,UnitTime,UnitDescription
-0,Daum,NormalUnit,222,10,일반 유닛입니다.
-1,Naver,UnitNum2,100,13,UnitNum2
+0,bossAttack,NormalUnit,222,10,일반 유닛입니다.
+1,monsterAttack,UnitNum2,100,13,UnitNum2

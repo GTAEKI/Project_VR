@@ -15,6 +15,7 @@ public class Managers : MonoBehaviour
     private SoundManager _sound = new SoundManager();
     private UIManager _ui = new UIManager();
     private MoneyManager _money = new MoneyManager(); // 배경택_231013
+    private GameManager _gameManager = new GameManager(); // 배경택 _231018
 
     public static DataManager Data => Instance._data;
     public static InputManager Input => Instance._input;
@@ -24,10 +25,11 @@ public class Managers : MonoBehaviour
     public static SoundManager Sound => Instance._sound;
     public static UIManager UI => Instance._ui;
     public static MoneyManager MONEY => Instance._money; // 배경택_231013
+    public static GameManager GameManager => Instance._gameManager; // 배경택_231018
 
     private void Start()
     {
-        //Init();
+        Init();
     }
 
     private void Update()
@@ -53,9 +55,9 @@ public class Managers : MonoBehaviour
             //s_instance._data.Init();
             //s_instance._pool.Init();
             //s_instance._sound.Init();
-
-            // 잠깐 주석할게여
-            s_instance._money.Init(); // 배경택_231013
+            
+            // 게임매니저 init()
+            //s_instance._gameManager.Init(); //배경택_231018
         }
     }
 

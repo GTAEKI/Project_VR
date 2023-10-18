@@ -88,19 +88,21 @@ public class Minon : UnitController
 
         while (true)
         {
-            delay += Time.deltaTime;
-
-            if (Maxdelay <= delay)  // 최대 딜레이 시간에 도달한다면
+            if (targetCollider != null)
             {
-                GameObject instance = Instantiate(createObj, spawnPoint.position, Quaternion.identity);
-                bullets.Add(instance);  // 총알을 생성 장소에 맞게 생성한다.
+                delay += Time.deltaTime;
 
-                instance.GetComponent<BulletController>().dir = dir;  // 타겟의 방향을 설정해준다. 
+                if (Maxdelay <= delay)  // 최대 딜레이 시간에 도달한다면
+                {
+                    GameObject instance = Instantiate(createObj, spawnPoint.position, Quaternion.identity);
+                    bullets.Add(instance);  // 총알을 생성 장소에 맞게 생성한다.
 
-                StartCoroutine(DestoryBullet(instance));
-                delay = 0f;
+                    instance.GetComponent<BulletController>().dir = dir;  // 타겟의 방향을 설정해준다. 
+
+                    StartCoroutine(DestoryBullet(instance));
+                    delay = 0f;
+                }
             }
-
             yield return null;
         }
     }
