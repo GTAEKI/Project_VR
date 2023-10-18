@@ -105,6 +105,8 @@ public class GolemStatus : Status
     // 일반 데이터
     public bool IsGroggy { set => isGroggy = value; get => isGroggy; }                    // 그로기 체크
     public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
+    public bool IsPhase { private set; get; }
+    public int MaxHp { private set; get; }                                                  // 최대 체력
 
     // 테이블 데이터
     public float WeakpointRate { private set => weakpointRate = value; get => weakpointRate; }    // 약점 피격 시 받는 데미지 증가율
@@ -124,6 +126,7 @@ public class GolemStatus : Status
         WeakpointRate = float.Parse(Managers.Data.GolemTableData[(int)id]["WeakpointRate"].ToString());
         ActTime = float.Parse(Managers.Data.GolemTableData[(int)id]["ActTime"].ToString());
         Hp = int.Parse(Managers.Data.GolemTableData[(int)id]["Hp"].ToString());
+        MaxHp = Hp;
         MoveSpeed = float.Parse(Managers.Data.GolemTableData[(int)id]["MoveSpeed"].ToString());
         Phase = int.Parse(Managers.Data.GolemTableData[(int)id]["Phase"].ToString());
     }
@@ -137,9 +140,14 @@ public class GolemStatus : Status
     {
         Hp -= dmg;
 
-        if(Hp % 10 == 0)
+        if (Hp % 10 == 0)
         {
             IsGroggy = true;
+        }
+
+        if(!IsPhase && Hp <= MaxHp / 2f)
+        {
+            IsPhase = true;
         }
 
         if (Hp <= 0)

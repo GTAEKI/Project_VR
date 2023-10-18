@@ -179,9 +179,20 @@ public class Boss : Character
             }
             
             float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
-            Vector3 spawnPos = new Vector3(randX, 1.5f, transform.position.z - 30f);
 
-            GameObject spawnMinion = Managers.Resource.Instantiate("Minion", transform.position, Quaternion.identity);
+            GameObject spawnMinion = null;
+
+            if (type == (int)Define.Data_ID_List.Minion_Fast)
+            {
+                spawnMinion = Managers.Resource.Instantiate("FastMinion", transform.position, Quaternion.identity);
+            }
+            else
+            {
+                spawnMinion = Managers.Resource.Instantiate("PowerMinion", transform.position, Quaternion.identity);
+            }
+
+            float spawnPosY = spawnMinion.transform.localScale.y / 2;
+            Vector3 spawnPos = new Vector3(randX, spawnPosY, transform.position.z - 30f);
 
             float currentTime = 0f;
             float totalTime = 1f; // 총 소환 시간 (조절 가능)
@@ -197,8 +208,6 @@ public class Boss : Character
                 currentTime += Time.deltaTime;
                 yield return null;
             }
-
-            Debug.Log("소환 완료");
 
             if (type == (int)Define.Data_ID_List.Minion_Fast)
             {
@@ -237,6 +246,11 @@ public class Boss : Character
     /// </summary>
     private void Summon()
     {
+        if(currStatus.IsPhase && spawnStatus.ID == (int)Define.Data_ID_List.Spawn_Phase1)
+        {
+            spawnStatus = new MinionSpawn(Define.Data_ID_List.Spawn_Phase2);
+        }
+
         StartCoroutine(SpawnMinion((int)Define.Data_ID_List.Minion_Fast, spawnStatus.Type1_Amount));
         StartCoroutine(SpawnMinion((int)Define.Data_ID_List.Minion_Power, spawnStatus.Type2_Amount));
     }

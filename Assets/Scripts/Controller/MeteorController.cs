@@ -111,12 +111,12 @@ public class MeteorController : MonoBehaviour, ISearchTarget
 
     #endregion
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.tag == "Player")
+        if(collision.gameObject.tag == "Player")
         {
             KJHPlayer player = FindObjectOfType<KJHPlayer>();
-            if(player != null)
+            if (player != null)
             {
                 player.status.OnDamaged(ref player.currHp, status.Damage);
             }
