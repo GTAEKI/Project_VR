@@ -74,7 +74,7 @@ public class MeteorController : MonoBehaviour, ISearchTarget
         float lerpTime = 30f;
         Vector3 startPos = transform.position;
 
-        yield return new WaitForSeconds(Random.Range(1f, 2f));
+        yield return new WaitForSeconds(Random.Range(0.5f, 1f));
 
         while(true)
         {
@@ -120,6 +120,9 @@ public class MeteorController : MonoBehaviour, ISearchTarget
             {
                 player.status.OnDamaged(ref player.currHp, status.Damage);
             }
+
+            // 메테오 폭발 이펙트 실행, 김민섭_231018
+            Managers.Resource.Instantiate("Particle/MeteorExplosion", transform.position, Quaternion.identity);
 
             Managers.Resource.Destroy(gameObject);
         }

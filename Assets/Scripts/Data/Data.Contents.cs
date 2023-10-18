@@ -87,6 +87,8 @@ public class MeteorStatus: Status
 public class GolemStatus : Status
 {
     [SerializeField]
+    [Tooltip("그로기 체크")] private bool isGroggy;
+    [SerializeField]
     [Tooltip("사망 체크")] private bool isDie;
     [Space]
     [SerializeField]
@@ -101,6 +103,7 @@ public class GolemStatus : Status
     [Tooltip("페이지")] private int phase;
 
     // 일반 데이터
+    public bool IsGroggy { set => isGroggy = value; get => isGroggy; }                    // 그로기 체크
     public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
 
     // 테이블 데이터
@@ -133,6 +136,11 @@ public class GolemStatus : Status
     public void OnDamaged(int dmg)
     {
         Hp -= dmg;
+
+        if(Hp % 10 == 0)
+        {
+            IsGroggy = true;
+        }
 
         if (Hp <= 0)
         {   // 체력이 0 이하면 사망 처리
