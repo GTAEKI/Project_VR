@@ -26,6 +26,11 @@ public class MinionController : MonoBehaviour, ISearchTarget
     /// </summary>
     protected virtual void Init() { }
 
+    private void Update()
+    {
+        transform.Rotate(new Vector3(-Time.deltaTime * (currStatus.Speed + 300f), 0f, 0f));
+    }
+
     #region ISearchTarget 함수
 
     /// <summary>
@@ -83,6 +88,9 @@ public class MinionController : MonoBehaviour, ISearchTarget
             {   // 공격 사거리에 들어오면 폭발
                 KJHPlayer player = FindObjectOfType<KJHPlayer>();
                 player?.status.OnDamaged(ref player.currHp, currStatus.Damage);
+
+                // 졸개 폭발 이펙트 실행, 김민섭_231018
+                Managers.Resource.Instantiate("Particle/MinionExplosion", transform.position, Quaternion.identity);
 
                 Managers.Resource.Destroy(gameObject);
                 yield break;
