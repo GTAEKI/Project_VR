@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     /// </summary>
     public enum CharacterState
     {
-        IDLE, MOVE, SKILL, GROGGY, DIE
+        RUBBLE, RUBBLE_TO_IDLE, IDLE, MOVE, GROGGY, DIE
     }
 
     [Header("캐릭터 상태")]
@@ -38,12 +38,21 @@ public class Character : MonoBehaviour
             state = value;
 
             // TODO: state마다 애니메이션 실행
+            Animator anim = GetComponent<Animator>();
+
             switch (state)
             {
-                case CharacterState.IDLE: break;
-                case CharacterState.MOVE: break;
-                case CharacterState.GROGGY:StartCoroutine(Test_Delay()); break;
-                case CharacterState.DIE: break;
+                case CharacterState.RUBBLE: break;
+                case CharacterState.RUBBLE_TO_IDLE: anim.CrossFade("RUBBLE_TO_IDLE", 0.1f); break;
+                case CharacterState.IDLE: anim.CrossFade("IDLE", 0.1f); break;
+                case CharacterState.MOVE: anim.CrossFade("MOVE", 0.1f); break;
+                case CharacterState.GROGGY:
+                    {
+                        anim.CrossFade("GROGGY", 0.1f);
+                        StartCoroutine(Test_Delay());
+                    }
+                    break;
+                case CharacterState.DIE: anim.CrossFade("DIE", 0.1f); break;
             }
         }
     }
@@ -72,11 +81,22 @@ public class Character : MonoBehaviour
 
     protected virtual void Update()
     {
-        switch(State)
+        if (State == CharacterState.RUBBLE) return;
+
+        if (State == CharacterState.RUBBLE_TO_IDLE)
+        {
+            Animator anim = GetComponent<Animator>();
+            if(anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("IDLE"))
+            {
+                State = CharacterState.IDLE;
+                return;
+            }
+        }
+
+        switch (State)
         {
             case CharacterState.IDLE: UpdateIdle(); break;
             case CharacterState.MOVE: UpdateMove(); break;
-            case CharacterState.SKILL: UpdateSkill(); break;
             case CharacterState.GROGGY: UpdateGroggy(); break;
             case CharacterState.DIE: UpdateDie(); break;
         }
