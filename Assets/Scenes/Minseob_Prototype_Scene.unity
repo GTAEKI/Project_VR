@@ -509,10 +509,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss_Golem
       objectReference: {fileID: 0}
-    - target: {fileID: 7642436733736515558, guid: c5d4d4ad0bf736f448714cb72f02e3d7, type: 3}
-      propertyPath: showData
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5d4d4ad0bf736f448714cb72f02e3d7, type: 3}
 --- !u!1 &620061043 stripped

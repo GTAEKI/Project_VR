@@ -17,7 +17,8 @@ public class Boss : Character
     [SerializeField]
     [Tooltip("메테오 현재 남은 쿨타임")] private float meteor_currTime;
     [SerializeField] 
-    [Tooltip("메테오 쿨타임")] private float meteor_coolTime;            
+    [Tooltip("메테오 쿨타임")] private float meteor_coolTime;
+    private bool isMeteor = false;
     private bool isSummon = false;
 
     // 스탯
@@ -132,16 +133,32 @@ public class Boss : Character
     {
         // 운석 개수 결정
         int spawnCount = Random.Range(5, 10);
+        StartCoroutine(SpawnMeteor(spawnCount));
+    }
 
-        for(int i = 0; i < spawnCount; i++)
+    /// <summary>
+    /// 메테오 생성 딜레이 코루틴 함수
+    /// 김민섭_231018
+    /// </summary>
+    /// <param name="spawnPos">생성 위치</param>
+    private IEnumerator SpawnMeteor(int amount)
+    {
+        DrawSpawnRange spawnPoint = transform.Find("SpawnMeteor").GetComponent<DrawSpawnRange>();
+
+        for(int i = 0; i < amount; i++)
         {
-            // 스폰 위치 결정
-            // TODO: 현재 보스의 위치에서 약간 후방에 생성
-            float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
-            float randY = Random.Range(transform.position.y + 30f, transform.position.y + 60f);
+            if(State == CharacterState.GROGGY)
+            {
+                isMeteor = false;
+                yield break;
+            }
 
-            Vector3 spawnPos = new Vector3(randX, randY, transform.position.z + 30f);
+            // 스폰 위치 결정
+            Vector3 randSpawnVec = Random.insideUnitSphere * spawnPoint.agentDensity;
+            Vector3 spawnPos = spawnPoint.transform.position + randSpawnVec;
             Managers.Resource.Instantiate("Meteor", spawnPos, Quaternion.identity);
+
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
@@ -326,7 +343,7 @@ public class Boss : Character
         playerTarget = findTarget.First().gameObject;
         startPosition = transform.position;
         endPosition = playerTarget.transform.position;
-        endPosition.y = 7.5f;       // 임시 코드 , 김민섭_231013
+        endPosition.y = 0f; 
         State = CharacterState.MOVE;
         return;
     }
