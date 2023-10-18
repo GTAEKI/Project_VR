@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-// UnityEngine.Rendering.PostProcessing;
 
 public class Aim : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public Transform firePos;
+    public GameObject reinforcedBulletPrefab; // 강화된 총알 프리팹 추가
     // 어떤 손인지 판단
     public bool isLeftHand = default;
 
+    public bool isPosition = false;
     // 레이저 포인트를 발사할 라인 렌더러
     LineRenderer lineRenderer;
 
@@ -26,12 +27,18 @@ public class Aim : MonoBehaviour
     private void Update()
     {
         // 사용자가 indexTrigger 버튼을 누르면
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) || ARAVRInput.GetDown(ARAVRInput.Button.Two))
         {
             // 컨트롤러의 진동 재생
             ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
-
-            Shoot();
+            if(!isPosition)
+            {
+                Shoot();
+            }
+            else
+            {
+                StrongShoot();
+            }
         }
         if (isLeftHand)
         {
@@ -78,9 +85,23 @@ public class Aim : MonoBehaviour
         }       // else : 오른쪽 핸드 기준으로 레이저 포인터 만들기
 
     }
+
     void Shoot()
     {
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
+        {
         GameObject bullet = Instantiate(bulletPrefab);
+        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
+        }
+        else if(ARAVRInput.GetDown(ARAVRInput.Button.Two))
+        {
+            GameObject bullet = Instantiate(reinforcedBulletPrefab);
+            bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
+        }
+    }
+    public void StrongShoot()
+    {
+        GameObject bullet = Instantiate(reinforcedBulletPrefab);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
     }
 }

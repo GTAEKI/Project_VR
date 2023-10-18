@@ -8,6 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 public class Bullet : MonoBehaviour
 {
     private BulletStatus status;
+    private Transform target;
 
     void Start()
     {
@@ -29,6 +30,8 @@ public class Bullet : MonoBehaviour
     /// <param name="other">적</param>
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("데미지가 들어가고 있나?");
+
         if (other.tag == "WeaknessPoint" || other.tag == "Boss" || other.tag == "Minion")
         {
             Destroy(transform.gameObject);
@@ -39,6 +42,8 @@ public class Bullet : MonoBehaviour
     public void OnDamaged(Collider target)
     {
         int damage = 0;
+
+        Debug.Log("데미지가 들어가고 있나?");
 
         // TODO : 
         if (target.tag == "WeaknessPoint")
@@ -80,5 +85,10 @@ public class Bullet : MonoBehaviour
 
         textDamage.text = $"{damage}";  // Text에 데미지가 보여지게 한다.
         #endregion
+
+    }
+    public void Seek(Transform targetTransform)
+    {
+        target = targetTransform;
     }
 }

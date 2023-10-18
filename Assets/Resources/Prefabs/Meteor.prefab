@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5458401141531335605}
   - component: {fileID: 7745098250635634676}
   - component: {fileID: 3978429541889001628}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Meteor
   m_TagString: Meteor
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5458401141531335606}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status:
     id: 0
+    isDie: 0
     hp: 0
     durationTime: 0
     damage: 0
