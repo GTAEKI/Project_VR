@@ -7,6 +7,9 @@ using UnityEngine;
 // 졸개 공격 유닛의 총알
 public class MinonBullet : BulletController
 {
+    public GameObject ExplosionPrefab;
+    public float DestroyExplosion = 4.0f;
+    public float DestroyChildren = 2.0f;
     protected override void Init()
     {
         base.Init();
@@ -37,7 +40,14 @@ public class MinonBullet : BulletController
             textDamage.text = $"{currentBulletStatus.Damage}";  // Text에 데미지가 보여지게 한다.
             #endregion
 
-            Destroy(transform.gameObject);
+
+            if (ExplosionPrefab)
+            {
+                var exp = Instantiate(ExplosionPrefab, other.transform.position, ExplosionPrefab.transform.rotation);
+                Destroy(exp, DestroyExplosion);
+
+                Destroy(gameObject);
+            }
         }
     }
 }
