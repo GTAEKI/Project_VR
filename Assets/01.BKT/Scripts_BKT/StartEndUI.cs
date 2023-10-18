@@ -45,16 +45,16 @@ public class StartEndUI : MonoBehaviour
         leftSmallText = transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         rightSmallText = transform.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
 
-        bigText.text = start_BigText;
-        leftSmallText.text = start_Left_SmallText;
-        rightSmallText.text = start_Right_SmallText;
+        //bigText.text = start_BigText;
+        //leftSmallText.text = start_Left_SmallText;
+        //rightSmallText.text = start_Right_SmallText;
     }
 
     /// <summary>
     /// 게임 시작시 텍스트 삽입
     /// 배경택 _231018
     /// </summary>
-    void InsertTextStart()
+    public void InsertTextStart()
     {
         bigText.text = start_BigText;
         leftSmallText.text = start_Left_SmallText;
@@ -65,7 +65,7 @@ public class StartEndUI : MonoBehaviour
     /// 게임 승리시 텍스트 삽입
     /// 배경택 _231018
     /// </summary>
-    void InsertTextVictory()
+    public void InsertTextVictory()
     {
         bigText.text = victory_BigText;
         leftSmallText.text = victory_Left_SmallText;
@@ -76,7 +76,7 @@ public class StartEndUI : MonoBehaviour
     /// 게임 패배시 텍스트 삽입
     /// 배경택 _231018
     /// </summary>
-    void InsertTextLose()
+    public void InsertTextLose()
     {
         bigText.text = gameOver_BigText;
         leftSmallText.text = gameOver_Left_SmallText;
