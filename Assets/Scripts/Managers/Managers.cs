@@ -46,6 +46,10 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(obj);
             s_instance = obj.GetComponent<Managers>();
 
+            //s_instance._data.Init();
+            //s_instance._pool.Init();
+            s_instance._sound.Init();
+            
             // 게임매니저 init()
             s_instance._data.Init();        // 김민섭_231019
             s_instance._gameManager.Init(); //배경택_231018
