@@ -6,8 +6,15 @@ using UnityEngine.UI;
 
 public class Aim : MonoBehaviour
 {
+<<<<<<< Updated upstream
     public AudioClip normal;
     public AudioClip strong;
+=======
+    [Header("Test")]
+    public int shotPositionDistance = 3;
+
+    [Header("Game")]
+>>>>>>> Stashed changes
     public GameObject bulletPrefab;
     public GameObject reinforcedBulletPrefab; // 강화된 총알 프리팹 추가
     // 어떤 손인지 판단

@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1510226138140356}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4903523721451584}
@@ -4869,7 +4869,11 @@ Transform:
   m_GameObject: {fileID: 1519322442116508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
+<<<<<<< Updated upstream
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+=======
+  m_LocalScale: {x: 2, y: 2, z: 2}
+>>>>>>> Stashed changes
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4953462558359860}
@@ -4960,7 +4964,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 7.92
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9666,7 +9670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605a456cfc02f6b499a64717539a27e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 100
   hitOffset: 0.1
   UseFirePointRotation: 0
   rotationOffset: {x: 0, y: 0, z: 0}
@@ -9833,7 +9837,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519322442116508}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.05
@@ -9850,6 +9854,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f824a5071df356640bd6c31c8f655529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionPrefab: {fileID: 1900636369659048, guid: c8c637b8f0130b84b8e2d623d873832d, type: 3}
+  DestroyExplosion: 4
+  DestroyChildren: 2
 --- !u!1 &1702276184313894
 GameObject:
   m_ObjectHideFlags: 0
@@ -9877,7 +9884,7 @@ Transform:
   m_GameObject: {fileID: 1702276184313894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4903523721451584}

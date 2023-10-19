@@ -349,7 +349,8 @@ GameObject:
   - component: {fileID: 7642436733717337721}
   - component: {fileID: 7642436733736515558}
   - component: {fileID: 546208543}
-  m_Layer: 2
+  - component: {fileID: 1586675213620983563}
+  m_Layer: 6
   m_Name: Boss_Golem
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -854,6 +855,19 @@ MonoBehaviour:
     minion_Type2: 0
     type2_Amount: 0
     minion_Amount: 0
+--- !u!65 &1586675213620983563
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7642436733707953165}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.72, y: 2.88, z: 0.5}
+  m_Center: {x: 0, y: 1.39, z: 0}
 --- !u!1 &7642436733707953169
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,9 @@ using static UnityEngine.GraphicsBuffer;
 public class Bullet : MonoBehaviour
 {
     private BulletStatus status;
-    private Transform target;
+    public GameObject ExplosionPrefab;
+    public float DestroyExplosion = 4.0f;
+    public float DestroyChildren = 2.0f;
 
     void Start()
     {
@@ -16,6 +18,7 @@ public class Bullet : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(transform.forward * status.Speed);
 
         Managers.Resource.Destroy(gameObject, status.LifeTime);
+        Debug.Log("실행핰?");
     }
 
     void Update()
@@ -34,9 +37,15 @@ public class Bullet : MonoBehaviour
 
         if (other.tag == "WeaknessPoint" || other.tag == "Boss" || other.tag == "Minion")
         {
-            Destroy(transform.gameObject);
-
             OnDamaged(other);
+
+            if (ExplosionPrefab)
+            {
+                var exp = Instantiate(ExplosionPrefab, transform.position, ExplosionPrefab.transform.rotation);
+                Destroy(exp, DestroyExplosion);
+
+                Destroy(gameObject);
+            }
         }
     }
     public void OnDamaged(Collider target)
@@ -84,9 +93,5 @@ public class Bullet : MonoBehaviour
         textDamage.text = $"{damage}";  // Text에 데미지가 보여지게 한다.
         #endregion
 
-    }
-    public void Seek(Transform targetTransform)
-    {
-        target = targetTransform;
     }
 }
