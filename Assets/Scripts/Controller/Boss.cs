@@ -323,14 +323,14 @@ public class Boss : Character
 
     protected override void Update()
     {
-        // TEST:
-        if(Input.GetMouseButtonDown(2))
-        {
-            Managers.GameManager.startEndUIText.gameObject.SetActive(false);
-            StartCoroutine(DelayIDLE());
-        }
+        //// TEST:
+        //if(Input.GetMouseButtonDown(2))
+        //{
+        //    Managers.GameManager.startEndUIText.gameObject.SetActive(false);
+        //    StartCoroutine(DelayIDLE());
+        //}
 
-        if (Managers.GameManager.startEndUIText.gameObject.activeSelf) return;
+        //if (Managers.GameManager.startEndUIText.gameObject.activeSelf) return;
 
         if (currStatus != null && currStatus.IsDie)
         {   // 현재 죽은 상태라면 행동 정지
