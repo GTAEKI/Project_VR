@@ -142,7 +142,7 @@ public class Boss : Character
     private void Meteor()
     {
         // 운석 개수 결정
-        int spawnCount = Random.Range(5, 10);
+        int spawnCount = Random.Range(3, 5);
         StartCoroutine(SpawnMeteor(spawnCount));
     }
 
@@ -379,7 +379,8 @@ public class Boss : Character
         playerTarget = findTarget.First().gameObject;
         startPosition = transform.position;
         endPosition = playerTarget.transform.position;
-        endPosition.y = 0f; 
+        endPosition.y = 0f;
+        endPosition.x = 0f;
         State = CharacterState.MOVE;
         return;
     }
