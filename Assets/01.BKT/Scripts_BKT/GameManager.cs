@@ -11,9 +11,9 @@ public class GameManager
     public void Init()
     {
         Managers.MONEY.Init(); // 배경택_231018
-        startEndUI = GameObject.Find("StartEndUI/Panel");
-        startEndUIText = startEndUI.GetComponent<StartEndUI>();
-        startEndUI.SetActive(false);
+        //startEndUI = GameObject.Find("StartEndUI/Panel");
+        //startEndUIText = startEndUI.GetComponent<StartEndUI>();
+        //startEndUI.SetActive(false);
         //ReadyScene();
     }
 
