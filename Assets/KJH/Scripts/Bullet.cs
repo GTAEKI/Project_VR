@@ -43,8 +43,6 @@ public class Bullet : MonoBehaviour
     {
         int damage = 0;
 
-        Debug.Log("데미지가 들어가고 있나?");
-
         // TODO : 
         if (target.tag == "WeaknessPoint")
         {

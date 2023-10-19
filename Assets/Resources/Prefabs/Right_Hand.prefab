@@ -211,9 +211,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffc9f469c7782944bb0f5765364b4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 2129097917329307713, guid: ce741ec3ca8add94db940b2b8c6495d2, type: 3}
-  firePos: {fileID: 4292082292554630472}
+  normal: {fileID: 8300000, guid: ef2025c2c7541e34faa51845a35ca1ed, type: 3}
+  strong: {fileID: 8300000, guid: dcc1eb00b6c220348ac9d5dcdc5c1d32, type: 3}
+  bulletPrefab: {fileID: 1519322442116508, guid: f14d4490320d0d34d9738b8d30940c41, type: 3}
+  reinforcedBulletPrefab: {fileID: 1066843573042574, guid: 9f21add7ebcc5c64aaac9d7a348c0459, type: 3}
   isLeftHand: 0
+  isPosition: 0
   lrMaxDistance: 200
 --- !u!114 &105426595824156716
 MonoBehaviour:
