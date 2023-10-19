@@ -211,8 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffc9f469c7782944bb0f5765364b4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1519322442116508, guid: 538e030e173784e4983e7082bc8bed7f, type: 3}
-  reinforcedBulletPrefab: {fileID: 1066843573042574, guid: 445905ded932ba24f87bc8fdca1fa6e9, type: 3}
+  bulletNormal: {fileID: 1519322442116508, guid: 538e030e173784e4983e7082bc8bed7f, type: 3}
+  bulletStrong: {fileID: 1066843573042574, guid: 445905ded932ba24f87bc8fdca1fa6e9, type: 3}
   isLeftHand: 0
   isPosition: 0
   lrMaxDistance: 200
