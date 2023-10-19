@@ -54,7 +54,7 @@ public class Managers : MonoBehaviour
 
             //s_instance._data.Init();
             //s_instance._pool.Init();
-            //s_instance._sound.Init();
+            s_instance._sound.Init();
             
             // 게임매니저 init()
             //s_instance._gameManager.Init(); //배경택_231018
