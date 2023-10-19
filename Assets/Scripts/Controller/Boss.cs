@@ -21,6 +21,7 @@ public class Boss : Character
     [Tooltip("메테오 쿨타임")] private float meteor_coolTime;
     private bool isMeteor = false;
     private bool isSummon = false;
+    private bool isGroggy = false;
 
     // 스탯
     [Header("TEST: 골렘 스탯")]
@@ -40,17 +41,23 @@ public class Boss : Character
 
     protected override IEnumerator Test_Delay()
     {
+        if (isGroggy) yield break;
         if (weaknessPoint.activeSelf) yield break;
 
         Debug.Log("약점 노출!");
+        isGroggy = true;
+
+        yield return new WaitForSeconds(2f);
+
         weaknessPoint.SetActive(true);
 
         yield return new WaitForSeconds(currStatus.ActTime);
 
         Debug.Log("약점 회복!");
+        isGroggy = false;
         currStatus.IsGroggy = false;
         weaknessPoint.SetActive(false);
-        State = CharacterState.IDLE;
+        State = CharacterState.MOVE;
     }
 
     /// <summary>
@@ -62,9 +69,9 @@ public class Boss : Character
         weaknessPoint = transform.Find("RockCreatureMesh_LP/WeaknessPoint").gameObject;
         weaknessPoint.SetActive(false);
 
-        centerPoint = transform.Find("RockCreatureMesh_LP/CenterPoint").gameObject;
+        centerPoint = transform.Find("CenterPoint").gameObject;
 
-        meteor_coolTime = 8f;       // 5초다마 메테오 발동
+        meteor_coolTime = 5f;       // 5초다마 메테오 발동
 
         // 보스 스탯 세팅 진행
         currStatus = new GolemStatus(Define.Data_ID_List.Golem);
@@ -120,7 +127,7 @@ public class Boss : Character
                 }
                 else
                 {
-                    State = CharacterState.IDLE;
+                    State = CharacterState.MOVE;
                 }
             }
 
@@ -293,7 +300,7 @@ public class Boss : Character
                     }
                     else
                     {
-                        State = CharacterState.IDLE;
+                        State = CharacterState.MOVE;
                     }
 
                     // TODO: 소환된 졸개가 없다면 실행되게 수정
@@ -403,5 +410,10 @@ public class Boss : Character
         
         // UI
         ui_distance.SetDistanceText(Vector3.Distance(transform.position, endPosition));
+    }
+
+    public void PlayMoveSound()
+    {
+        Managers.Sound.Play("SFX/SE_Golem_Move");
     }
 }

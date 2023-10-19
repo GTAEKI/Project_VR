@@ -64,7 +64,7 @@ public class Golem : UnitController
             if (centercolliders.Length > 0)
             {
                 // 보스가 사망하면 더 이상 쏘지 않음, 김민섭_231019
-                Boss boss = centercolliders[0].transform.parent.parent.GetComponent<Boss>();
+                Boss boss = centercolliders[0].transform.parent.GetComponent<Boss>();
                 if (boss != null)
                 {
                     if (boss.CurrStatus.IsDie) return;

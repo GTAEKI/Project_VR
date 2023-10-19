@@ -41,7 +41,7 @@ public class MeteorController : MonoBehaviour, ISearchTarget
     {
         // 지면을 기준점으로 정함
         Vector3 groundPos = transform.position;
-        groundPos.y = 5f;
+        groundPos.y = 19f;
 
         // 기준점에서 레이를 쏨
         Ray ray = new Ray(groundPos, -transform.forward);
