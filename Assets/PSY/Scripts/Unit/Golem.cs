@@ -115,9 +115,11 @@ public class Golem : UnitController
                 {
                     GameObject instance = Instantiate(createObj, spawnPoint.position, Quaternion.identity);
                     bullets.Add(instance);  // 총알을 생성 장소에 맞게 생성한다.
-
+                    
                     instance.GetComponent<BulletController>().dir = dir;  // 타겟의 방향을 설정해준다. 
-
+                    
+                    Managers.Sound.Play("sfx/SE_Weapon_ATK_Bullet_Golem_Unit");  // 사운드 추가 231019_박시연
+                    
                     StartCoroutine(DestoryBullet(instance));
                     delay = 0f;
                 }

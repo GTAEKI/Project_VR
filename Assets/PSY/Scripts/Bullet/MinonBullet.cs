@@ -46,6 +46,8 @@ public class MinonBullet : BulletController
                 var exp = Instantiate(ExplosionPrefab, other.transform.position, ExplosionPrefab.transform.rotation);
                 Destroy(exp, DestroyExplosion);
 
+                Managers.Sound.Play("sfx/SE_Weapon_Hit_Bullet_Unit");  // 사운드 추가 231019_박시연
+
                 Destroy(gameObject);
             }
         }
