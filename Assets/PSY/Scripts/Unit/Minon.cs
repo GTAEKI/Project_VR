@@ -99,6 +99,8 @@ public class Minon : UnitController
 
                     instance.GetComponent<BulletController>().dir = dir;  // 타겟의 방향을 설정해준다. 
 
+                    Managers.Sound.Play("sfx/SE_Weapon_ATK_Bullet_Minion_Unit");  // 사운드 추가 231019_박시연
+
                     StartCoroutine(DestoryBullet(instance));
                     delay = 0f;
                 }

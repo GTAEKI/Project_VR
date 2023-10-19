@@ -100,6 +100,8 @@ public class UnitSpawner : MonoBehaviour
 
             if (durationTime <= 0)
             {
+                Managers.Sound.Play("sfx/SE_Weapon_Remove_Bullet_Unit");  // 사운드 추가 231019_박시연
+
                 Destroy(instance);
                 count--;
                 yield break;

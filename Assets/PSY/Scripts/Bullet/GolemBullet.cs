@@ -36,10 +36,8 @@ public class GolemBullet : BulletController
                 var exp = Instantiate(ExplosionPrefab, other.transform.position, ExplosionPrefab.transform.rotation);
                 Destroy(exp, DestroyExplosion);
 
-                //Transform child;
-                //child = transform.GetChild(0);
-                //transform.DetachChildren();
-                //Destroy(child.gameObject, DestroyChildren);
+                Managers.Sound.Play("sfx/SE_Weapon_Hit_Bullet_Unit");  // 사운드 추가 231019_박시연
+
                 Destroy(gameObject);
             }
         }
