@@ -17,6 +17,8 @@ public class SelectObject : MonoBehaviour
     }
 
     StoreObjectInfo remainStoreInfo;
+    StartButton closeStartButtonOutLine;
+    EndButton closeEndButtonOutLine;
 
     // Update is called once per frame
     void Update()
@@ -27,7 +29,7 @@ public class SelectObject : MonoBehaviour
 
         Debug.DrawRay(ray.origin, ray.direction * 100000f, Color.red);
 
-        if(Physics.Raycast(ray, out hitInfo,10000f,LayerMask.GetMask("Store")))
+        if(Physics.Raycast(ray, out hitInfo,10000f,LayerMask.GetMask("UI")))
         {
             Debug.Log(hitInfo.transform.name);
 
@@ -37,19 +39,6 @@ public class SelectObject : MonoBehaviour
                 StoreObjectInfo storeInfo = hitInfo.collider.GetComponent<StoreObjectInfo>();
                 remainStoreInfo = storeInfo;
                 storeInfo.OnCursorPoint();
-
-                //if (Input.GetMouseButtonDown(0))
-                //{
-                //    storeInfo.BuyUnit();
-                //}
-                //else if (Input.GetMouseButton(0))
-                //{
-                    
-                //}
-                //else if (Input.GetMouseButtonUp(0))
-                //{
-                //    storeInfo.DontBuyUnit();
-                //}
 
                 if(ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
                 {
@@ -65,9 +54,60 @@ public class SelectObject : MonoBehaviour
             {
                 StoreObjectInfo.OtherOutLineOff(); // 백그라운드 UI를 건드리면 다른 아웃라인은 전부 끔
             }
+
+            
+
+            if (hitInfo.collider.CompareTag("StartButton"))
+            {
+                Debug.Log("StartButton");
+                StartButton startButton = hitInfo.collider.GetComponent<StartButton>();
+                startButton.transform.GetChild(1).gameObject.SetActive(true);
+                closeStartButtonOutLine = startButton;
+                if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                {
+                    startButton.ClickStartButton();
+                }
+                else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                {
+                    
+                }
+
+            }
+            
+
+            if (hitInfo.collider.CompareTag("EndButton"))
+            {
+                Debug.Log("EndButton");
+                EndButton endButton = hitInfo.collider.GetComponent<EndButton>();
+                endButton.transform.GetChild(1).gameObject.SetActive(true);
+                closeEndButtonOutLine = endButton;
+
+                if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                {
+                    endButton.ClickEndGame();
+                }
+                else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                {
+
+                }
+            }
+        }
+        else
+        {
+            if(closeStartButtonOutLine!= null)
+            {
+                closeStartButtonOutLine.transform.GetChild(1).gameObject.SetActive(false);
+
+            }
+
+            if(closeEndButtonOutLine != null)
+            {
+                closeEndButtonOutLine.transform.GetChild(1).gameObject.SetActive(false);
+
+            }
         }
 
-        
-        
+
+
     }
 }

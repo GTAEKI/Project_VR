@@ -13,6 +13,8 @@ TagManager:
   - Minion
   - CenterPoint
   - Meteor
+  - StartButton
+  - EndButton
   layers:
   - Default
   - TransparentFX
