@@ -49,10 +49,16 @@ public class Character : MonoBehaviour
                 case CharacterState.GROGGY:
                     {
                         anim.CrossFade("GROGGY", 0.1f);
+                        Managers.Sound.Play("SFX/SE_Golem_Groggy");
                         StartCoroutine(Test_Delay());
                     }
                     break;
-                case CharacterState.DIE: anim.CrossFade("DIE", 0.1f); break;
+                case CharacterState.DIE:
+                    {
+                        anim.CrossFade("DIE", 0.1f);
+                        Managers.Sound.Play("SFX/SE_Golem_Death");
+                    }
+                    break;
             }
         }
     }

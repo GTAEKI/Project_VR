@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameManager
 {
-    GameObject startEndUI;
-    StartEndUI startEndUIText;
+    public GameObject startEndUI;
+    public StartEndUI startEndUIText;
     
 
     public void Init()
@@ -13,8 +13,9 @@ public class GameManager
         Managers.MONEY.Init(); // 배경택_231018
         startEndUI = GameObject.Find("StartEndUI/Panel");
         startEndUIText = startEndUI.GetComponent<StartEndUI>();
+        startEndUIText.Init();
         startEndUI.SetActive(false);
-        //ReadyScene();
+        ReadyScene();
     }
 
 

@@ -41,6 +41,15 @@ public class Golem : UnitController
 
         if (colliders.Length > 0)
         {
+            // 보스가 사망하면 더 이상 쏘지 않음, 김민섭_231019
+            Boss boss = colliders[0].transform.parent.parent.GetComponent<Boss>();
+            if (boss != null)
+            {
+                if (boss.CurrStatus.IsDie) return;
+                if (boss.State == Character.CharacterState.RUBBLE) return;
+                if (boss.State == Character.CharacterState.RUBBLE_TO_IDLE) return;
+            }
+
             targetCollider = colliders[0];
 
             dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
@@ -54,6 +63,15 @@ public class Golem : UnitController
 
             if (centercolliders.Length > 0)
             {
+                // 보스가 사망하면 더 이상 쏘지 않음, 김민섭_231019
+                Boss boss = centercolliders[0].transform.parent.GetComponent<Boss>();
+                if (boss != null)
+                {
+                    if (boss.CurrStatus.IsDie) return;
+                    if (boss.State == Character.CharacterState.RUBBLE) return;
+                    if (boss.State == Character.CharacterState.RUBBLE_TO_IDLE) return;
+                }
+
                 targetCollider = centercolliders[0];
 
                 dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
@@ -71,7 +89,6 @@ public class Golem : UnitController
     public void StartBulletAttack()
     {
         golemBullet = Resources.Load<GameObject>("Prefabs/Unit/GolemBullet");
-        Debug.Log("Golem 총알 발사 ( Index : 1 )");
 
         StartCoroutine(SpawnBullet(golemBullet));
     }
@@ -90,21 +107,23 @@ public class Golem : UnitController
 
         while (true)
         {
-            delay += Time.deltaTime;
-
-            if (Maxdelay <= delay)  // 최대 딜레이 시간에 도달한다면
+            if (targetCollider != null)     // 타겟이 없으면 쏘지 않기, 김민섭_231019
             {
-                GameObject instance = Instantiate(createObj, spawnPoint.position, Quaternion.identity);
-                bullets.Add(instance);  // 총알을 생성 장소에 맞게 생성한다.
+                delay += Time.deltaTime;
 
-                instance.GetComponent<BulletController>().dir = dir;  // 타겟의 방향을 설정해준다. 
-
-                Managers.Sound.Play("sfx/SE_Weapon_ATK_Bullet_Golem_Unit");  // 사운드 추가 231019_박시연
-
-                StartCoroutine(DestoryBullet(instance));
-                delay = 0f;
+                if (Maxdelay <= delay)  // 최대 딜레이 시간에 도달한다면
+                {
+                    GameObject instance = Instantiate(createObj, spawnPoint.position, Quaternion.identity);
+                    bullets.Add(instance);  // 총알을 생성 장소에 맞게 생성한다.
+                    
+                    instance.GetComponent<BulletController>().dir = dir;  // 타겟의 방향을 설정해준다. 
+                    
+                    Managers.Sound.Play("sfx/SE_Weapon_ATK_Bullet_Golem_Unit");  // 사운드 추가 231019_박시연
+                    
+                    StartCoroutine(DestoryBullet(instance));
+                    delay = 0f;
+                }
             }
-
             yield return null;
         }
     }
