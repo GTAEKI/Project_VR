@@ -32,20 +32,14 @@ public class Managers : MonoBehaviour
         Init();
     }
 
-    private void Update()
-    {
-        //_input.OnUpdate();
-    }
-
-    private static void Init()
+    public static void Init()
     {
         if (s_instance == null)
         {
-            /////////////////// s빼야돼 ///////////
-            GameObject obj = GameObject.Find("@Managerss");
+            GameObject obj = GameObject.Find("@Managers");
             if (obj == null)
             {
-                obj = new GameObject { name = "@Managerss" };
+                obj = new GameObject { name = "@Managers" };
                 obj.AddComponent<Managers>();
             }
 
@@ -57,7 +51,9 @@ public class Managers : MonoBehaviour
             s_instance._sound.Init();
             
             // 게임매니저 init()
-            //s_instance._gameManager.Init(); //배경택_231018
+            s_instance._data.Init();        // 김민섭_231019
+            s_instance._gameManager.Init(); //배경택_231018
+            s_instance._sound.Init();       // 김민섭_231019
         }
     }
 

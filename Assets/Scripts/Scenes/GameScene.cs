@@ -14,6 +14,8 @@ public class GameScene : BaseScene
         Managers.Data.Init();
         // 사운드 초기화
         Managers.Sound.Init();
+        // 매니저 초기화
+        Managers.Init();
         // 보스 소환
         Managers.Resource.Instantiate("Boss_Golem", new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(0, 180, 0)));
     }

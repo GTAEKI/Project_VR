@@ -70,7 +70,6 @@ public class Minon : UnitController
     public void StartBulletAttack()
     {
         minionBullet = Resources.Load<GameObject>("Prefabs/Unit/MinionBullet");
-        Debug.Log("Minion 총알 발사 ( Index : 0 )");
         StartCoroutine(SpawnBullet(minionBullet));
     }
 
@@ -98,6 +97,8 @@ public class Minon : UnitController
                     bullets.Add(instance);  // 총알을 생성 장소에 맞게 생성한다.
 
                     instance.GetComponent<BulletController>().dir = dir;  // 타겟의 방향을 설정해준다. 
+
+                    Managers.Sound.Play("sfx/SE_Weapon_ATK_Bullet_Minion_Unit");  // 사운드 추가 231019_박시연
 
                     StartCoroutine(DestoryBullet(instance));
                     delay = 0f;
