@@ -11,6 +11,7 @@ public class Boss : Character
 
     // 약점
     private GameObject weaknessPoint;       // 약점 위치, 김민섭_231013
+    private GameObject centerPoint;         // 기본 타격, 김민섭_231019
 
     // 스킬, 김민섭_231013
     [Header("TEST: 스킬_메테오")]
@@ -20,6 +21,7 @@ public class Boss : Character
     [Tooltip("메테오 쿨타임")] private float meteor_coolTime;
     private bool isMeteor = false;
     private bool isSummon = false;
+    private bool isGroggy = false;
 
     // 스탯
     [Header("TEST: 골렘 스탯")]
@@ -39,17 +41,23 @@ public class Boss : Character
 
     protected override IEnumerator Test_Delay()
     {
+        if (isGroggy) yield break;
         if (weaknessPoint.activeSelf) yield break;
 
         Debug.Log("약점 노출!");
+        isGroggy = true;
+
+        yield return new WaitForSeconds(2f);
+
         weaknessPoint.SetActive(true);
 
         yield return new WaitForSeconds(currStatus.ActTime);
 
         Debug.Log("약점 회복!");
+        isGroggy = false;
         currStatus.IsGroggy = false;
         weaknessPoint.SetActive(false);
-        State = CharacterState.IDLE;
+        State = CharacterState.MOVE;
     }
 
     /// <summary>
@@ -61,7 +69,9 @@ public class Boss : Character
         weaknessPoint = transform.Find("RockCreatureMesh_LP/WeaknessPoint").gameObject;
         weaknessPoint.SetActive(false);
 
-        meteor_coolTime = 8f;       // 5초다마 메테오 발동
+        centerPoint = transform.Find("CenterPoint").gameObject;
+
+        meteor_coolTime = 5f;       // 5초다마 메테오 발동
 
         // 보스 스탯 세팅 진행
         currStatus = new GolemStatus(Define.Data_ID_List.Golem);
@@ -78,14 +88,12 @@ public class Boss : Character
         // 스킬 로직 실행
         StartCoroutine(Spell_Meteor());
         StartCoroutine(Spell_Summon());
-
-        StartCoroutine(DelayIDLE());
     }
 
     /// TODO: 나중에 버튼 누르면 재생 되도록 제어 할 것, 김민섭_231017
-    private IEnumerator DelayIDLE()
+    public IEnumerator DelayIDLE()
     {
-        yield return new WaitForSeconds(1f);
+        yield return null;
 
         State = CharacterState.RUBBLE_TO_IDLE;
     }
@@ -105,7 +113,6 @@ public class Boss : Character
 
             if(meteor_currTime >= meteor_coolTime)
             {   // 쿨타임에 도달하면 공격
-                Debug.Log("메테오 발동!");
                 Meteor();
 
                 meteor_currTime = 0f;
@@ -113,11 +120,14 @@ public class Boss : Character
                 // 메테오 모두 발동 후 상태 변환
                 if(weaknessPoint.activeSelf)
                 {
-                    State = CharacterState.GROGGY;
+                    if (State != CharacterState.GROGGY)
+                    {
+                        State = CharacterState.GROGGY;
+                    }
                 }
                 else
                 {
-                    State = CharacterState.IDLE;
+                    State = CharacterState.MOVE;
                 }
             }
 
@@ -157,6 +167,8 @@ public class Boss : Character
             Vector3 randSpawnVec = Random.insideUnitSphere * spawnPoint.agentDensity;
             Vector3 spawnPos = spawnPoint.transform.position + randSpawnVec;
             Managers.Resource.Instantiate("Meteor", spawnPos, Quaternion.identity);
+
+            Managers.Sound.Play("SFX/SE_Projectile_Boss_Flying");
 
             yield return new WaitForSeconds(0.3f);
         }
@@ -275,19 +287,20 @@ public class Boss : Character
                 float distance = Vector3.Distance(transform.position, playerTarget.transform.position);
                 if ((int)distance % 12 == 0)
                 {
-                    Debug.Log("졸개 소환!");
-
                     isSummon = true;
                     Summon();
 
                     // 메테오 모두 발동 후 상태 변환
                     if (weaknessPoint.activeSelf)
                     {
-                        State = CharacterState.GROGGY;
+                        if(State != CharacterState.GROGGY)
+                        {
+                            State = CharacterState.GROGGY;
+                        }
                     }
                     else
                     {
-                        State = CharacterState.IDLE;
+                        State = CharacterState.MOVE;
                     }
 
                     // TODO: 소환된 졸개가 없다면 실행되게 수정
@@ -302,9 +315,23 @@ public class Boss : Character
 
     protected override void Update()
     {
-        if(currStatus != null && currStatus.IsDie)
+        // TEST:
+        if(Input.GetMouseButtonDown(2))
+        {
+            Managers.GameManager.startEndUIText.gameObject.SetActive(false);
+            StartCoroutine(DelayIDLE());
+        }
+
+        if (Managers.GameManager.startEndUIText.gameObject.activeSelf) return;
+
+        if (currStatus != null && currStatus.IsDie)
         {   // 현재 죽은 상태라면 행동 정지
-            if(State != CharacterState.DIE) State = CharacterState.DIE;
+            if(State != CharacterState.DIE)
+            {
+                State = CharacterState.DIE;
+                weaknessPoint.SetActive(false);
+                centerPoint.SetActive(false);
+            }
             return;
         }
 
@@ -315,11 +342,6 @@ public class Boss : Character
         }
 
         base.Update();
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            currStatus.OnDamaged(10);
-        }
     }
 
     /// <summary>
@@ -388,5 +410,10 @@ public class Boss : Character
         
         // UI
         ui_distance.SetDistanceText(Vector3.Distance(transform.position, endPosition));
+    }
+
+    public void PlayMoveSound()
+    {
+        Managers.Sound.Play("SFX/SE_Golem_Move");
     }
 }

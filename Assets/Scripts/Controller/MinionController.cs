@@ -90,7 +90,10 @@ public class MinionController : MonoBehaviour, ISearchTarget
                 player?.status.OnDamaged(ref player.currHp, currStatus.Damage);
 
                 // 졸개 폭발 이펙트 실행, 김민섭_231018
-                Managers.Resource.Instantiate("Particle/MinionExplosion", transform.position, Quaternion.identity);
+                GameObject explosion = Managers.Resource.Instantiate("Particle/MinionExplosion", transform.position, Quaternion.identity);
+                Managers.Resource.Destroy(explosion, 3f);
+
+                Managers.Sound.Play("SFX/SE_Minion_Explosion");
 
                 Managers.Resource.Destroy(gameObject);
                 yield break;

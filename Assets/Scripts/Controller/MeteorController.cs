@@ -1,3 +1,4 @@
+using Oculus.Interaction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,16 +41,26 @@ public class MeteorController : MonoBehaviour, ISearchTarget
     {
         // 지면을 기준점으로 정함
         Vector3 groundPos = transform.position;
-        groundPos.y = 1.25f;
+        groundPos.y = 19f;
 
         // 기준점에서 레이를 쏨
         Ray ray = new Ray(groundPos, -transform.forward);
-        RaycastHit hitInfo;
+        RaycastHit[] hitInfos = Physics.RaycastAll(ray, Mathf.Infinity, LayerMask.GetMask("Player"));
+        RaycastHit hitTarget = default;
 
-        if(Physics.Raycast(ray, out hitInfo, LayerMask.GetMask("Player")))
-        {   // 플레이어가 감지되었다면
-            Util.DrawTouchRay(transform.position, hitInfo.point, Color.blue);
-            Fire(hitInfo.point);
+        for (int i = 0; i < hitInfos.Length; i++)
+        {
+            if (hitInfos[i].transform.tag == "Player")
+            {
+                hitTarget = hitInfos[i];
+                break;
+            }
+        }
+
+        if(hitTarget.collider != null)
+        {
+            Util.DrawTouchRay(transform.position, hitTarget.point, Color.blue);
+            Fire(hitTarget.point);
         }
     }
 
@@ -87,7 +98,6 @@ public class MeteorController : MonoBehaviour, ISearchTarget
             float distance = Vector3.Distance(transform.position, targetPosition);
             if(distance <= 0.1f)
             {
-                Debug.Log("메테오 폭발!");
                 yield break;
             }
 
@@ -111,9 +121,9 @@ public class MeteorController : MonoBehaviour, ISearchTarget
 
     #endregion
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             KJHPlayer player = FindObjectOfType<KJHPlayer>();
             if (player != null)
@@ -122,9 +132,29 @@ public class MeteorController : MonoBehaviour, ISearchTarget
             }
 
             // 메테오 폭발 이펙트 실행, 김민섭_231018
-            Managers.Resource.Instantiate("Particle/MeteorExplosion", transform.position, Quaternion.identity);
+            GameObject explosion = Managers.Resource.Instantiate("Particle/MeteorExplosion", transform.position, Quaternion.identity);
+            Managers.Resource.Destroy(explosion, 3f);
+
+            Managers.Sound.Play("SFX/SE_Projectile_Boss_Destroy");
 
             Managers.Resource.Destroy(gameObject);
         }
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.tag == "Player")
+    //    {
+    //        KJHPlayer player = FindObjectOfType<KJHPlayer>();
+    //        if (player != null)
+    //        {
+    //            player.status.OnDamaged(ref player.currHp, status.Damage);
+    //        }
+
+    //        // 메테오 폭발 이펙트 실행, 김민섭_231018
+    //        Managers.Resource.Instantiate("Particle/MeteorExplosion", transform.position, Quaternion.identity);
+
+    //        Managers.Resource.Destroy(gameObject);
+    //    }
+    //}
 }
