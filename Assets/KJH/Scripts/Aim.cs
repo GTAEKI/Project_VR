@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Aim : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-    public GameObject reinforcedBulletPrefab; // 강화된 총알 프리팹 추가
+    public GameObject bulletNormal;
+    public GameObject bulletStrong; // 강화된 총알 프리팹 추가
     // 어떤 손인지 판단
     public bool isLeftHand = default;
 
@@ -90,18 +90,21 @@ public class Aim : MonoBehaviour
     {
         if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
         {
-        GameObject bullet = Instantiate(bulletPrefab);
+            Managers.Sound.Play("Sound/SE_Weapon_ATK_Bullet_Launch");
+        GameObject bullet = Instantiate(bulletNormal);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
         }
-        else if(ARAVRInput.GetDown(ARAVRInput.Button.Two))
+        else if (ARAVRInput.GetDown(ARAVRInput.Button.Two))
         {
-            GameObject bullet = Instantiate(reinforcedBulletPrefab);
+            Managers.Sound.Play("Sound/SE_Weapon_ATK_StrrongBullet_Launch");
+            GameObject bullet = Instantiate(bulletStrong);
             bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
         }
     }
     public void StrongShoot()
     {
-        GameObject bullet = Instantiate(reinforcedBulletPrefab);
+        Managers.Sound.Play("Sound/SE_Weapon_ATK_StrrongBullet_Launch");
+        GameObject bullet = Instantiate(bulletStrong);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
     }
 }

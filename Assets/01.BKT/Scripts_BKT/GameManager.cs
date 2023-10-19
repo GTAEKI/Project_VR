@@ -9,8 +9,6 @@ public class GameManager
     StartEndUI startEndUIText;
     Boss bossScript;
 
-
-
     public void Init()
     {
         Managers.MONEY.Init(); // 배경택_231018
@@ -20,8 +18,7 @@ public class GameManager
 
         startEndUIText = startEndUI.GetComponent<StartEndUI>();
         store.SetActive(false);
-        
-        //ReadyScene();
+
     }
 
     public void ClickGameStart()

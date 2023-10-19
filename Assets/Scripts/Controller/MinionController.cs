@@ -8,6 +8,8 @@ public class MinionController : MonoBehaviour, ISearchTarget
     [SerializeField] protected MinionStatus currStatus;       // 졸개 스텟, 김민섭_231015
     private Vector3 targetPosition;      // 날라가려는 위치, 김민섭_231015
 
+    public bool isStart = false;
+
     /// <summary>
     /// 졸개 현재 스탯 Get 프로퍼티
     /// 김민섭_231016
@@ -28,7 +30,7 @@ public class MinionController : MonoBehaviour, ISearchTarget
 
     private void Update()
     {
-        transform.Rotate(new Vector3(-Time.deltaTime * (currStatus.Speed + 300f), 0f, 0f));
+        if(isStart) transform.Rotate(new Vector3(-Time.deltaTime * (currStatus.Speed + 300f), 0f, 0f));
     }
 
     #region ISearchTarget 함수
@@ -71,7 +73,9 @@ public class MinionController : MonoBehaviour, ISearchTarget
         float lerpTime = 30f;
         Vector3 startPos = transform.position;
 
-        yield return new WaitForSeconds(Random.Range(1f, 2f));
+        yield return new WaitForSeconds(Random.Range(0.3f, 0.7f));
+
+        isStart = true;
 
         while (true)
         {
@@ -90,7 +94,10 @@ public class MinionController : MonoBehaviour, ISearchTarget
                 player?.status.OnDamaged(ref player.currHp, currStatus.Damage);
 
                 // 졸개 폭발 이펙트 실행, 김민섭_231018
-                Managers.Resource.Instantiate("Particle/MinionExplosion", transform.position, Quaternion.identity);
+                GameObject explosion = Managers.Resource.Instantiate("Particle/MinionExplosion", transform.position, Quaternion.identity);
+                Managers.Resource.Destroy(explosion, 3f);
+
+                Managers.Sound.Play("SFX/SE_Minion_Explosion");
 
                 Managers.Resource.Destroy(gameObject);
                 yield break;

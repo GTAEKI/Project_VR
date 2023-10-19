@@ -30,7 +30,6 @@ public class PlayerHP : MonoBehaviour
         {
             // 플레이어의 현재 체력을 슬라이더의 값에 반영합니다.
             sliderBar.value = (float)player.currHp / player.status.MaxHp;
-            Debug.Log("체크");
 
             // 텍스트UI
             hpText.text = $"HP : {player.currHp} / {player.status.MaxHp}";
