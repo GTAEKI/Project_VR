@@ -106,7 +106,6 @@ public class Boss : Character
 
             if(meteor_currTime >= meteor_coolTime)
             {   // 쿨타임에 도달하면 공격
-                Debug.Log("메테오 발동!");
                 Meteor();
 
                 meteor_currTime = 0f;
@@ -114,7 +113,10 @@ public class Boss : Character
                 // 메테오 모두 발동 후 상태 변환
                 if(weaknessPoint.activeSelf)
                 {
-                    State = CharacterState.GROGGY;
+                    if (State != CharacterState.GROGGY)
+                    {
+                        State = CharacterState.GROGGY;
+                    }
                 }
                 else
                 {
@@ -158,6 +160,8 @@ public class Boss : Character
             Vector3 randSpawnVec = Random.insideUnitSphere * spawnPoint.agentDensity;
             Vector3 spawnPos = spawnPoint.transform.position + randSpawnVec;
             Managers.Resource.Instantiate("Meteor", spawnPos, Quaternion.identity);
+
+            Managers.Sound.Play("SFX/SE_Projectile_Boss_Flying");
 
             yield return new WaitForSeconds(0.3f);
         }
@@ -276,15 +280,16 @@ public class Boss : Character
                 float distance = Vector3.Distance(transform.position, playerTarget.transform.position);
                 if ((int)distance % 12 == 0)
                 {
-                    Debug.Log("졸개 소환!");
-
                     isSummon = true;
                     Summon();
 
                     // 메테오 모두 발동 후 상태 변환
                     if (weaknessPoint.activeSelf)
                     {
-                        State = CharacterState.GROGGY;
+                        if(State != CharacterState.GROGGY)
+                        {
+                            State = CharacterState.GROGGY;
+                        }
                     }
                     else
                     {

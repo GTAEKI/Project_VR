@@ -148,6 +148,7 @@ public class GolemStatus : Status
         if(!IsPhase && Hp <= MaxHp / 2f)
         {
             IsPhase = true;
+            Managers.Sound.Play("SFX/SE_Golem_Groggy");
         }
 
         if (Hp <= 0)
