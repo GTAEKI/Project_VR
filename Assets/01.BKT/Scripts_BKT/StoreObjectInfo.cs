@@ -30,7 +30,7 @@ public class StoreObjectInfo : MonoBehaviour
     private Coroutine buyStartCoroutine;
     private bool isCanBuy;
 
-    private void Start()
+    protected  virtual void Start()
     {
         DescriptionUI = GameObject.Find("Right_Item Description");
         outLineImage = transform.GetChild(2).gameObject;
