@@ -472,6 +472,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c52bfde4a31483d9a81229cda3d0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  start_BigText: Defence to Monster
+  start_Left_SmallText: Start
+  start_Right_SmallText: End
+  victory_BigText: Victory
+  victory_Left_SmallText: Restart
+  victory_Right_SmallText: End
+  gameOver_BigText: GameOver
+  gameOver_Left_SmallText: Restart
+  gameOver_Right_SmallText: End
 --- !u!1 &6731045475053697110
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +853,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &5582416936891057212
 MonoBehaviour:
   m_ObjectHideFlags: 0

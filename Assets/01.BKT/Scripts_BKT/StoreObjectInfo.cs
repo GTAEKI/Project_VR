@@ -11,6 +11,9 @@ public class StoreObjectInfo : MonoBehaviour
     static public Action OtherOutLineOff; // 선택되지 않은 이미지의 아웃라인 off를 위한 이벤트
     static public Action CanBuy;
 
+
+    public AudioClip purchaseSound;
+
     public int id = default;
     public string icon = default;
     public string itemName = default;
@@ -116,6 +119,7 @@ public class StoreObjectInfo : MonoBehaviour
             //TODO 아이템 구매
             Managers.MONEY.myMoney -= price;
             Managers.MONEY.ReflectMoney();
+            Managers.Sound.Play(purchaseSound,Define.Sound.Sfx);
             CanBuy();
 
             // TODO: 유닛 생성
