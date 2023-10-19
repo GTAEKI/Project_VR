@@ -5,16 +5,35 @@ using UnityEngine;
 public class GameManager
 {
     GameObject startEndUI;
+    GameObject store;
     StartEndUI startEndUIText;
-    
+    Boss bossScript;
+
+
 
     public void Init()
     {
         Managers.MONEY.Init(); // 배경택_231018
         startEndUI = GameObject.Find("StartEndUI/Panel");
+        store = GameObject.Find("Store");
+        bossScript = GameObject.Find("Boss_Golem").GetComponent<Boss>();
+
         startEndUIText = startEndUI.GetComponent<StartEndUI>();
-        startEndUI.SetActive(false);
+        store.SetActive(false);
+        
         //ReadyScene();
+    }
+
+    public void ClickGameStart()
+    {
+        startEndUI.SetActive(false);
+        store.SetActive(true);
+        bossScript.StartCoroutineDelayIdle();
+    }
+
+    public void CloseStartEndUI()
+    {
+        startEndUI.SetActive(false);
     }
 
 

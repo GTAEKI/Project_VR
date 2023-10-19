@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 241032155206916853}
   - component: {fileID: 5590766547159923532}
   - component: {fileID: 8753094619321623860}
-  m_Layer: 12
+  m_Layer: 5
   m_Name: BuffImage
   m_TagString: StoreObject
   m_Icon: {fileID: 0}

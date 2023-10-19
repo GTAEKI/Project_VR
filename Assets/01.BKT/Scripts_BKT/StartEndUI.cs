@@ -34,7 +34,7 @@ public class StartEndUI : MonoBehaviour
     [SerializeField]
     private string gameOver_Right_SmallText = "End";
 
-
+    
 
 
 
@@ -44,11 +44,13 @@ public class StartEndUI : MonoBehaviour
         bigText = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         leftSmallText = transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         rightSmallText = transform.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
+        
 
         //bigText.text = start_BigText;
         //leftSmallText.text = start_Left_SmallText;
         //rightSmallText.text = start_Right_SmallText;
     }
+
 
     /// <summary>
     /// 게임 시작시 텍스트 삽입

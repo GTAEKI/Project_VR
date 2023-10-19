@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 241032155206916853}
   - component: {fileID: 1005702084035914259}
   - component: {fileID: 2036466241971721401}
-  m_Layer: 12
+  m_Layer: 5
   m_Name: UnitImage
   m_TagString: StoreObject
   m_Icon: {fileID: 0}
