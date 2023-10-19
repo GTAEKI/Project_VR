@@ -11,7 +11,7 @@ public class Aim : MonoBehaviour
     // 어떤 손인지 판단
     public bool isLeftHand = default;
 
-    public bool isPosition = false;
+    public bool isPotion = false;
     // 레이저 포인트를 발사할 라인 렌더러
     LineRenderer lineRenderer;
 
@@ -31,7 +31,7 @@ public class Aim : MonoBehaviour
         {
             // 컨트롤러의 진동 재생
             ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
-            if(!isPosition)
+            if(!isPotion)
             {
                 Shoot();
             }

@@ -88,6 +88,14 @@ public class Boss : Character
         // 스킬 로직 실행
         StartCoroutine(Spell_Meteor());
         StartCoroutine(Spell_Summon());
+
+        //StartCoroutine(DelayIDLE()); //배경택 _231019 외부에서 호출하기 편하도록 함수로 따로 뺌
+    }
+
+    // StartEndUI 클래스에서 사용중
+    public void StartCoroutineDelayIdle()
+    {
+        StartCoroutine(DelayIDLE());
     }
 
     /// TODO: 나중에 버튼 누르면 재생 되도록 제어 할 것, 김민섭_231017
