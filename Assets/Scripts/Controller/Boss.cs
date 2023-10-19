@@ -81,14 +81,12 @@ public class Boss : Character
         // 스킬 로직 실행
         StartCoroutine(Spell_Meteor());
         StartCoroutine(Spell_Summon());
-
-        StartCoroutine(DelayIDLE());
     }
 
     /// TODO: 나중에 버튼 누르면 재생 되도록 제어 할 것, 김민섭_231017
-    private IEnumerator DelayIDLE()
+    public IEnumerator DelayIDLE()
     {
-        yield return new WaitForSeconds(1f);
+        yield return null;
 
         State = CharacterState.RUBBLE_TO_IDLE;
     }
@@ -305,7 +303,16 @@ public class Boss : Character
 
     protected override void Update()
     {
-        if(currStatus != null && currStatus.IsDie)
+        // TEST:
+        if(Input.GetMouseButtonDown(2))
+        {
+            Managers.GameManager.startEndUIText.gameObject.SetActive(false);
+            StartCoroutine(DelayIDLE());
+        }
+
+        if (Managers.GameManager.startEndUIText.gameObject.activeSelf) return;
+
+        if (currStatus != null && currStatus.IsDie)
         {   // 현재 죽은 상태라면 행동 정지
             if(State != CharacterState.DIE)
             {

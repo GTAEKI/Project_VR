@@ -41,11 +41,16 @@ public class Golem : UnitController
 
         if (colliders.Length > 0)
         {
-            targetCollider = colliders[0];
-
             // 보스가 사망하면 더 이상 쏘지 않음, 김민섭_231019
-            Boss boss = targetCollider.transform.parent.parent.GetComponent<Boss>();
-            if (boss != null && boss.CurrStatus.IsDie) return;
+            Boss boss = colliders[0].transform.parent.parent.GetComponent<Boss>();
+            if (boss != null)
+            {
+                if (boss.CurrStatus.IsDie) return;
+                if (boss.State == Character.CharacterState.RUBBLE) return;
+                if (boss.State == Character.CharacterState.RUBBLE_TO_IDLE) return;
+            }
+
+            targetCollider = colliders[0];
 
             dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
 
@@ -58,11 +63,16 @@ public class Golem : UnitController
 
             if (centercolliders.Length > 0)
             {
-                targetCollider = centercolliders[0];
-
                 // 보스가 사망하면 더 이상 쏘지 않음, 김민섭_231019
-                Boss boss = targetCollider.transform.parent.parent.GetComponent<Boss>();
-                if (boss != null && boss.CurrStatus.IsDie) return;
+                Boss boss = centercolliders[0].transform.parent.parent.GetComponent<Boss>();
+                if (boss != null)
+                {
+                    if (boss.CurrStatus.IsDie) return;
+                    if (boss.State == Character.CharacterState.RUBBLE) return;
+                    if (boss.State == Character.CharacterState.RUBBLE_TO_IDLE) return;
+                }
+
+                targetCollider = centercolliders[0];
 
                 dir = targetCollider.transform.position;  // 타겟의 방향으로 방향을 지정해준다.
 
@@ -79,7 +89,6 @@ public class Golem : UnitController
     public void StartBulletAttack()
     {
         golemBullet = Resources.Load<GameObject>("Prefabs/Unit/GolemBullet");
-        Debug.Log("Golem 총알 발사 ( Index : 1 )");
 
         StartCoroutine(SpawnBullet(golemBullet));
     }
