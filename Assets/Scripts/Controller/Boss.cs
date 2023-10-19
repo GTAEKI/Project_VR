@@ -11,6 +11,7 @@ public class Boss : Character
 
     // 약점
     private GameObject weaknessPoint;       // 약점 위치, 김민섭_231013
+    private GameObject centerPoint;         // 기본 타격, 김민섭_231019
 
     // 스킬, 김민섭_231013
     [Header("TEST: 스킬_메테오")]
@@ -60,6 +61,8 @@ public class Boss : Character
     {
         weaknessPoint = transform.Find("RockCreatureMesh_LP/WeaknessPoint").gameObject;
         weaknessPoint.SetActive(false);
+
+        centerPoint = transform.Find("RockCreatureMesh_LP/CenterPoint").gameObject;
 
         meteor_coolTime = 8f;       // 5초다마 메테오 발동
 
@@ -304,7 +307,12 @@ public class Boss : Character
     {
         if(currStatus != null && currStatus.IsDie)
         {   // 현재 죽은 상태라면 행동 정지
-            if(State != CharacterState.DIE) State = CharacterState.DIE;
+            if(State != CharacterState.DIE)
+            {
+                State = CharacterState.DIE;
+                weaknessPoint.SetActive(false);
+                centerPoint.SetActive(false);
+            }
             return;
         }
 
@@ -315,11 +323,6 @@ public class Boss : Character
         }
 
         base.Update();
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            currStatus.OnDamaged(10);
-        }
     }
 
     /// <summary>
