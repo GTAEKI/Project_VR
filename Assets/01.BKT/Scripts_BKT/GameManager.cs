@@ -9,6 +9,9 @@ public class GameManager
     StartEndUI startEndUIText;
     Boss bossScript;
 
+    public bool isGameOver;
+    public bool isVictory;
+
     public void Init()
     {
         Managers.MONEY.Init(); // 배경택_231018
@@ -17,6 +20,9 @@ public class GameManager
 
         startEndUIText = startEndUI.GetComponent<StartEndUI>();
         store.SetActive(false);
+
+        isGameOver = false;
+        isVictory = false;
 
     }
 
@@ -45,16 +51,20 @@ public class GameManager
         startEndUI.SetActive(true);
     }
 
-    private void GameOverLose()
+    public void GameOverLose()
     {
         startEndUIText.InsertTextLose();
         startEndUI.SetActive(true);
+        isGameOver = true;
+        isVictory = false;
     }
 
-    private void GameOverVictory()
+    public void GameOverVictory()
     {
         startEndUIText.InsertTextVictory();
         startEndUI.SetActive(true);
+        isGameOver = true;
+        isVictory = true;
     }
 
 

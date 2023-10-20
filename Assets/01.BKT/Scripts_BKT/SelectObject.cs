@@ -65,13 +65,20 @@ public class SelectObject : MonoBehaviour
                 closeStartButtonOutLine = startButton;
                 if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
                 {
-                    startButton.ClickStartButton();
+                    if (Managers.GameManager.isGameOver == true)
+                    {
+                        startButton.ClickReStartButton();
+                    }
+                    else
+                    {
+                        startButton.ClickStartButton();
+
+                    }
                 }
                 else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
                 {
                     
                 }
-
             }
             
 

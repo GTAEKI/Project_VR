@@ -11,6 +11,6 @@ public class StartButton : MonoBehaviour
 
     public void ClickReStartButton()
     {
-        // TODO: 재시작시 실행될 내용 추가
+        Managers.Scene.LoadScene(Define.Scene.Game);
     }
 }

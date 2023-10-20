@@ -70,6 +70,7 @@ public class Boss : Character
         weaknessPoint.SetActive(false);
 
         centerPoint = transform.Find("CenterPoint").gameObject;
+        
 
         meteor_coolTime = 5f;       // 5초다마 메테오 발동
 
@@ -340,6 +341,9 @@ public class Boss : Character
                 weaknessPoint.SetActive(false);
                 centerPoint.SetActive(false);
             }
+
+            Managers.GameManager.GameOverVictory(); // 게임 승리
+
             return;
         }
 

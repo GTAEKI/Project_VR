@@ -9,7 +9,7 @@ public class Define
         Unknown,
         Login,
         Lobby,
-        Game
+        Game,
     }
 
     public enum Sound

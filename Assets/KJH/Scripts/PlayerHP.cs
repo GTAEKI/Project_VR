@@ -9,11 +9,13 @@ public class PlayerHP : MonoBehaviour
     private Slider sliderBar;
     private KJHPlayer player;
     public Text hpText;
+    private GameObject startEndUI;
 
     private void Start()
     {
         player = FindObjectOfType<KJHPlayer>();
         sliderBar = GetComponent<Slider>();
+        
 
         sliderBar.value = 1f;
 
@@ -35,6 +37,8 @@ public class PlayerHP : MonoBehaviour
             hpText.text = $"HP : {player.currHp} / {player.status.MaxHp}";
             if(player.currHp <= 0)
             {
+                Managers.GameManager.GameOverLose(); //게임 패배
+
                 sliderBar.value = 0f;
                 hpText.text = $"HP: 0 / {player.status.MaxHp}";
                 yield break;
