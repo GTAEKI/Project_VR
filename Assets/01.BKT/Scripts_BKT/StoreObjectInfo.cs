@@ -32,6 +32,9 @@ public class StoreObjectInfo : MonoBehaviour
 
     protected  virtual void Start()
     {
+        Debug.Log("******");
+        Debug.Log("스타트 시작 반복");
+
         DescriptionUI = GameObject.Find("Right_Item Description");
         outLineImage = transform.GetChild(2).gameObject;
         baseOutLineImage = transform.GetChild(1).gameObject;
@@ -42,6 +45,12 @@ public class StoreObjectInfo : MonoBehaviour
         OtherOutLineOff += OnCursorPointUp; //생성시 커서 포인트 UP 함수를 이벤트에 추가
         CanBuy += CanBuyItem; //오브젝트가 구매 가능한지 여부 체크를 이벤트에 추가
         CanBuy();
+    }
+
+    private void OnDestroy()
+    {
+
+        OtherOutLineOff -= OnCursorPointUp;
     }
 
     //커서를 위에 올리면 실행되는 함수
@@ -71,6 +80,15 @@ public class StoreObjectInfo : MonoBehaviour
     /// </summary>
     public void OnCursorPointUp()
     {
+        Debug.Log(transform.name);
+        if(outLineImage == null)
+        {
+            outLineImage = transform.GetChild(2).gameObject;
+        }
+        if(baseOutLineImage == null) 
+        {
+            baseOutLineImage = transform.GetChild(1).gameObject;
+        }
         outLineImage.SetActive(false);
         baseOutLineImage.SetActive(true);
     }

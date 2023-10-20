@@ -7,10 +7,13 @@ public class StartButton : MonoBehaviour
     public void ClickStartButton()
     {
         Managers.GameManager.ClickGameStart();
+        Managers.GameManager.isGameOver = false;
     }
 
     public void ClickReStartButton()
     {
         Managers.Scene.LoadScene(Define.Scene.Game);
+        Managers.GameManager.isGameOver = false;
+
     }
 }

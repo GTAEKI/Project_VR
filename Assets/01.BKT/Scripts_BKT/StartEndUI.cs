@@ -34,7 +34,7 @@ public class StartEndUI : MonoBehaviour
     [SerializeField]
     private string gameOver_Right_SmallText = "End";
 
-    public void Init()
+    private void Start()
     {
         bigText = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         leftSmallText = transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();

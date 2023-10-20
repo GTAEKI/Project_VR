@@ -19,7 +19,6 @@ public class GameManager
         store = GameObject.Find("Store");
 
         startEndUIText = startEndUI.GetComponent<StartEndUI>();
-        store.SetActive(false);
 
         isGameOver = false;
         isVictory = false;
@@ -34,6 +33,15 @@ public class GameManager
 
     public void ClickGameStart()
     {
+        if (startEndUI == null)
+        {
+            startEndUI = GameObject.Find("StartEndUI/Panel");
+        }
+        if (store == null)
+        {
+            store = GameObject.Find("Store");
+        }
+
         startEndUI.SetActive(false);
         store.SetActive(true);
         bossScript.StartCoroutineDelayIdle();
@@ -53,16 +61,16 @@ public class GameManager
 
     public void GameOverLose()
     {
-        startEndUIText.InsertTextLose();
         startEndUI.SetActive(true);
+        startEndUIText.InsertTextLose();
         isGameOver = true;
         isVictory = false;
     }
 
     public void GameOverVictory()
     {
-        startEndUIText.InsertTextVictory();
         startEndUI.SetActive(true);
+        startEndUIText.InsertTextVictory();
         isGameOver = true;
         isVictory = true;
     }
