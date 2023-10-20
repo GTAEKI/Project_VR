@@ -74,7 +74,7 @@ public class MeteorStatus: Status
         if(Hp <= 0)
         {   // 체력이 0 이하이면 사망
             Hp = 0;
-            IsDie = false;
+            IsDie = true;
         }
     }
 }

@@ -17,83 +17,75 @@ public class ProjectileMover : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
 
-        // 플래시 이펙트가 지정되어 있다면
-        if (flash != null)
-        {
-            var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
-            flashInstance.transform.forward = gameObject.transform.forward;
-            var flashPs = flashInstance.GetComponent<ParticleSystem>();
+        //// 플래시 이펙트가 지정되어 있다면
+        //if (flash != null)
+        //{
+        //    var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
+        //    flashInstance.transform.forward = gameObject.transform.forward;
+        //    var flashPs = flashInstance.GetComponent<ParticleSystem>();
 
-            // 파티클 시스템의 지속 시간만큼 후에 플래시 이펙트 제거
-            if (flashPs != null)
-            {
-                Destroy(flashInstance, flashPs.main.duration);
-            }
-            else
-            {
-                var flashPsParts = flashInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
-                Destroy(flashInstance, flashPsParts.main.duration);
-            }
-        }
+        //    // 파티클 시스템의 지속 시간만큼 후에 플래시 이펙트 제거
+        //    if (flashPs != null)
+        //    {
+        //        Destroy(flashInstance, flashPs.main.duration);
+        //    }
+        //    else
+        //    {
+        //        var flashPsParts = flashInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
+        //        Destroy(flashInstance, flashPsParts.main.duration);
+        //    }
+        //}
 
         // 5초 후에 발사체 제거
-        Destroy(gameObject, 10);
+        //Destroy(gameObject, 10);
     }
 
-    void FixedUpdate()
-    {
-        // 이동 속도가 0이 아니면 발사체 이동
-        if (speed != 0)
-        {
-            rb.velocity = transform.forward * speed;
-        }
-    }
 
     // 충돌 시 호출되는 함수
     void OnCollisionEnter(Collision collision)
     {
-        // 모든 축의 이동과 회전을 고정
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-        speed = 0; // 이동 속도를 0으로 설정
+        //// 모든 축의 이동과 회전을 고정
+        //rb.constraints = RigidbodyConstraints.FreezeAll;
+        //speed = 0; // 이동 속도를 0으로 설정
 
-        // 충돌 지점의 정보 가져오기
-        ContactPoint contact = collision.contacts[0];
-        Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-        Vector3 pos = contact.point + contact.normal * hitOffset; // 충돌 지점 계산
+        //// 충돌 지점의 정보 가져오기
+        //ContactPoint contact = collision.contacts[0];
+        //Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
+        //Vector3 pos = contact.point + contact.normal * hitOffset; // 충돌 지점 계산
 
-        // 충돌 이펙트가 지정되어 있다면
-        if (hit != null)
-        {
-            // 충돌 이펙트 생성 및 방향 설정
-            var hitInstance = Instantiate(hit, pos, rot);
-            if (UseFirePointRotation) { hitInstance.transform.rotation = gameObject.transform.rotation * Quaternion.Euler(0, 180f, 0); }
-            else if (rotationOffset != Vector3.zero) { hitInstance.transform.rotation = Quaternion.Euler(rotationOffset); }
-            else { hitInstance.transform.LookAt(contact.point + contact.normal); }
+        //// 충돌 이펙트가 지정되어 있다면
+        //if (hit != null)
+        //{
+        //    // 충돌 이펙트 생성 및 방향 설정
+        //    var hitInstance = Instantiate(hit, pos, rot);
+        //    if (UseFirePointRotation) { hitInstance.transform.rotation = gameObject.transform.rotation * Quaternion.Euler(0, 180f, 0); }
+        //    else if (rotationOffset != Vector3.zero) { hitInstance.transform.rotation = Quaternion.Euler(rotationOffset); }
+        //    else { hitInstance.transform.LookAt(contact.point + contact.normal); }
 
-            var hitPs = hitInstance.GetComponent<ParticleSystem>();
+        //    var hitPs = hitInstance.GetComponent<ParticleSystem>();
 
-            // 파티클 시스템의 지속 시간만큼 후에 충돌 이펙트 제거
-            if (hitPs != null)
-            {
-                Destroy(hitInstance, hitPs.main.duration);
-            }
-            else
-            {
-                var hitPsParts = hitInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
-                Destroy(hitInstance, hitPsParts.main.duration);
-            }
-        }
+        //    // 파티클 시스템의 지속 시간만큼 후에 충돌 이펙트 제거
+        //    if (hitPs != null)
+        //    {
+        //        Destroy(hitInstance, hitPs.main.duration);
+        //    }
+        //    else
+        //    {
+        //        var hitPsParts = hitInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
+        //        Destroy(hitInstance, hitPsParts.main.duration);
+        //    }
+        //}
 
-        // 분리된 프리팹들의 부모 설정 해제
-        foreach (var detachedPrefab in Detached)
-        {
-            if (detachedPrefab != null)
-            {
-                detachedPrefab.transform.parent = null;
-            }
-        }
+        //// 분리된 프리팹들의 부모 설정 해제
+        //foreach (var detachedPrefab in Detached)
+        //{
+        //    if (detachedPrefab != null)
+        //    {
+        //        detachedPrefab.transform.parent = null;
+        //    }
+        //}
 
-        // 발사체 제거
-        Destroy(gameObject);
+        //// 발사체 제거
+        //Destroy(gameObject);
     }
 }

@@ -9,12 +9,14 @@ public class Bullet : MonoBehaviour
 {
     private BulletStatus status;
     private Transform target;
+    public GameObject hit;
+    private Rigidbody rb;
 
     void Start()
     {
         status = new BulletStatus(Define.Data_ID_List.Bullet_Normal);
         GetComponent<Rigidbody>().AddForce(transform.forward * status.Speed);
-
+        rb = GetComponent<Rigidbody>();
         Managers.Resource.Destroy(gameObject, status.LifeTime);
     }
 
@@ -30,32 +32,39 @@ public class Bullet : MonoBehaviour
     /// <param name="other">적</param>
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("데미지가 들어가고 있나?");
-
-        if (other.tag == "WeaknessPoint" || other.tag == "Boss" || other.tag == "Minion")
+        if (other.tag == "WeaknessPoint" || other.tag == "CenterPoint" || other.tag == "Minion" || other.tag == "Meteor")
         {
-            Destroy(transform.gameObject);
-
+            Debug.Log(other);
             OnDamaged(other);
+            DestroyDelayed(0.5f);
+            //Destroy(transform.gameObject);
         }
     }
+
+    public void DestroyDelayed(float time)
+    {
+        rb.velocity = Vector3.zero;
+        GetComponent<Renderer>().enabled = false;
+        Destroy(gameObject, time);
+    }
+
     public void OnDamaged(Collider target)
     {
         int damage = 0;
 
-        Debug.Log("데미지가 들어가고 있나?");
+        Debug.Log(target.tag+" "+target.name);
 
         // TODO : 
         if (target.tag == "WeaknessPoint")
         {
-            Boss boss = target.GetComponentInParent<Boss>();
+            Boss boss = target.transform.parent.parent.GetComponent<Boss>();
 
             damage = (int)(status.Damage * (1f + boss.CurrStatus.WeakpointRate));
             boss.CurrStatus.OnDamaged(damage);
         }
-        else if(target.tag == "Boss")
+        else if(target.tag == "CenterPoint")
         {
-            Boss boss = target.GetComponent<Boss>();
+            Boss boss = target.transform.parent.GetComponent<Boss>();
 
             damage = (int)status.Damage;
             boss.CurrStatus.OnDamaged(damage);
@@ -65,7 +74,7 @@ public class Bullet : MonoBehaviour
         {
             MinionController minion = target.GetComponent<MinionController>();
 
-            damage = (int)status.Damage;
+            damage = (int)(status.Damage);
             minion.CurrStatus.OnDamaged(damage);
         }
         else if( target.tag == "Meteor")
@@ -91,4 +100,48 @@ public class Bullet : MonoBehaviour
     {
         target = targetTransform;
     }
+
+    //public void CreateHitEffect()
+    //{
+    //    // 모든 축의 이동과 회전을 고정
+    //    rb.constraints = rigidbodyconstraints.freezeall;
+    //    speed = 0; // 이동 속도를 0으로 설정
+
+    //    // 충돌 지점의 정보 가져오기
+    //    contactpoint contact = collision.contacts[0];
+    //    quaternion rot = quaternion.fromtorotation(vector3.up, contact.normal);
+    //    vector3 pos = contact.point + contact.normal * hitoffset; // 충돌 지점 계산
+
+    //    // 충돌 이펙트가 지정되어 있다면
+    //    if (hit != null)
+    //    {
+    //        // 충돌 이펙트 생성 및 방향 설정
+    //        var hitinstance = instantiate(hit, pos, rot);
+    //        if (usefirepointrotation) { hitinstance.transform.rotation = gameobject.transform.rotation * quaternion.euler(0, 180f, 0); }
+    //        else if (rotationoffset != vector3.zero) { hitinstance.transform.rotation = quaternion.euler(rotationoffset); }
+    //        else { hitinstance.transform.lookat(contact.point + contact.normal); }
+
+    //        var hitps = hitinstance.getcomponent<particlesystem>();
+
+    //        // 파티클 시스템의 지속 시간만큼 후에 충돌 이펙트 제거
+    //        if (hitps != null)
+    //        {
+    //            destroy(hitinstance, hitps.main.duration);
+    //        }
+    //        else
+    //        {
+    //            var hitpsparts = hitinstance.transform.getchild(0).getcomponent<particlesystem>();
+    //            destroy(hitinstance, hitpsparts.main.duration);
+    //        }
+    //    }
+
+    //    // 분리된 프리팹들의 부모 설정 해제
+    //    foreach (var detachedprefab in detached)
+    //    {
+    //        if (detachedprefab != null)
+    //        {
+    //            detachedprefab.transform.parent = null;
+    //        }
+    //    }
+    //}
 }
