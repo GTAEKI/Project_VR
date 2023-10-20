@@ -90,20 +90,14 @@ public class Aim : MonoBehaviour
     {
         if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
         {
-            Managers.Sound.Play("Sound/SE_Weapon_ATK_Bullet_Launch");
+            Managers.Sound.Play("Sound/SE_PC_ATK");
         GameObject bullet = Instantiate(bulletNormal);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
         }
-        else if (ARAVRInput.GetDown(ARAVRInput.Button.Two))
-        {
-            Managers.Sound.Play("Sound/SE_Weapon_ATK_StrrongBullet_Launch");
-            GameObject bullet = Instantiate(bulletStrong);
-            bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
-        }
-    }
+            }
     public void StrongShoot()
     {
-        Managers.Sound.Play("Sound/SE_Weapon_ATK_StrrongBullet_Launch");
+        Managers.Sound.Play("Sound/SE_PC_PowerATK");
         GameObject bullet = Instantiate(bulletStrong);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
     }
