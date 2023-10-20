@@ -4960,7 +4960,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 6.6
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9661,7 +9661,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519322442116508}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 605a456cfc02f6b499a64717539a27e8, type: 3}
   m_Name: 
@@ -9833,7 +9833,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519322442116508}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.05
@@ -9850,6 +9850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f824a5071df356640bd6c31c8f655529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit: {fileID: 1900636369659048, guid: c8c637b8f0130b84b8e2d623d873832d, type: 3}
 --- !u!1 &1702276184313894
 GameObject:
   m_ObjectHideFlags: 0
