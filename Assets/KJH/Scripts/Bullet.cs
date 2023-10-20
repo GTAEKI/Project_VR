@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Bullet : MonoBehaviour
 {
@@ -24,8 +23,6 @@ public class Bullet : MonoBehaviour
     {
     }
 
-
-
     /// <summary>
     /// 공격 데미지 주는 함수
     /// </summary>
@@ -35,6 +32,24 @@ public class Bullet : MonoBehaviour
         if (other.tag == "WeaknessPoint" || other.tag == "CenterPoint" || other.tag == "Minion" || other.tag == "Meteor")
         {
             Debug.Log(other);
+
+            //{ 경택 _ 231020 _ hit이펙트 생성되는지 테스트
+            if (hit != null)
+            {
+                var hitinstance = Instantiate(hit, transform.position,Quaternion.identity);
+                var hitps = hitinstance.GetComponent<ParticleSystem>();
+                if(hitps != null)
+                {
+                    Destroy(hitinstance, hitps.main.duration);
+                }
+                else
+                {
+                    var hitpsparts = hitinstance.transform.GetChild(0).GetComponent<ParticleSystem>();
+                    Destroy(hitinstance, hitpsparts.main.duration);
+                }
+            }
+            // } 경택 _ 231020 _ hit이펙트 생성되는지 테스트
+
             OnDamaged(other);
             DestroyDelayed(0.5f);
             //Destroy(transform.gameObject);
