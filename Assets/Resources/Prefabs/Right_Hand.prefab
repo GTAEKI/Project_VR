@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4292082292554630486}
   - component: {fileID: 4292082292554630487}
   - component: {fileID: 105426595824156716}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Right_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ MonoBehaviour:
   bulletNormal: {fileID: 1519322442116508, guid: 538e030e173784e4983e7082bc8bed7f, type: 3}
   bulletStrong: {fileID: 1066843573042574, guid: 445905ded932ba24f87bc8fdca1fa6e9, type: 3}
   isLeftHand: 0
-  isPosition: 0
+  isPotion: 0
   lrMaxDistance: 200
 --- !u!114 &105426595824156716
 MonoBehaviour:

@@ -14,10 +14,15 @@ public class GameManager
         Managers.MONEY.Init(); // 배경택_231018
         startEndUI = GameObject.Find("StartEndUI/Panel");
         store = GameObject.Find("Store");
-        bossScript = GameObject.Find("Boss_Golem").GetComponent<Boss>();
 
         startEndUIText = startEndUI.GetComponent<StartEndUI>();
         store.SetActive(false);
+
+    }
+
+    public void SearchBoss()
+    {
+        bossScript = GameObject.Find("Boss_Golem").GetComponent<Boss>();
 
     }
 
