@@ -36,9 +36,9 @@ public class Bullet : MonoBehaviour
             //{ 경택 _ 231020 _ hit이펙트 생성되는지 테스트
             if (hit != null)
             {
-                var hitinstance = Instantiate(hit, transform.position,Quaternion.identity);
+                var hitinstance = Instantiate(hit, transform.position, Quaternion.identity);
                 var hitps = hitinstance.GetComponent<ParticleSystem>();
-                if(hitps != null)
+                if (hitps != null)
                 {
                     Destroy(hitinstance, hitps.main.duration);
                 }
@@ -67,48 +67,89 @@ public class Bullet : MonoBehaviour
     {
         int damage = 0;
 
-        Debug.Log(target.tag+" "+target.name);
+        Debug.Log(target.tag + " " + target.name);
 
-        // TODO : 
-        if (target.tag == "WeaknessPoint")
+        if (target.tag != null)
         {
-            Boss boss = target.transform.parent.parent.GetComponent<Boss>();
+            // TODO : 
+            if (target.tag == "WeaknessPoint")
+            {
+                Boss boss = target.transform.parent.parent.GetComponent<Boss>();
 
-            damage = (int)(status.Damage * (1f + boss.CurrStatus.WeakpointRate));
-            boss.CurrStatus.OnDamaged(damage);
+                Aim aim = FindObjectOfType<Aim>();
+                if(aim != null)
+                {
+                    if (aim.isPotion)
+                    {
+                        damage = (int)((status.Damage + 3) * (1f + boss.CurrStatus.WeakpointRate));
+                    }
+                    else
+                    {
+                        damage = (int)((status.Damage) * (1f + boss.CurrStatus.WeakpointRate));
+                    }
+                }
+
+                boss.CurrStatus.OnDamaged(damage);
+            }
+            else if (target.tag == "CenterPoint")
+            {
+                Boss boss = target.transform.parent.GetComponent<Boss>();
+
+                Aim aim = FindObjectOfType<Aim>();
+                if (aim != null)
+                {
+                    if (aim.isPotion)
+                    {
+                        damage = (int)status.Damage + 3;
+                    }
+                    else
+                    {
+                        damage = (int)status.Damage;
+                    }
+                }
+                boss.CurrStatus.OnDamaged(damage);
+
+            }
+            else if (target.tag == "Minion")
+            {
+                damage = (int)(status.Damage);
+
+                PowerMinionController powerMinion = target.GetComponent<PowerMinionController>();
+                if(powerMinion != null)
+                {
+                    powerMinion.CurrStatus.OnDamaged(damage);
+                }
+                else
+                {
+                    FastMinionController fastMinion = target.GetComponent<FastMinionController>();
+                    if(fastMinion != null)
+                    {
+                        fastMinion.CurrStatus.OnDamaged(damage);
+                    }
+                }
+            }
+            else if (target.tag == "Meteor")
+            {
+                MeteorController meteor = target.GetComponent<MeteorController>();
+                damage = (int)status.Damage;
+                meteor.Status.OnDamaged(damage);
+            }
+            #region 데미지 출력
+            Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
+            TextMeshProUGUI textDamage;  // 데미지 출력 Text
+            textDamage = canvasDamage.transform.GetComponentInChildren<TextMeshProUGUI>();
+
+            Vector3 currentPos = target.transform.position + new Vector3(0f, 10f, -5f);        // 현재 위치
+            GameObject.Instantiate(canvasDamage, currentPos, Quaternion.identity);  // 현재 위치에 Canvas 생성
+            canvasDamage.worldCamera = Camera.main;                    // Canvas Camera Setting
+
+            textDamage.text = $"{damage}";  // Text에 데미지가 보여지게 한다.
+            #endregion
         }
-        else if(target.tag == "CenterPoint")
+        else
         {
-            Boss boss = target.transform.parent.GetComponent<Boss>();
-
-            damage = (int)status.Damage;
-            boss.CurrStatus.OnDamaged(damage);
-
+            return;
         }
-        else if( target.tag == "Minion")
-        {
-            MinionController minion = target.GetComponent<MinionController>();
-
-            damage = (int)(status.Damage);
-            minion.CurrStatus.OnDamaged(damage);
-        }
-        else if( target.tag == "Meteor")
-        {
-            MeteorController meteor = target.GetComponent<MeteorController>();
-            damage = (int)status.Damage;
-            meteor.Status.OnDamaged(damage);
-        }
-        #region 데미지 출력
-        Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
-        TextMeshProUGUI textDamage;  // 데미지 출력 Text
-        textDamage = canvasDamage.transform.GetComponentInChildren<TextMeshProUGUI>();
-
-        Vector3 currentPos = target.transform.position + new Vector3(0f, 10f, -5f);        // 현재 위치
-        GameObject.Instantiate(canvasDamage, currentPos, Quaternion.identity);  // 현재 위치에 Canvas 생성
-        canvasDamage.worldCamera = Camera.main;                    // Canvas Camera Setting
-
-        textDamage.text = $"{damage}";  // Text에 데미지가 보여지게 한다.
-        #endregion
 
     }
     public void Seek(Transform targetTransform)
