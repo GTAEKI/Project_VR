@@ -16,6 +16,7 @@ public class Managers : MonoBehaviour
     private UIManager _ui = new UIManager();
     private MoneyManager _money = new MoneyManager(); // 배경택_231013
     private GameManager _gameManager = new GameManager(); // 배경택 _231018
+    private CameraManager _cameraManager = new CameraManager(); // 배경택_231023
 
     public static DataManager Data => Instance._data;
     public static InputManager Input => Instance._input;
@@ -26,6 +27,7 @@ public class Managers : MonoBehaviour
     public static UIManager UI => Instance._ui;
     public static MoneyManager MONEY => Instance._money; // 배경택_231013
     public static GameManager GameManager => Instance._gameManager; // 배경택_231018
+    public static CameraManager Camera => Instance._cameraManager; // 배경택_231023
 
     private void Start()
     {
