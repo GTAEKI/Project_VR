@@ -14,21 +14,41 @@ public class DamageFX : MonoBehaviour
         Canvas = GetComponent<Canvas>();
         textDamage = Canvas.GetComponentInChildren<TextMeshProUGUI>();
 
+        Destroy(gameObject, 2.1f);
+
         StartCoroutine(DamageText());
     }
 
-    IEnumerator DamageText()
+    private IEnumerator DamageText()
     {
-        float second = 0f;
-        while (true)
-        {
-            second += Time.deltaTime;
+        float timer = 0f;
 
-            if ( second >= 2f )
+        while(true)
+        {
+            transform.position += Vector3.up * Time.deltaTime;
+
+            timer += Time.deltaTime;
+            
+            if(timer >= 2f)
             {
-                Destroy( gameObject );
+                yield break;
             }
             yield return null;
         }
     }
+
+    //IEnumerator DamageText()
+    //{
+    //    float second = 0f;
+    //    while (true)
+    //    {
+    //        second += Time.deltaTime;
+
+    //        if ( second >= 2f )
+    //        {
+    //            Managers.Resource.Destroy( gameObject );
+    //        }
+    //        yield return null;
+    //    }
+    //}
 }

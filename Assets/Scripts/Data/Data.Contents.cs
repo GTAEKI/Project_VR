@@ -140,8 +140,9 @@ public class GolemStatus : Status
     {
         Hp -= dmg;
 
-        if (Hp % 10 == 0)
-        {
+        // 그로기 비율 (최대 체력의 10% 마다 실행)
+        if (Hp % (MaxHp / 10) == 0)
+        {   // 최대 체력
             IsGroggy = true;
         }
 

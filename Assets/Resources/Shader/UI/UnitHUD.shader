@@ -11,7 +11,7 @@ Shader "MinSeob/UI/HUD"
         _Thickness("Thickness", Float) = 1
 
         [MaterialToggle] PixelSnap("Pixel snap", Float) = 0
-        [Toggle(CLOSE_BAR_ON)] CloseBar("Close Bar", Float) = 1
+        [Toggle(CLOSE_BAR_ON)] CloseBar("Close Bar", Float) = 0
 
         _StencilComp("Stencil Comparison", Float) = 8
         _Stencil("Stencil ID", Float) = 0
@@ -110,7 +110,7 @@ Shader "MinSeob/UI/HUD"
                     float4 vPosition = UnityObjectToClipPos(v.vertex);
                     OUT.worldPosition = v.vertex;
 
-                    // ÇÈ¼¿ ½º³À ±â´É Ãß°¡ÇÔ
+                    // í”½ì…€ ìŠ¤ëƒ… ê¸°ëŠ¥ ì¶”ê°€í•¨
                     #ifdef PIXELSNAP_ON
                     OUT.vertex = UnityPixelSnap(vPosition);
                     #else
@@ -134,7 +134,7 @@ Shader "MinSeob/UI/HUD"
                 {
                     half4 c = IN.color * (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd);
 
-                    // ±×¸®Áö ¾ÊÀ½
+                    // ê·¸ë¦¬ì§€ ì•ŠìŒ
                     if (IN.texcoord.x > _HSRatio)
                     {
                         c.a = 0;
@@ -151,8 +151,8 @@ Shader "MinSeob/UI/HUD"
                         const half step = _Steps + 0.000000001;
                         const half cell = width / step;
 
-                        // uv.x·Î °¡·Î À§Ä¡¸¦ ±¸ÇÏ°í ÇÑ Ä­ ±æÀÌ·Î ³ª´« ³ª¸ÓÁö°¡ µÎ²²º¸´Ù ÀûÀ¸¸é »öÄ¥.
-                        // °¢ ¼¿ÀÇ ¿ÞÂÊ¿¡ ¹Ù°¡ ±×·ÁÁø´Ù.
+                        // uv.xë¡œ ê°€ë¡œ ìœ„ì¹˜ë¥¼ êµ¬í•˜ê³  í•œ ì¹¸ ê¸¸ì´ë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€ê°€ ë‘ê»˜ë³´ë‹¤ ì ìœ¼ë©´ ìƒ‰ì¹ .
+                        // ê° ì…€ì˜ ì™¼ìª½ì— ë°”ê°€ ê·¸ë ¤ì§„ë‹¤.
                         if (x % cell > cell - _Thickness)
                         {
                             c = _Color;
