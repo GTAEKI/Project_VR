@@ -72,7 +72,6 @@ public class SelectObject : MonoBehaviour
                     else
                     {
                         startButton.ClickStartButton();
-
                     }
                 }
                 else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))

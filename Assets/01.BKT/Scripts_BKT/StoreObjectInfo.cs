@@ -11,7 +11,6 @@ public class StoreObjectInfo : MonoBehaviour
     static public Action OtherOutLineOff; // 선택되지 않은 이미지의 아웃라인 off를 위한 이벤트
     static public Action CanBuy;
 
-
     public AudioClip purchaseSound;
 
     public int id = default;
