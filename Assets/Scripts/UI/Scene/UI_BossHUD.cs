@@ -1,6 +1,7 @@
 using Meta.WitAi;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,12 @@ public class UI_BossHUD : UI_Scene
         Img_Shield,
         Img_Damaged,
         Img_Hp,
-        Img_Separator,
-       // Img_Mana
+        Img_Separator
+    }
+
+    private enum Texts
+    {
+        TM_Distance
     }
 
     private Camera uiCamera;
@@ -24,7 +29,7 @@ public class UI_BossHUD : UI_Scene
     private static readonly int floatThickness = Shader.PropertyToID(THICKNESS);
 
     private float hpShieldRatio;        // HP Shield
-    private float rectWidth = 100f;
+    private float rectWidth = 120f;
     private float thickness = 0.5f;
 
     #region 쉐이더 프로퍼티
@@ -51,6 +56,7 @@ public class UI_BossHUD : UI_Scene
     public override void Init()
     {
         Bind<Image>(typeof(Images));
+        Bind<TextMeshProUGUI>(typeof(Texts));
 
         uiCamera = GameObject.Find("CenterEyeAnchor").GetComponent<Camera>();
         GetComponent<Canvas>().worldCamera = uiCamera;
@@ -114,13 +120,23 @@ public class UI_BossHUD : UI_Scene
             }
 
             GetImage((int)Images.Img_Damaged).fillAmount = Mathf.Lerp(GetImage((int)Images.Img_Damaged).fillAmount, GetImage((int)Images.Img_Hp).fillAmount, Time.deltaTime * speed);
-            GetImage((int)Images.Img_Separator).material.SetFloat(floatSteps, step); // floatSteps처럼 float 변수에 쉐이더 값을 조절하는 변수
-            GetImage((int)Images.Img_Separator).material.SetFloat(floatRatio, hpShieldRatio); // int가 Enum 앞에 있으면 index 번호대로 들어감
+            GetImage((int)Images.Img_Separator).material.SetFloat(floatSteps, 10); // floatSteps처럼 float 변수에 쉐이더 값을 조절하는 변수
+            //GetImage((int)Images.Img_Separator).material.SetFloat(floatRatio, hpShieldRatio); // int가 Enum 앞에 있으면 index 번호대로 들어감
             GetImage((int)Images.Img_Separator).material.SetFloat(floatWidth, rectWidth);
             GetImage((int)Images.Img_Separator).material.SetFloat(floatThickness, thickness);
 
             yield return null;
         }
+    }
+
+    /// <summary>
+    /// 거리 표기 텍스트 세팅 함수
+    /// 김민섭_231013
+    /// </summary>
+    /// <param name="currDistance">현재 거리</param>
+    public void SetDistanceText(float currDistance)
+    {
+        GetTMP((int)Texts.TM_Distance).text = $"Distance\n{string.Format("{0:F1}", currDistance)} m";
     }
 
     #region Coroutine Test
