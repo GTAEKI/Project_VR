@@ -31,7 +31,6 @@ public class Boss : Character
 
     // UI
     private UI_BossHUD ui_hud;                  // 보스 체력바, 김민섭_231013
-    private UI_BossDistance ui_distance;        // 보스 거리, 김민섭_231013
 
     /// <summary>
     /// 보스 현재 스탯 Get 프로퍼티
@@ -66,7 +65,7 @@ public class Boss : Character
     /// </summary>
     protected override void Init()
     {
-        weaknessPoint = transform.Find("RockCreatureMesh_LP/WeaknessPoint").gameObject;
+        weaknessPoint = transform.Find("RM_Root/Point009/WeaknessPoint").gameObject;
         weaknessPoint.SetActive(false);
 
         centerPoint = transform.Find("CenterPoint").gameObject;
@@ -83,8 +82,6 @@ public class Boss : Character
         ui_hud = Managers.UI.ShowSceneUI<UI_BossHUD>();
         ui_hud.Init();
         ui_hud.SetTargetCharacter(this);
-        ui_distance = Managers.UI.ShowSceneUI<UI_BossDistance>();
-        ui_distance.Init();
 
         // 스킬 로직 실행
         StartCoroutine(Spell_Meteor());
@@ -213,7 +210,7 @@ public class Boss : Character
             }
 
             float spawnPosY = spawnMinion.transform.localScale.y / 2;
-            Vector3 spawnPos = new Vector3(randX, spawnPosY, transform.position.z - 30f);
+            Vector3 spawnPos = new Vector3(randX, spawnPosY, transform.position.z + 35f);
 
             float currentTime = 0f;
             float totalTime = 1f; // 총 소환 시간 (조절 가능)
@@ -294,7 +291,7 @@ public class Boss : Character
             if (playerTarget != null)
             {
                 float distance = Vector3.Distance(transform.position, playerTarget.transform.position);
-                if ((int)distance % 12 == 0)
+                if ((int)distance % 15 == 0)
                 {
                     isSummon = true;
                     Summon();
@@ -422,7 +419,7 @@ public class Boss : Character
         transform.position = Vector3.Lerp(startPosition, endPosition, currentTime / lerpTime);
         
         // UI
-        ui_distance.SetDistanceText(Vector3.Distance(transform.position, endPosition));
+        ui_hud.SetDistanceText(Vector3.Distance(transform.position, endPosition));
     }
 
     public void PlayMoveSound()

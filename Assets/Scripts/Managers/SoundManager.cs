@@ -24,6 +24,7 @@ public class SoundManager
             }
 
             audioSources[(int)Define.Sound.Bgm].loop = true;
+            audioSources[(int)Define.Sound.Sfx].spatialBlend = 1f;
         }
     }
 
