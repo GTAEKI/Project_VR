@@ -24,7 +24,7 @@ public class SelectObject : MonoBehaviour
     void Update()
     {
 
-        Ray ray = new Ray(ARAVRInput.RHandPosition, ARAVRInput.RHandDirection);
+        Ray ray = new Ray(ARAVRInput.LHandPosition, ARAVRInput.LHandDirection);
         RaycastHit hitInfo;
 
         Debug.DrawRay(ray.origin, ray.direction * 100000f, Color.red);
@@ -40,11 +40,11 @@ public class SelectObject : MonoBehaviour
                 remainStoreInfo = storeInfo;
                 storeInfo.OnCursorPoint();
 
-                if(ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                if(ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
                 {
                     storeInfo.BuyUnit();
                 }
-                else if(ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                else if(ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
                 {
                     storeInfo.DontBuyUnit();
                 }
@@ -63,7 +63,7 @@ public class SelectObject : MonoBehaviour
                 StartButton startButton = hitInfo.collider.GetComponent<StartButton>();
                 startButton.transform.GetChild(1).gameObject.SetActive(true);
                 closeStartButtonOutLine = startButton;
-                if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
                 {
                     if (Managers.GameManager.isGameOver == true)
                     {
@@ -74,7 +74,7 @@ public class SelectObject : MonoBehaviour
                         startButton.ClickStartButton();
                     }
                 }
-                else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
                 {
                     
                 }
@@ -88,11 +88,11 @@ public class SelectObject : MonoBehaviour
                 endButton.transform.GetChild(1).gameObject.SetActive(true);
                 closeEndButtonOutLine = endButton;
 
-                if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
                 {
                     endButton.ClickEndGame();
                 }
-                else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
+                else if (ARAVRInput.GetUp(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
                 {
 
                 }

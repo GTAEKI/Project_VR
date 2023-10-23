@@ -56,7 +56,13 @@ public class Managers : MonoBehaviour
             s_instance._data.Init();        // 김민섭_231019
             s_instance._gameManager.Init(); //배경택_231018
             s_instance._sound.Init();       // 김민섭_231019
+            s_instance._cameraManager.Init();
         }
+    }
+
+    private void Update()
+    {
+        Camera.OnUpdate();   
     }
 
     public static void Clear()

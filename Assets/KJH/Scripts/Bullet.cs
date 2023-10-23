@@ -74,7 +74,7 @@ public class Bullet : MonoBehaviour
             // TODO : 
             if (target.tag == "WeaknessPoint")
             {
-                Boss boss = target.transform.parent.parent.GetComponent<Boss>();
+                Boss boss = target.transform.parent.parent.parent.GetComponent<Boss>();
 
                 Aim aim = FindObjectOfType<Aim>();
                 if(aim != null)
