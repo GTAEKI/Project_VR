@@ -1,5 +1,5 @@
 #define PC
-//#define Oculus
+#define Oculus
 //#define Vive
 
 using System.Collections;
