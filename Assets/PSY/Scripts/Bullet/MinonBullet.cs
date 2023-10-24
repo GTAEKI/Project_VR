@@ -48,8 +48,8 @@ public class MinonBullet : BulletController
 
                 Managers.Sound.Play("sfx/SE_Weapon_Hit_Bullet_Unit");  // 사운드 추가 231019_박시연
 
-                Destroy(gameObject);
             }
+            Destroy(gameObject);
         }
     }
 }

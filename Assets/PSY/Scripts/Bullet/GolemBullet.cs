@@ -18,7 +18,7 @@ public class GolemBullet : BulletController
         currentBulletStatus = new BulletStatus(Define.Data_ID_List.Bullet_Golem);       // 골렘 특화 총알 데이터 초기화, 김민섭_231014
 
         rb.velocity = transform.forward * float.Parse(Managers.Data.ProjectileTable[(int)Define.Data_ID_List.Bullet_Golem]["Speed"].ToString());
-       
+
         StartCoroutine(DelayDestory((int)Define.Data_ID_List.Bullet_Golem));        // 데이터에 맞춰서 파괴 설정, 김민섭_231014
     }
 
@@ -28,19 +28,19 @@ public class GolemBullet : BulletController
     /// <param name="other">적</param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "WeaknessPoint" || other.tag=="CenterPoint")
+        if (other.tag == "WeaknessPoint" || other.tag == "CenterPoint")
         {
             currentBulletStatus.OnDamaged(other);
 
-            if(ExplosionPrefab)
+            if (ExplosionPrefab)
             {
                 var exp = Instantiate(ExplosionPrefab, other.transform.position, ExplosionPrefab.transform.rotation);
                 Destroy(exp, DestroyExplosion);
 
                 Managers.Sound.Play("sfx/SE_Weapon_Hit_Bullet_Unit");  // 사운드 추가 231019_박시연
 
-                Destroy(gameObject);
             }
+            Destroy(gameObject);
         }
     }
 }
