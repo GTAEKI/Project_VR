@@ -10,6 +10,7 @@ public class GolemBullet : BulletController
     public GameObject ExplosionPrefab;
     public float DestroyExplosion = 4.0f;
     public float DestroyChildren = 2.0f;
+
     protected override void Init()
     {
         base.Init();

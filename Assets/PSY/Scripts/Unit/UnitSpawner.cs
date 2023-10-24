@@ -36,21 +36,24 @@ public class UnitSpawner : MonoBehaviour
 
         player = GameObject.Find("Player");
 
-        spawnPosArr[0] = player.transform.position + new Vector3(10f, 0f, 5f);
-        spawnPosArr[1] = player.transform.position + new Vector3(-10f, 0f, 5f);
+        //spawnPosArr[0] = player.transform.position + new Vector3(10f, 0f, -5f);
+        //spawnPosArr[1] = player.transform.position + new Vector3(-10f, 0f, -5f);
+
+        spawnPosArr[0] = new Vector3(-3,3.39f, -21.192f) + new Vector3(10f, 0f, 5f);
+        spawnPosArr[1] = new Vector3(-3, 3.39f, -21.192f) + new Vector3(-10f, 0f, 5f);
     }
 
     // 마우스로 생성
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SpawnUnit(minionUnit, (int)Define.Data_ID_List.Unit_Minion); // 1번 유닛 생성
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            SpawnUnit(golemUnit, (int)Define.Data_ID_List.Unit_Golem);  // 2번 유닛 생성
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    SpawnUnit(minionUnit, (int)Define.Data_ID_List.Unit_Minion); // 1번 유닛 생성
+        //}
+        //else if (Input.GetMouseButtonDown(1))
+        //{
+        //    SpawnUnit(golemUnit, (int)Define.Data_ID_List.Unit_Golem);  // 2번 유닛 생성
+        //}
     }
 
     /// <summary>

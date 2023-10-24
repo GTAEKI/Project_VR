@@ -14,7 +14,7 @@ public class GameManager
 
     public void Init()
     {
-        Managers.MONEY.Init(); // 배경택_231018
+        //Managers.MONEY.Init(); // 배경택_231018
         startEndUI = GameObject.Find("StartEndUI/Panel");
         store = GameObject.Find("Store");
 

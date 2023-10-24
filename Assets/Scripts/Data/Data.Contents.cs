@@ -293,9 +293,19 @@ public class BulletStatus : Status
         }
         else if (target.tag == "Minion")
         {   // 졸개 공격 데미지 부여 추가, 김민섭_231016
-            MinionController minion = target.GetComponent<MinionController>();
-
-            minion.CurrStatus.OnDamaged((int)(Damage));
+            PowerMinionController powerMinion = target.GetComponent<PowerMinionController>();
+            if (powerMinion != null)
+            {
+                powerMinion.CurrStatus.OnDamaged((int)damage);
+            }
+            else
+            {
+                FastMinionController fastMinion = target.GetComponent<FastMinionController>();
+                if (fastMinion != null)
+                {
+                    fastMinion.CurrStatus.OnDamaged((int)damage);
+                }
+            }
 
             #region 데미지 출력
             Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
