@@ -10,7 +10,8 @@ public class Aim : MonoBehaviour
     public GameObject bulletStrong; // 강화된 총알 프리팹 추가
     // 어떤 손인지 판단
     public bool isLeftHand = default;
-
+    private int count = 0;
+    private bool isCanShoot = true;
     public bool isPotion = false;
     // 레이저 포인트를 발사할 라인 렌더러
     LineRenderer lineRenderer;
@@ -22,18 +23,27 @@ public class Aim : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        isCanShoot = true;
     }
 
     private void Update()
     {
+        if (count == 3) 
+        {
+            count = 0;
+            isCanShoot = true;
+        }
+
         // 사용자가 indexTrigger 버튼을 누르면
         if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) || ARAVRInput.GetDown(ARAVRInput.Button.Two))
         {
             // 컨트롤러의 진동 재생
-            ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
-            if(!isPotion)
+            if (!isPotion)
             {
-                Shoot();
+                if (isCanShoot)
+                {
+                    Shoot();
+                }
             }
             else
             {
@@ -86,19 +96,51 @@ public class Aim : MonoBehaviour
 
     }
 
-    void Shoot()
-    {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
-        {
-            Managers.Sound.Play("Sound/SE_PC_ATK");
-        GameObject bullet = Instantiate(bulletNormal);
-        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
-        }
-            }
+    //void Shoot()
+    //{
+    //    if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
+    //    {
+    //        Managers.Sound.Play("Sound/SE_PC_ATK");
+    //        GameObject bullet = Instantiate(bulletNormal);
+    //        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
+    //    }
+    //}
     public void StrongShoot()
     {
         Managers.Sound.Play("Sound/SE_PC_PowerATK");
         GameObject bullet = Instantiate(bulletStrong);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
+    }
+    void Shoot()
+    {
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
+        {
+            Managers.Sound.Play("Sound/SE_PC_ATK");
+            isCanShoot = false;
+            // 3발 발사
+            for (int i = 0; i < 3; i++)
+            {
+                
+                // 레이캐스트를 통해 충돌 여부를 체크하고, 충돌 시에만 총알을 생성하도록 합니다.
+                Ray ray = new Ray(ARAVRInput.RHand.position, ARAVRInput.RHand.forward);
+                RaycastHit hitInfo;
+
+                if (Physics.Raycast(ray, out hitInfo, lrMaxDistance))
+                {
+                    GameObject hitObject = hitInfo.collider.gameObject;
+                }
+                float delayBetweenShots = 0.3f;
+                StartCoroutine(DelayedShot(delayBetweenShots * i));
+            }
+        }
+    }
+
+    IEnumerator DelayedShot(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
+        GameObject bullet = Instantiate(bulletNormal);
+        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
+        count++;
     }
 }
