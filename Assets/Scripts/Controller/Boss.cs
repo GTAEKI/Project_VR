@@ -407,19 +407,29 @@ public class Boss : Character
             return;
         }
 
-        // 타겟이 있다면 타겟을 향해 이동
-        currentTime += Time.deltaTime * currStatus.MoveSpeed;
-
-        if(currentTime >= lerpTime)
+        float distance = (endPosition - transform.position).magnitude;
+        if(distance <= 0.1f)
+        {   // 거리가 0이 되면 패배
+            distance = 0f;
+            Managers.GameManager.GameOverLose();
+            return;
+        }
+        else
         {
-            currentTime = lerpTime;
+            // 타겟이 있다면 타겟을 향해 이동
+            currentTime += Time.deltaTime * currStatus.MoveSpeed;
+
+            if (currentTime >= lerpTime)
+            {
+                currentTime = lerpTime;
+            }
+
+            // 움직임 함수
+            transform.position = Vector3.Lerp(startPosition, endPosition, currentTime / lerpTime);
         }
 
-        // 움직임 함수
-        transform.position = Vector3.Lerp(startPosition, endPosition, currentTime / lerpTime);
-        
         // UI
-        ui_hud.SetDistanceText(Vector3.Distance(transform.position, endPosition));
+        ui_hud.SetDistanceText(distance);
     }
 
     public void PlayMoveSound()
