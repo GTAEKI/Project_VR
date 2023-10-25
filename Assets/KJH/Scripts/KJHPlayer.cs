@@ -6,13 +6,13 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class KJHPlayer : MonoBehaviour
 {
+    public float hitTime = 0.05f;
     public int money;
     public int currHp;
 
     public PCStatus status;
     private PostProcessVolume postProcessVolume;
     private ColorGrading colorGradingLayer;
-    private Material yellowBorderMaterial; // 노란색 테두리를 그리기 위한 쉐이더를 담을 Material
 
     private void Start()
     {
@@ -40,7 +40,7 @@ public class KJHPlayer : MonoBehaviour
     {
         // 화면을 붉은색으로 변경합니다.
         colorGradingLayer.colorFilter.value = new Color(1f, 0f, 0f);
-        yield return new WaitForSeconds(0.05f); // 0.05초 동안 대기합니다.
+        yield return new WaitForSeconds(hitTime); // 0.05초 동안 대기합니다.
 
         // 화면을 원래대로 돌립니다.
         colorGradingLayer.colorFilter.value = Color.white;

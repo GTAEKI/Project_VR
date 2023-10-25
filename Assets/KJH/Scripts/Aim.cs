@@ -35,18 +35,17 @@ public class Aim : MonoBehaviour
         }
 
         // 사용자가 indexTrigger 버튼을 누르면
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) || ARAVRInput.GetDown(ARAVRInput.Button.Two))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
         {
-            // 컨트롤러의 진동 재생
             if (!isPotion)
             {
-                if (isCanShoot)
-                {
-                    Shoot();
-                }
+                
+                Shoot();
+                
             }
             else
             {
+                
                 StrongShoot();
             }
         }
@@ -96,41 +95,31 @@ public class Aim : MonoBehaviour
 
     }
 
-    //void Shoot()
-    //{
-    //    if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
-    //    {
-    //        Managers.Sound.Play("Sound/SE_PC_ATK");
-    //        GameObject bullet = Instantiate(bulletNormal);
-    //        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
-    //    }
-    //}
-    public void StrongShoot()
-    {
-        Managers.Sound.Play("Sound/SE_PC_PowerATK");
-        GameObject bullet = Instantiate(bulletStrong);
-        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
-    }
     void Shoot()
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
         {
-            Managers.Sound.Play("Sound/SE_PC_ATK");
             isCanShoot = false;
             // 3발 발사
             for (int i = 0; i < 3; i++)
             {
                 
-                // 레이캐스트를 통해 충돌 여부를 체크하고, 충돌 시에만 총알을 생성하도록 합니다.
-                Ray ray = new Ray(ARAVRInput.RHand.position, ARAVRInput.RHand.forward);
-                RaycastHit hitInfo;
-
-                if (Physics.Raycast(ray, out hitInfo, lrMaxDistance))
-                {
-                    GameObject hitObject = hitInfo.collider.gameObject;
-                }
                 float delayBetweenShots = 0.3f;
                 StartCoroutine(DelayedShot(delayBetweenShots * i));
+            }
+        }
+    }void StrongShoot()
+    {
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
+        {
+            isCanShoot = false;
+            // 3발 발사
+            for (int i = 0; i < 3; i++)
+            {
+                
+                
+                float delayBetweenShots = 0.3f;
+                StartCoroutine(DelayedStrongShot(delayBetweenShots * i));
             }
         }
     }
@@ -138,9 +127,29 @@ public class Aim : MonoBehaviour
     IEnumerator DelayedShot(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Managers.Sound.Play("Sound/SE_PC_ATK");
         ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
         GameObject bullet = Instantiate(bulletNormal);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
         count++;
+        if(count >=3)
+        {
+            isCanShoot = true;
+            count = 0;
+        }
+    }
+    IEnumerator DelayedStrongShot(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Managers.Sound.Play("Sound/SE_PC_PowerATK");
+        ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
+        GameObject bullet = Instantiate(bulletStrong);
+        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
+        count++;
+        if (count >= 3)
+        {
+            isCanShoot = true;
+            count = 0;
+        }
     }
 }

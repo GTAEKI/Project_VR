@@ -254,8 +254,8 @@ public class BulletStatus : Status
             boss.CurrStatus.OnDamaged((int)(Damage * (1f + boss.CurrStatus.WeakpointRate)));
 
             // 데미지에 비례하여 금액 추가, 김민섭_231016
-            Managers.MONEY.BossHitMoney((int)(Damage * (1f + boss.CurrStatus.WeakpointRate)));
-            Managers.MONEY.ReflectMoney();
+            //Managers.MONEY.BossHitMoney((int)(Damage * (1f + boss.CurrStatus.WeakpointRate)));
+            //Managers.MONEY.ReflectMoney();
 
             #region 데미지 출력
             Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();
@@ -276,8 +276,8 @@ public class BulletStatus : Status
             boss.CurrStatus.OnDamaged((int)Damage);
 
             // 데미지에 비례하여 금액 추가, 김민섭_231016
-            Managers.MONEY.BossHitMoney((int)Damage);
-            Managers.MONEY.ReflectMoney();
+            //Managers.MONEY.BossHitMoney((int)Damage);
+            //Managers.MONEY.ReflectMoney();
 
             #region 데미지 출력
             Canvas canvasDamage = Resources.Load("Prefabs/UI/DamageCanvas").GetComponent<Canvas>();

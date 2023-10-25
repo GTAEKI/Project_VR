@@ -25,6 +25,9 @@ public class SoundManager
 
             audioSources[(int)Define.Sound.Bgm].loop = true;
             audioSources[(int)Define.Sound.Sfx].spatialBlend = 1f;
+            audioSources[(int)Define.Sound.Sfx].minDistance = 60f ;
+
+            //            audioSources[(int)Define.Sound.Sfx].rolloffMode = AudioRolloffMode.Linear;
         }
     }
 

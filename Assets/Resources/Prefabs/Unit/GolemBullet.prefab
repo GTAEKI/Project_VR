@@ -29096,6 +29096,6 @@ MonoBehaviour:
     speed: 0
     lifeTime: 0
   dir: {x: 0, y: 0, z: 0}
-  ExplosionPrefab: {fileID: 0}
+  ExplosionPrefab: {fileID: 1738463624060888986, guid: 4017e9c23bae2924eadb75fee07ea8c1, type: 3}
   DestroyExplosion: 4
   DestroyChildren: 2
