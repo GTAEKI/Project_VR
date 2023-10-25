@@ -41,13 +41,24 @@ public class MinionController : MonoBehaviour, ISearchTarget
     /// </summary>
     public void SearchTarget()
     {
+        // 기준점에서 레이를 쏨
         Ray ray = new Ray(transform.position, -transform.forward);
-        RaycastHit hitInfo;
+        RaycastHit[] hitInfos = Physics.RaycastAll(ray, Mathf.Infinity, LayerMask.GetMask("Player"));
+        RaycastHit hitTarget = default;
 
-        if (Physics.Raycast(ray, out hitInfo, LayerMask.GetMask("Player")))
+        for (int i = 0; i < hitInfos.Length; i++)
         {
-            Util.DrawTouchRay(transform.position, hitInfo.point, Color.red);
-            Fire(hitInfo.point);
+            if (hitInfos[i].transform.tag == "Player")
+            {
+                hitTarget = hitInfos[i];
+                break;
+            }
+        }
+
+        if (hitTarget.collider != null)
+        {
+            Util.DrawTouchRay(transform.position, hitTarget.point, Color.red);
+            Fire(hitTarget.point);
         }
     }
 
@@ -59,6 +70,11 @@ public class MinionController : MonoBehaviour, ISearchTarget
     public void Fire(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
+        this.targetPosition.y = transform.localScale.y / 2f;
+
+        Vector3 startPos = transform.position;
+        startPos.y = transform.localScale.y / 2f;
+        transform.position = startPos;
 
         StartCoroutine(TargetingMove());
     }
@@ -76,6 +92,7 @@ public class MinionController : MonoBehaviour, ISearchTarget
         yield return new WaitForSeconds(Random.Range(0.3f, 0.7f));
 
         isStart = true;
+        GetComponent<Collider>().isTrigger = false;
 
         while (true)
         {

@@ -188,6 +188,8 @@ public class Boss : Character
     /// <param name="amount">생성되는 수량</param>
     private IEnumerator SpawnMinion(int type, int amount)
     {
+        DrawSpawnRange spawnPoint = transform.Find("SpawnMinion").GetComponent<DrawSpawnRange>();
+
         for (int i = 0; i < amount; i++)
         {
             if (State == CharacterState.GROGGY)
@@ -195,8 +197,6 @@ public class Boss : Character
                 isSummon = false;
                 yield break;
             }
-            
-            float randX = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
 
             GameObject spawnMinion = null;
 
@@ -209,8 +209,11 @@ public class Boss : Character
                 spawnMinion = Managers.Resource.Instantiate("PowerMinion", transform.position, Quaternion.identity);
             }
 
-            float spawnPosY = spawnMinion.transform.localScale.y / 2;
-            Vector3 spawnPos = new Vector3(randX, spawnPosY, transform.position.z + 35f);
+            spawnMinion.GetComponent<Collider>().isTrigger = true;
+
+            Vector3 randSpawnVec = Random.insideUnitSphere * spawnPoint.agentDensity;
+            randSpawnVec.y = spawnMinion.transform.localScale.y / 2f;
+            Vector3 spawnPos = spawnPoint.transform.position + randSpawnVec;
 
             float currentTime = 0f;
             float totalTime = 1f; // 총 소환 시간 (조절 가능)
