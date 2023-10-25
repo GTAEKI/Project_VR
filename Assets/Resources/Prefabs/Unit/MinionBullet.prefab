@@ -83,7 +83,7 @@ MonoBehaviour:
     speed: 0
     lifeTime: 0
   dir: {x: 0, y: 0, z: 0}
-  ExplosionPrefab: {fileID: 0}
+  ExplosionPrefab: {fileID: 4149248138791001048, guid: ae6b63371a22de6479adc9e4988b9dec, type: 3}
   DestroyExplosion: 4
   DestroyChildren: 2
 --- !u!1001 &4242765276554830623

@@ -11,7 +11,6 @@ public class MoneyManager
 
     public int myMoney = default; // 내가 현재 갖고있는 재화
     private TMP_Text moneyText;
-
     private TextMeshProUGUI moneyText2;
 
     

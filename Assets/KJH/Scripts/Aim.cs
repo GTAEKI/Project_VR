@@ -16,6 +16,8 @@ public class Aim : MonoBehaviour
     // 레이저 포인트를 발사할 라인 렌더러
     LineRenderer lineRenderer;
 
+    public bool isStrong;
+
     // 레이저 포인터의 최대 거리
     [SerializeField]
     private float lrMaxDistance = 200f;
@@ -35,17 +37,18 @@ public class Aim : MonoBehaviour
         }
 
         // 사용자가 indexTrigger 버튼을 누르면
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) || ARAVRInput.GetDown(ARAVRInput.Button.Two))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
         {
             if (!isPotion)
             {
-                if (isCanShoot)
+                if (!isStrong)
                 {
                     Shoot();
                 }
             }
             else
             {
+                isStrong = true;
                 StrongShoot();
             }
         }
@@ -95,21 +98,6 @@ public class Aim : MonoBehaviour
 
     }
 
-    //void Shoot()
-    //{
-    //    if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
-    //    {
-    //        Managers.Sound.Play("Sound/SE_PC_ATK");
-    //        GameObject bullet = Instantiate(bulletNormal);
-    //        bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
-    //    }
-    //}
-    //public void StrongShoot()
-    //{
-    //    Managers.Sound.Play("Sound/SE_PC_PowerATK");
-    //    GameObject bullet = Instantiate(bulletStrong);
-    //    bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
-    //}
     void Shoot()
     {
         if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
@@ -120,14 +108,6 @@ public class Aim : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 
-                // 레이캐스트를 통해 충돌 여부를 체크하고, 충돌 시에만 총알을 생성하도록 합니다.
-                Ray ray = new Ray(ARAVRInput.RHand.position, ARAVRInput.RHand.forward);
-                RaycastHit hitInfo;
-
-                if (Physics.Raycast(ray, out hitInfo, lrMaxDistance))
-                {
-                    GameObject hitObject = hitInfo.collider.gameObject;
-                }
                 float delayBetweenShots = 0.3f;
                 StartCoroutine(DelayedShot(delayBetweenShots * i));
             }
@@ -142,14 +122,6 @@ public class Aim : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 
-                // 레이캐스트를 통해 충돌 여부를 체크하고, 충돌 시에만 총알을 생성하도록 합니다.
-                Ray ray = new Ray(ARAVRInput.RHand.position, ARAVRInput.RHand.forward);
-                RaycastHit hitInfo;
-
-                if (Physics.Raycast(ray, out hitInfo, lrMaxDistance))
-                {
-                    GameObject hitObject = hitInfo.collider.gameObject;
-                }
                 float delayBetweenShots = 0.3f;
                 StartCoroutine(DelayedStrongShot(delayBetweenShots * i));
             }

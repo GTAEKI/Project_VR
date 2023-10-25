@@ -89,6 +89,9 @@ public class Bullet : MonoBehaviour
                     }
                 }
 
+                Managers.MONEY.BossHitMoney((int)(damage * (1f + boss.CurrStatus.WeakpointRate)));
+                Managers.MONEY.ReflectMoney();
+
                 boss.CurrStatus.OnDamaged(damage);
             }
             else if (target.tag == "CenterPoint")
@@ -107,6 +110,9 @@ public class Bullet : MonoBehaviour
                         damage = (int)status.Damage;
                     }
                 }
+
+                Managers.MONEY.BossHitMoney((int)(damage * (1f + boss.CurrStatus.WeakpointRate)));
+                Managers.MONEY.ReflectMoney();
                 boss.CurrStatus.OnDamaged(damage);
 
             }
