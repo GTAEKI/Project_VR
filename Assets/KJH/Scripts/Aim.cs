@@ -16,8 +16,6 @@ public class Aim : MonoBehaviour
     // 레이저 포인트를 발사할 라인 렌더러
     LineRenderer lineRenderer;
 
-    public bool isStrong;
-
     // 레이저 포인터의 최대 거리
     [SerializeField]
     private float lrMaxDistance = 200f;
@@ -41,14 +39,13 @@ public class Aim : MonoBehaviour
         {
             if (!isPotion)
             {
-                if (!isStrong)
-                {
-                    Shoot();
-                }
+                
+                Shoot();
+                
             }
             else
             {
-                isStrong = true;
+                
                 StrongShoot();
             }
         }
@@ -102,7 +99,6 @@ public class Aim : MonoBehaviour
     {
         if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
         {
-            Managers.Sound.Play("Sound/SE_PC_ATK");
             isCanShoot = false;
             // 3발 발사
             for (int i = 0; i < 3; i++)
@@ -116,11 +112,11 @@ public class Aim : MonoBehaviour
     {
         if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
         {
-            Managers.Sound.Play("Sound/SE_PC_ATK");
             isCanShoot = false;
             // 3발 발사
             for (int i = 0; i < 3; i++)
             {
+                
                 
                 float delayBetweenShots = 0.3f;
                 StartCoroutine(DelayedStrongShot(delayBetweenShots * i));
@@ -131,6 +127,7 @@ public class Aim : MonoBehaviour
     IEnumerator DelayedShot(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Managers.Sound.Play("Sound/SE_PC_ATK");
         ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
         GameObject bullet = Instantiate(bulletNormal);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
@@ -144,6 +141,7 @@ public class Aim : MonoBehaviour
     IEnumerator DelayedStrongShot(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Managers.Sound.Play("Sound/SE_PC_PowerATK");
         ARAVRInput.PlayVibration(ARAVRInput.Controller.RTouch);
         GameObject bullet = Instantiate(bulletStrong);
         bullet.transform.SetPositionAndRotation(ARAVRInput.RHand.position, ARAVRInput.RHand.rotation);
