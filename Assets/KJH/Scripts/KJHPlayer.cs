@@ -12,7 +12,6 @@ public class KJHPlayer : MonoBehaviour
     public PCStatus status;
     private PostProcessVolume postProcessVolume;
     private ColorGrading colorGradingLayer;
-    private Material yellowBorderMaterial; // 노란색 테두리를 그리기 위한 쉐이더를 담을 Material
 
     private void Start()
     {
