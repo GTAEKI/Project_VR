@@ -409,10 +409,15 @@ public class Boss : Character
             return;
         }
 
-        float distance = (endPosition - transform.position).magnitude;
-        if(distance <= 0f)
+        Vector3 distancePosition = endPosition - transform.position;
+        //distancePosition.y = endPosition.y;
+
+        float distance = (distancePosition).magnitude;
+        
+        if(distance <= 0.1f)
         {   // 거리가 0이 되면 패배
             distance = 0f;
+            ui_hud.SetDistanceText(distance);
             Managers.GameManager.GameOverLose();
             Destroy(gameObject);
             return;
