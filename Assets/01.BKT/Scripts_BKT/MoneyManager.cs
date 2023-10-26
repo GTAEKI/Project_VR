@@ -5,9 +5,9 @@ using TMPro;
 
 public class MoneyManager
 {
-    private const int STARTMONEY = 1000; // 초기 재화
-    private const int NORMAL_MONSTER_MONEY = 10; // 일반 몬스터 처치시 재화
-    private const int BOSS_MONSTER_MONEY = 100; // 보스 몬스터 공격시 기본 재화
+    private const int STARTMONEY = 100; // 초기 재화
+    private const int NORMAL_MONSTER_MONEY = 5; // 일반 몬스터 처치시 재화
+    private const int BOSS_MONSTER_MONEY = 15; // 보스 몬스터 공격시 기본 재화
 
     public int myMoney = default; // 내가 현재 갖고있는 재화
     private TMP_Text moneyText;
@@ -20,6 +20,8 @@ public class MoneyManager
 
         moneyText = GameObject.Find("MoneyUI").transform.GetChild(1).GetComponent<TMP_Text>();
         moneyText.text = myMoney.ToString();
+        StoreObjectInfo.CanBuy();
+
     }
 
     /// <summary>
@@ -30,6 +32,7 @@ public class MoneyManager
     public void BossHitMoney(int damage)
     {
         myMoney += BOSS_MONSTER_MONEY * damage; // 데미지에 비례하여 돈을 획득
+        StoreObjectInfo.CanBuy();
     }
 
     /// <summary>
@@ -38,6 +41,8 @@ public class MoneyManager
     public void NormalMonsterDie()
     {
         myMoney += NORMAL_MONSTER_MONEY; // 일반 몬스터 처치시 재화 상승
+        StoreObjectInfo.CanBuy();
+
     }
 
     /// <summary>

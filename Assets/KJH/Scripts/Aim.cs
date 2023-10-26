@@ -24,6 +24,7 @@ public class Aim : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         isCanShoot = true;
+        isPotion = false;
     }
 
     private void Update()
