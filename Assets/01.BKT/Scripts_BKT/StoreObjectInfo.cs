@@ -31,9 +31,6 @@ public class StoreObjectInfo : MonoBehaviour
 
     protected  virtual void Start()
     {
-        Debug.Log("******");
-        Debug.Log("스타트 시작 반복");
-
         DescriptionUI = GameObject.Find("Right_Item Description");
         outLineImage = transform.GetChild(2).gameObject;
         baseOutLineImage = transform.GetChild(1).gameObject;
