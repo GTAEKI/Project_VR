@@ -96,7 +96,9 @@ public class GolemStatus : Status
     [SerializeField]
     [Tooltip("비활성화된 약점이 다시 활성화될 때까지 소요되는 시간")] private float actTime;
     [SerializeField]
-    [Tooltip("골렘 체력")] private int hp;
+    [Tooltip("골렘 현재 체력")] private int currHp;
+    [SerializeField]
+    [Tooltip("골렘 최대 체력")] private int maxHp;
     [SerializeField]
     [Tooltip("골렘 이동속도")] private float moveSpeed;
     [SerializeField]
@@ -106,12 +108,12 @@ public class GolemStatus : Status
     public bool IsGroggy { set => isGroggy = value; get => isGroggy; }                    // 그로기 체크
     public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
     public bool IsPhase { private set; get; }
-    public int MaxHp { private set; get; }                                                  // 최대 체력
+    public int CurrHp { private set => currHp = value; get => currHp; }                           // 현재 체력
 
     // 테이블 데이터
     public float WeakpointRate { private set => weakpointRate = value; get => weakpointRate; }    // 약점 피격 시 받는 데미지 증가율
     public float ActTime { private set => actTime = value; get => actTime; }                      // 비활성화된 약점이 다시 활성화될 때까지 소요되는 시간
-    public int Hp { private set => hp = value; get => hp; }                                       // 골렘 체력
+    public int MaxHp { private set => maxHp = value; get => maxHp; }                              // 골렘 최대 체력
     public float MoveSpeed { private set => moveSpeed = value; get => moveSpeed; }                // 골렘 이동속도
     public int Phase { private set => phase = value; get => phase; }                              // 페이지
 
@@ -125,8 +127,8 @@ public class GolemStatus : Status
         ID = int.Parse(Managers.Data.GolemTableData[(int)id]["ID"].ToString());
         WeakpointRate = float.Parse(Managers.Data.GolemTableData[(int)id]["WeakpointRate"].ToString());
         ActTime = float.Parse(Managers.Data.GolemTableData[(int)id]["ActTime"].ToString());
-        Hp = int.Parse(Managers.Data.GolemTableData[(int)id]["Hp"].ToString());
-        MaxHp = Hp;
+        MaxHp = int.Parse(Managers.Data.GolemTableData[(int)id]["Hp"].ToString());
+        CurrHp = MaxHp;
         MoveSpeed = float.Parse(Managers.Data.GolemTableData[(int)id]["MoveSpeed"].ToString());
         Phase = int.Parse(Managers.Data.GolemTableData[(int)id]["Phase"].ToString());
     }
@@ -138,30 +140,25 @@ public class GolemStatus : Status
     /// <param name="dmg">받은 데미지</param>
     public void OnDamaged(int dmg)
     {
-        Hp -= dmg;
+        CurrHp -= dmg;
 
         // 그로기 비율 (최대 체력의 10% 마다 실행)
-        if (Hp % (MaxHp / 10) == 0)
+        if (CurrHp % (MaxHp / 10) == 0)
         {   // 최대 체력
             IsGroggy = true;
         }
 
-        if(!IsPhase && Hp <= MaxHp / 2f)
+        if(!IsPhase && CurrHp <= MaxHp / 2f)
         {
             IsPhase = true;
             Managers.Sound.Play("SFX/SE_Golem_Groggy");
         }
 
-        if (Hp <= 0)
+        if (CurrHp <= 0)
         {   // 체력이 0 이하면 사망 처리
-            Hp = 0;
+            CurrHp = 0;
             IsDie = true;
         }
-    }
-
-    public void OnDamaged(Status attacker)
-    {
-
     }
 }
 

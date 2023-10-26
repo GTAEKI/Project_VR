@@ -23,9 +23,6 @@ public class Character : MonoBehaviour
     protected Vector3 startPosition;          // 움직임 시작 지점 , 김민섭_231013
     protected Vector3 endPosition;            // 움직임 도착 지점, 김민섭_231013
 
-    // 임시 스탯 변수, 김민섭_231013
-    protected int maxHp;                        // 캐릭터 최대 체력
-
     /// <summary>
     /// 캐릭터의 현재 상태 프로퍼티
     /// 김민섭_231013
@@ -67,12 +64,6 @@ public class Character : MonoBehaviour
     {
         yield return null;
     }
-
-    /// <summary>
-    /// 최대 체력 Get 프로퍼티
-    /// 김민섭_231013
-    /// </summary>
-    public int MaxHp => maxHp;
 
     private void Start()
     {
