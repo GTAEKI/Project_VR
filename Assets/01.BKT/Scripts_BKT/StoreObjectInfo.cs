@@ -136,11 +136,9 @@ public class StoreObjectInfo : MonoBehaviour
             Managers.Sound.Play(purchaseSound,Define.Sound.Sfx);
             CanBuy();
 
-            // TODO: 유닛 생성
-            if(isCanBuy)
-            {
-                CreateUnit();
-            }
+            
+            CreateUnit();
+            
         }
         yield return null;
     }

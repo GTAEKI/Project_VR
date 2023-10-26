@@ -31,7 +31,7 @@ public class MoneyManager
     /// <param name="damage"> 공격 데미지 입력 </param>
     public void BossHitMoney(int damage)
     {
-        myMoney += BOSS_MONSTER_MONEY * damage; // 데미지에 비례하여 돈을 획득
+        myMoney += BOSS_MONSTER_MONEY; // 데미지에 비례하여 돈을 획득
         StoreObjectInfo.CanBuy();
     }
 

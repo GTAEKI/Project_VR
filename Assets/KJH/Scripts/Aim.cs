@@ -109,7 +109,11 @@ public class Aim : MonoBehaviour
                 StartCoroutine(DelayedShot(delayBetweenShots * i));
             }
         }
-    }void StrongShoot()
+    }
+
+
+
+    void StrongShoot()
     {
         if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
         {
