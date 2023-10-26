@@ -1,3 +1,3 @@
 ID,Description,Modelinfo,Type,Hp,Damage,Speed,Range_Att,Range_Ex
-2000,빠르지만 약한 졸개,TX_Minion_Fast,1,1,20,3,1,10
-2001,느리지만 강한 졸개,TX_Minion_Power,2,2,20,2,1,10
+2000,빠르지만 약한 졸개,TX_Minion_Fast,1,1,20,2,1,10
+2001,느리지만 강한 졸개,TX_Minion_Power,2,2,20,1,1,10
