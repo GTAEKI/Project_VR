@@ -122,9 +122,14 @@ public class Bullet : MonoBehaviour
             {
                 damage = (int)(status.Damage);
 
+                // 유닛이 죽여도 돈이 반영되도록 되어있었으나, 플레이어가 죽일경우에만 돈이 반영되도록 수정
+                Managers.MONEY.NormalMonsterDie(); 
+                Managers.MONEY.ReflectMoney();
+
                 PowerMinionController powerMinion = target.GetComponent<PowerMinionController>();
                 if(powerMinion != null)
                 {
+
                     powerMinion.CurrStatus.OnDamaged(damage);
                 }
                 else

@@ -98,8 +98,8 @@ public class MinionController : MonoBehaviour, ISearchTarget
         {
             if (currStatus.IsDie)
             {
-                Managers.MONEY.NormalMonsterDie();
-                Managers.MONEY.ReflectMoney();
+                //Managers.MONEY.NormalMonsterDie();
+                //Managers.MONEY.ReflectMoney();
                 Managers.Resource.Destroy(gameObject);
                 yield break;
             }
