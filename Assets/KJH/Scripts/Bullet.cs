@@ -7,6 +7,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private BulletStatus status;
+    private BulletStatus upgradeStatus;
     private Transform target;
     public GameObject hit;
     private Rigidbody rb;
@@ -14,6 +15,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         status = new BulletStatus(Define.Data_ID_List.Bullet_Normal);
+        upgradeStatus = new BulletStatus(Define.Data_ID_List.Bullet_Small);
         GetComponent<Rigidbody>().AddForce(transform.forward * status.Speed);
         rb = GetComponent<Rigidbody>();
         Managers.Resource.Destroy(gameObject, status.LifeTime);
@@ -81,7 +83,7 @@ public class Bullet : MonoBehaviour
                 {
                     if (aim.isPotion)
                     {
-                        damage = (int)((status.Damage + 3) * (1f + boss.CurrStatus.WeakpointRate));
+                        damage = (int)((upgradeStatus.Damage) * (1f + boss.CurrStatus.WeakpointRate));
                     }
                     else
                     {
@@ -103,7 +105,7 @@ public class Bullet : MonoBehaviour
                 {
                     if (aim.isPotion)
                     {
-                        damage = (int)status.Damage + 3;
+                        damage = (int)upgradeStatus.Damage;
                     }
                     else
                     {
