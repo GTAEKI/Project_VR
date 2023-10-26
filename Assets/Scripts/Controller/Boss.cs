@@ -75,7 +75,6 @@ public class Boss : Character
 
         // 보스 스탯 세팅 진행
         currStatus = new GolemStatus(Define.Data_ID_List.Golem);
-        maxHp = currStatus.Hp;
         spawnStatus = new MinionSpawn(Define.Data_ID_List.Spawn_Phase1);
 
         // UI

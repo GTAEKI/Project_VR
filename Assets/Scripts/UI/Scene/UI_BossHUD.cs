@@ -97,26 +97,26 @@ public class UI_BossHUD : UI_Scene
 
             if(sp > 0)
             {   // 쉴드가 있을 경우
-                if(boss.CurrStatus.Hp + sp > boss.MaxHp)
+                if(boss.CurrStatus.CurrHp + sp > boss.CurrStatus.MaxHp)
                 {   // 현재 체력 + 쉴드량이 최대 체력보다 높다면
-                    float value = (float)(boss.CurrStatus.Hp / (boss.CurrStatus.Hp + sp));
+                    float value = (float)(boss.CurrStatus.CurrHp / (boss.CurrStatus.CurrHp + sp));
                     hpShieldRatio = value;
-                    step = boss.CurrStatus.Hp / HP_RATIO;
+                    step = boss.CurrStatus.CurrHp / HP_RATIO;
                     GetImage((int)Images.Img_Hp).fillAmount = value;
                 }
                 else
                 {   // 현재 체력 + 쉴드량이 최대 체력보다 낮다면
-                    float value = (float)boss.CurrStatus.Hp / boss.MaxHp;
+                    float value = (float)boss.CurrStatus.CurrHp / boss.CurrStatus.MaxHp;
                     hpShieldRatio = value;
-                    step = boss.CurrStatus.Hp / hpShieldRatio;
+                    step = boss.CurrStatus.CurrHp / hpShieldRatio;
                     GetImage((int)Images.Img_Hp).fillAmount = value;
                 }
             }
             else
             {   // 쉴드가 없다면
-                step = boss.MaxHp / HP_RATIO;
+                step = boss.CurrStatus.MaxHp / HP_RATIO;
                 hpShieldRatio = 1f;
-                GetImage((int)Images.Img_Hp).fillAmount = (float)boss.CurrStatus.Hp / boss.MaxHp;
+                GetImage((int)Images.Img_Hp).fillAmount = (float)boss.CurrStatus.CurrHp / boss.CurrStatus.MaxHp;
             }
 
             GetImage((int)Images.Img_Damaged).fillAmount = Mathf.Lerp(GetImage((int)Images.Img_Damaged).fillAmount, GetImage((int)Images.Img_Hp).fillAmount, Time.deltaTime * speed);
