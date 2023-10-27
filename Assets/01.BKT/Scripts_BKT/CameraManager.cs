@@ -35,7 +35,7 @@ public class CameraManager
         {
             if(currTime < currMaxTime)
             {
-                currTime += Time.deltaTime * 0.01f;
+                currTime += Time.deltaTime * 0.06f;
 
                 player.transform.position = Vector3.Lerp(player.transform.position, outCastleCamera.position, currTime / currMaxTime);
             }

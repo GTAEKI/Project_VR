@@ -414,7 +414,7 @@ public class Boss : Character
 
         float distance = (distancePosition).magnitude;
         
-        if(distance <= 0.1f)
+        if(distance <= 0.5f)
         {   // 거리가 0이 되면 패배
             distance = 0f;
             ui_hud.SetDistanceText(distance);

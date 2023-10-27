@@ -41,7 +41,7 @@ public class Aim : MonoBehaviour
         }
 
         // 사용자가 indexTrigger 버튼을 누르면
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
         {
             if (!isPotion)
             {
