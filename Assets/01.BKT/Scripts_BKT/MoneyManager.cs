@@ -6,8 +6,8 @@ using TMPro;
 public class MoneyManager
 {
     private const int STARTMONEY = 100; // 초기 재화
-    private const int NORMAL_MONSTER_MONEY = 5; // 일반 몬스터 처치시 재화
-    private const int BOSS_MONSTER_MONEY = 15; // 보스 몬스터 공격시 기본 재화
+    private const int NORMAL_MONSTER_MONEY = 10; // 일반 몬스터 처치시 재화
+    private const int BOSS_MONSTER_MONEY = 2; // 보스 몬스터 공격시 기본 재화
 
     public int myMoney = default; // 내가 현재 갖고있는 재화
     private TMP_Text moneyText;
