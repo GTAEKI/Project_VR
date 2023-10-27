@@ -329,6 +329,11 @@ public class Boss : Character
         //    Managers.GameManager.startEndUIText.gameObject.SetActive(false);
         //    StartCoroutine(DelayIDLE());
         //}
+        // TEST
+        //if(Input.GetMouseButtonDown(0))
+        //{
+        //    CurrStatus.OnDamaged((CurrStatus.MaxHp / 10) / 2 - 2);
+        //}
 
         //if (Managers.GameManager.startEndUIText.gameObject.activeSelf) return;
 

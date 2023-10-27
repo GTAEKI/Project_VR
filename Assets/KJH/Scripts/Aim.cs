@@ -24,6 +24,11 @@ public class Aim : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         isCanShoot = true;
+        //isPotion = false;
+    }
+
+    private void Start()
+    {
         isPotion = false;
     }
 
@@ -98,7 +103,7 @@ public class Aim : MonoBehaviour
 
     void Shoot()
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
+        //if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
         {
             isCanShoot = false;
             // 3발 발사
@@ -115,7 +120,7 @@ public class Aim : MonoBehaviour
 
     void StrongShoot()
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
+        //if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger) && isCanShoot)
         {
             isCanShoot = false;
             // 3발 발사

@@ -109,6 +109,7 @@ public class GolemStatus : Status
     public bool IsDie { private set => isDie = value; get => isDie; }                             // 사망 체크
     public bool IsPhase { private set; get; }
     public int CurrHp { private set => currHp = value; get => currHp; }                           // 현재 체력
+    public int CountDmg { private set; get; }                                                     // 누적 데미지
 
     // 테이블 데이터
     public float WeakpointRate { private set => weakpointRate = value; get => weakpointRate; }    // 약점 피격 시 받는 데미지 증가율
@@ -140,12 +141,15 @@ public class GolemStatus : Status
     /// <param name="dmg">받은 데미지</param>
     public void OnDamaged(int dmg)
     {
-        CurrHp -= dmg;
+        // 현재 체력의 비율이 10% 깎일때마다 그로기 실행
+        // IF((MAXHP/10) < COUNTDAMAGE) COUNTDAMAGE = 0; ISGROGGY = TRUE
+        CurrHp -= dmg;          // 피해를 입힌다.
+        CountDmg += dmg;        // 누적 데미지 계산
 
-        // 그로기 비율 (최대 체력의 10% 마다 실행)
-        if (CurrHp % (MaxHp / 10) == 0)
-        {   // 최대 체력
+        if((MaxHp / 10) <= CountDmg )
+        {   // 누적 데미지가 최대 체력의 10% 보다 크거나 같다면 그로기
             IsGroggy = true;
+            CountDmg -= MaxHp / 10;
         }
 
         if(!IsPhase && CurrHp <= MaxHp / 2f)

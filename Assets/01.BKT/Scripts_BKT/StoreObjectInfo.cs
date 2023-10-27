@@ -161,12 +161,18 @@ public class StoreObjectInfo : MonoBehaviour
     {
         if(Managers.MONEY.myMoney < price)
         {
-            fillAmountImage.fillAmount = 1;
+            if(fillAmountImage != null)
+            {
+                fillAmountImage.fillAmount = 1;
+            }
             isCanBuy = false;
         }
         else
         {
-            fillAmountImage.fillAmount = 0;
+            if (fillAmountImage != null)
+            {
+                fillAmountImage.fillAmount = 0;
+            }
             isCanBuy = true;
         }
     }
